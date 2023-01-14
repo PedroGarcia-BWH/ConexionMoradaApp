@@ -9,4 +9,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <string name="termsPrivacy"> Lorem ipsum dolor sit amet consectetur adipiscing elit posuere, pulvinar elementum mollis primis lacinia porttitor feugiat integer, ultricies class rhoncus nam mi interdum vestibulum. Elementum sollicitudin per nam sed tincidunt aptent risus porta, tempus sem luctus purus posuere inceptos mauris lacus, curabitur leo dignissim class orci ullamcorper tellus. Porta cubilia nascetur tincidunt pulvinar mi magna mus aliquet viverra diam, fringilla congue et ante duis class nam tempus praesent maecenas tellus, semper varius pellentesque ad habitant fames condimentum arcu egestas. Fames quam accumsan ornare porttitor dis a convallis natoque, duis orci odio facilisis hac euismod vitae, platea sem habitant suscipit nec ultrices consequat.
+
+Dui pretium ullamcorper ligula cubilia fringilla integer lacus massa sapien porttitor, malesuada lacinia eros molestie phasellus convallis etiam auctor vel, cursus nulla venenatis faucibus pharetra imperdiet euismod sed potenti. Pharetra fringilla varius aenean commodo eros interdum ut velit, integer potenti ridiculus ullamcorper gravida fermentum accumsan blandit rhoncus, facilisis porta neque dictum erat hac lacinia. Aliquet pellentesque hendrerit eleifend ad orci magna nisi mi, augue lacinia ornare faucibus pretium posuere molestie, porttitor primis morbi libero est interdum donec. Nostra rutrum risus enim pellentesque vitae at sociosqu ante, tristique odio ligula viverra felis vestibulum torquent quam, blandit quisque erat malesuada mus laoreet tellus.
+
+Taciti commodo parturient posuere eget interdum a proin, auctor per enim venenatis mus. Fames tellus hac quisque tortor auctor nulla dignissim mi, montes odio cras rutrum dictum sociis sapien, aenean justo malesuada sodales suspendisse litora arcu. Id cubilia placerat rhoncus neque risus volutpat nunc, etiam purus turpis blandit montes proin semper, eget lectus sed pellentesque facilisis congue.</string>
 </resources>

@@ -1,6 +1,7 @@
 package es.uca.tfg.conexionmorada
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -21,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
         val logLogin = findViewById<Button>(R.id.login)
         val progressBar = findViewById<ProgressBar>(R.id.progress)
 
+        //login button click
         logLogin.setOnClickListener(View.OnClickListener {
             val email: String
             val password: String
@@ -38,5 +40,12 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
             }
         })
+
+        val registro =findViewById<TextView>(R.id.register)
+        registro.setOnClickListener {
+            val registerAct = Intent(this, RegisterActivity::class.java)
+            startActivity(registerAct)
+        }
+
     }
 }
