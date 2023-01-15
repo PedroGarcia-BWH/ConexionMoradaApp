@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity(){
     private fun setUptabs(){
         val adapter = Controller(supportFragmentManager)
         adapter.addFragment(HomeFragment(), "Home")
+        adapter.addFragment(CMSocialFragment(), "CM Social")
+        adapter.addFragment(SistemaCompaneroFragment(), "Sistema Compañero")
         //tabs.getTabAt(0)?.setIcon(R.drawable.)
         val viewpager = findViewById<ViewPager>(R.id.viewpager)
         val tabs = findViewById<TabLayout>(R.id.tabs)
