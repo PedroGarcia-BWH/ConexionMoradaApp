@@ -29,24 +29,6 @@ class LoginActivity : AppCompatActivity() {
         progressBar = findViewById<ProgressBar>(R.id.indeterminateBarLogin)
         progressBar.setVisibility(View.GONE)
 
-        //login button click
-        logLogin.setOnClickListener(View.OnClickListener {
-            val email: String
-            val password: String
-            email = txtEmail.getText().toString()
-            password = txtPassword.getText().toString()
-            if (email != "" && password != "") {
-                progressBar.setVisibility(View.VISIBLE)
-                //InicioSesion(email,password)
-                progressBar.setVisibility(View.GONE)
-            } else {
-                Toast.makeText(
-                    applicationContext,
-                    "Todos los campos son requeridos",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
 
         val registro =findViewById<TextView>(R.id.register)
         registro.setOnClickListener {
@@ -56,7 +38,7 @@ class LoginActivity : AppCompatActivity() {
 
         val regLogin = findViewById<TextView>(R.id.login)
         regLogin.setOnClickListener {
-            progressBar.setVisibility(View.VISIBLE)
+           progressBar.setVisibility(View.VISIBLE)
             /*var success = User.login(txtEmail.text.toString(), txtPassword.text.toString())
             if (success) {
                 val homeAct = Intent(this, MainActivity::class.java)
@@ -68,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }*/
+
 
             var auth = Firebase.auth
 
