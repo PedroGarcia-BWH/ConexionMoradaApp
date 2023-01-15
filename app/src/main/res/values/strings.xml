@@ -1,14 +1,6 @@
 <resources>
-    <string name="app_name">Conexion Morada</string>
+    <string name="app_name">Conexión Morada</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
     <string name="termsPrivacy"> Lorem ipsum dolor sit amet consectetur adipiscing elit posuere, pulvinar elementum mollis primis lacinia porttitor feugiat integer, ultricies class rhoncus nam mi interdum vestibulum. Elementum sollicitudin per nam sed tincidunt aptent risus porta, tempus sem luctus purus posuere inceptos mauris lacus, curabitur leo dignissim class orci ullamcorper tellus. Porta cubilia nascetur tincidunt pulvinar mi magna mus aliquet viverra diam, fringilla congue et ante duis class nam tempus praesent maecenas tellus, semper varius pellentesque ad habitant fames condimentum arcu egestas. Fames quam accumsan ornare porttitor dis a convallis natoque, duis orci odio facilisis hac euismod vitae, platea sem habitant suscipit nec ultrices consequat.
 

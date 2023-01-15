@@ -47,5 +47,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(registerAct)
         }
 
+
+
     }
 }

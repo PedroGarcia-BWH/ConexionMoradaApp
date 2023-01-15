@@ -45,10 +45,14 @@ dependencies {
     implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
     implementation 'androidx.core:core-ktx:+'
     implementation 'com.google.android.material:material:1.4.+'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
+    implementation 'com.google.firebase:firebase-common-ktx:20.2.0'
+    implementation 'androidx.core:core-ktx:+'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 
 
     implementation "androidx.cardview:cardview:1.0.0"
