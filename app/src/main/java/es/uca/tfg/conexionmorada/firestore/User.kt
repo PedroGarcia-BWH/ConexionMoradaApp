@@ -1,6 +1,8 @@
 package es.uca.tfg.conexionmorada.firestore
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -8,6 +10,8 @@ class User {
     companion object {
         val db = Firebase.firestore
         private lateinit var auth: FirebaseAuth
+
+         private var success = false
         fun createUser(email: String, username:String, bVgenero: Boolean, bVsexual:Boolean,
                        bIgualdad: Boolean, bNoResponder:Boolean): Boolean {
             auth = FirebaseAuth.getInstance()
@@ -26,6 +30,15 @@ class User {
             }else{
                 return false
             }
+        }
+
+        fun login(email: String, password: String): Boolean {
+            auth = Firebase.auth
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) success = true
+                }
+            return success
         }
     }
 

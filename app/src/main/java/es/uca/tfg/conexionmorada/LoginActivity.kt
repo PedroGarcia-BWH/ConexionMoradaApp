@@ -9,10 +9,16 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import es.uca.tfg.conexionmorada.firestore.User
+import es.uca.tfg.conexionmorada.ui.HomeFragment
+import es.uca.tfg.conexionmorada.ui.MainActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var txtEmail: TextView
     private lateinit var txtPassword: TextView
+    private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -20,7 +26,8 @@ class LoginActivity : AppCompatActivity() {
         txtEmail = findViewById(R.id.email)
         txtPassword = findViewById(R.id.password)
         val logLogin = findViewById<Button>(R.id.login)
-        val progressBar = findViewById<ProgressBar>(R.id.progress)
+        progressBar = findViewById<ProgressBar>(R.id.indeterminateBarLogin)
+        progressBar.setVisibility(View.GONE)
 
         //login button click
         logLogin.setOnClickListener(View.OnClickListener {
@@ -47,7 +54,38 @@ class LoginActivity : AppCompatActivity() {
             startActivity(registerAct)
         }
 
+        val regLogin = findViewById<TextView>(R.id.login)
+        regLogin.setOnClickListener {
+            progressBar.setVisibility(View.VISIBLE)
+            /*var success = User.login(txtEmail.text.toString(), txtPassword.text.toString())
+            if (success) {
+                val homeAct = Intent(this, MainActivity::class.java)
+                startActivity(homeAct)
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    "Usuario o contraseña incorrectos",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }*/
 
+            var auth = Firebase.auth
+
+           auth.signInWithEmailAndPassword(txtEmail.text.toString(), txtPassword.text.toString())
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val homeAct = Intent(this, MainActivity::class.java)
+                        startActivity(homeAct)
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Usuario o contraseña incorrectos",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            progressBar.setVisibility(View.GONE)
+        }
 
     }
 }
