@@ -1,10 +1,13 @@
 package es.uca.tfg.conexionmorada
 
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +22,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var txtEmail: TextView
     private lateinit var txtPassword: TextView
     private lateinit var progressBar: ProgressBar
+    private lateinit var sharedPreferences: SharedPreferences
+    private val sharedPrefFile = "kotlinsharedpreference"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -29,6 +34,12 @@ class LoginActivity : AppCompatActivity() {
         progressBar = findViewById<ProgressBar>(R.id.indeterminateBarLogin)
         progressBar.setVisibility(View.GONE)
 
+        sharedPreferences= this.getSharedPreferences(sharedPrefFile,
+            Context.MODE_PRIVATE)
+
+        if(sharedPreferences.getString("email", null) != null && sharedPreferences.getString("password", null) != null){
+           login(sharedPreferences.getString("email", null)!!, sharedPreferences.getString("password", null)!!)
+        }
 
         val registro =findViewById<TextView>(R.id.register)
         registro.setOnClickListener {
@@ -39,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
         val regLogin = findViewById<TextView>(R.id.login)
         regLogin.setOnClickListener {
            progressBar.setVisibility(View.VISIBLE)
+
             /*var success = User.login(txtEmail.text.toString(), txtPassword.text.toString())
             if (success) {
                 val homeAct = Intent(this, MainActivity::class.java)
@@ -50,25 +62,38 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }*/
+            login(txtEmail.text.toString(), txtPassword.text.toString())
 
-
-            var auth = Firebase.auth
-
-           auth.signInWithEmailAndPassword(txtEmail.text.toString(), txtPassword.text.toString())
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val homeAct = Intent(this, MainActivity::class.java)
-                        startActivity(homeAct)
-                    } else {
-                        Toast.makeText(
-                            applicationContext,
-                            "Usuario o contraseña incorrectos",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            progressBar.setVisibility(View.GONE)
         }
 
+    }
+
+    fun login(email: String, password: String) {
+        var auth = Firebase.auth
+
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    var regSession = findViewById<CheckBox>(R.id.session)
+                    val homeAct = Intent(this, MainActivity::class.java)
+
+                    if(regSession.isChecked){
+                        val editor:SharedPreferences.Editor =  sharedPreferences.edit()
+                        editor.putString("email", txtEmail.text.toString())
+                        editor.putString("password", txtPassword.text.toString())
+                        editor.apply()
+                        editor.commit()
+                    }
+
+                    startActivity(homeAct)
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Usuario o contraseña incorrectos",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        progressBar.setVisibility(View.GONE)
     }
 }
