@@ -1,8 +1,11 @@
 package es.uca.tfg.conexionmorada.firestore
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -39,6 +42,17 @@ class User {
                     if (task.isSuccessful) success = true
                 }
             return success
+        }
+
+        fun getUser(): FirebaseUser? {
+            auth = Firebase.auth
+            return auth.currentUser
+        }
+
+        fun getDatosUser(): DocumentReference? {
+            auth = Firebase.auth
+            val user = auth.currentUser
+            return user?.let { db.collection("users").document(it.uid) }
         }
     }
 
