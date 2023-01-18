@@ -8,8 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.articles.model.Article
 
-class ArticleAdapter(param: (Any) -> Unit) : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
+class ArticleAdapter(param: List<Article>) : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
     private var articles: List<Article> = emptyList()
+    private lateinit var Listener : onItemClickListener
+
+    interface onItemClickListener {
+        fun onItemClick(position: Int)
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener) {
+        Listener = listener
+    }
+
 
     fun setData(list: List<Article>) {
         articles = list
@@ -18,7 +28,7 @@ class ArticleAdapter(param: (Any) -> Unit) : RecyclerView.Adapter<ArticleAdapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.article_cardview, parent, false)
-        return ArticleViewHolder(view)
+        return ArticleViewHolder(view, Listener)
     }
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
@@ -33,8 +43,13 @@ class ArticleAdapter(param: (Any) -> Unit) : RecyclerView.Adapter<ArticleAdapter
         return articles.size
     }
 
-    class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class ArticleViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView){
         val title = itemView.findViewById<TextView>(R.id.title)
         val description = itemView.findViewById<TextView>(R.id.description)
+       init {
+               itemView.setOnClickListener {
+                   listener.onItemClick(adapterPosition)
+               }
+       }
     }
 }

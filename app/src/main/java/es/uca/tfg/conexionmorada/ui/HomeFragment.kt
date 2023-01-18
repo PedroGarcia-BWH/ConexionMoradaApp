@@ -148,18 +148,23 @@ class HomeFragment : Fragment() {
     }
 
     fun addRecyclerViewArticles(articles: List<Article>) {
-        val recyclerview = view?.findViewById<RecyclerView>(R.id.RecyclerViewArticles)
+        var recyclerview = view?.findViewById<RecyclerView>(R.id.RecyclerViewArticles)
         recyclerview?.layoutManager = LinearLayoutManager(activity)
+        var adapter = ArticleAdapter(articles)
+        recyclerview?.adapter = adapter
+        adapter.setOnItemClickListener(object : ArticleAdapter.onItemClickListener {
+            override fun onItemClick(position: Int) {
+                articleSelected(articles[position])
+            }
+        })
         (recyclerview?.adapter as ArticleAdapter).setData(articles)
 
-        recyclerview?.adapter = ArticleAdapter { article ->
-            articleSelected(article as Article)
-        }
     }
 
     fun articleSelected(article: Article) {
         val intent =Intent(activity, ArticleActivity::class.java)
         intent.putExtra("title", article.title)
+        intent.putExtra("description", article.description)
         intent.putExtra("body", article.body)
         intent.putExtra("date", article.creationDate)
         intent.putExtra("category", article.category)
