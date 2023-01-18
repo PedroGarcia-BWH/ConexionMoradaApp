@@ -116,48 +116,27 @@
                     android:textAllCaps="false"
                     android:textSize="20sp" />
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/announce1"
-                    android:layout_width="378dp"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RecyclerViewArticles"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+
+                <Button
+                    android:id="@+id/Recargar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:cardCornerRadius="12dp">
+                    android:text="Recargar"
+                    android:visibility="invisible" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/pruebaTitleText2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:fontFamily="sans-serif-black"
-                            android:text="titulo"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/textView20"
-                            android:layout_width="351dp"
-                            android:layout_height="45dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginEnd="11dp"
-                            android:text="subtitulo"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/pruebaTitleText2" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </androidx.cardview.widget.CardView>
-
+                <TextView
+                    android:id="@+id/errorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Error al cargar los artículos"
+                    android:visibility="invisible" />
 
                 <Space
                     android:layout_width="match_parent"
