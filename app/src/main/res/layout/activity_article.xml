@@ -7,6 +7,7 @@
     tools:context=".articles.ArticleActivity">
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,8 +22,9 @@
                 android:id="@+id/imagenArticulo"
                 android:layout_width="match_parent"
                 android:layout_height="318dp"
-                android:layout_marginTop="-50dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/portadalogo1" />
@@ -64,8 +66,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subTituloArticulo" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/creationDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fecha"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView3"
+        tools:layout_editor_absoluteX="86dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

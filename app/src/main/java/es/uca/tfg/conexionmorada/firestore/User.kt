@@ -54,6 +54,7 @@ class User {
             val user = auth.currentUser
             return user?.let { db.collection("users").document(it.uid) }
         }
+
     }
 
 }

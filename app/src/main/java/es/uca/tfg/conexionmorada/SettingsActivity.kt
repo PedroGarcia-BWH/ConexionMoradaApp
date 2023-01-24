@@ -32,6 +32,9 @@ class SettingsActivity : AppCompatActivity() {
             val editor:SharedPreferences.Editor =  sharedPreferences.edit()
             editor.putString("email", null)
             editor.putString("password", null)
+            editor.putString("genero", null)
+            editor.putString("sexual", null)
+            editor.putString("igualdad", null)
             editor.apply()
             editor.commit()
 

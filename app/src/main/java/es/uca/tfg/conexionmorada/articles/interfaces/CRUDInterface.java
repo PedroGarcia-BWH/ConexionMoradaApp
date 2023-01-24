@@ -6,9 +6,14 @@ import es.uca.tfg.conexionmorada.articles.model.Article;
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface CRUDInterface {
     @POST("lastArticles")
     Call<List<Article>> lastArticles(@Body PayloadArticle payloadArticle);
+
+    @GET("query/{query}/{numberArticles}")
+    Call<List<Article>> query(@Path("query") String query, @Path("numberArticles") int numberArticles);
 }

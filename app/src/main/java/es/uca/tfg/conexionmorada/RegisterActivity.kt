@@ -10,7 +10,16 @@ import android.widget.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
+import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.firestore.User
+import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.Constants
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -32,6 +41,8 @@ class RegisterActivity : AppCompatActivity() {
         progressBar = findViewById<ProgressBar>(R.id.indeterminateBar)
         progressBar.setVisibility(View.GONE)
         val regCondition = findViewById<CheckBox>(R.id.chCondition)
+
+        focusUsername(regUsername)
 
         val tCondition = findViewById<TextView>(R.id.textConditions)
         tCondition.setOnClickListener {
@@ -83,7 +94,27 @@ class RegisterActivity : AppCompatActivity() {
                     "Debe aceptar las condiciones de uso",
                     Toast.LENGTH_SHORT
                 ).show()
-            }else {
+            }else if(regPassword.text.toString() != regConfPassword.text.toString() || regPassword.text.toString().equals("")) {
+                Toast.makeText(
+                    applicationContext,
+                    "Las contraseñas no coinciden",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else if (!regEmail.text.toString().contains("@") || !regEmail.text.toString().contains(".")
+                || regEmail.text.toString().contains(" ")){
+                Toast.makeText(
+                    applicationContext,
+                    "El email no es válido",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else if(regUsername.error != null || regUsername.text.toString().equals("")) {
+                Toast.makeText(
+                    applicationContext,
+                    "El nombre de usuario no es válido",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
                 progressBar.setVisibility(View.VISIBLE)
                 Singin(
                     regEmail.text.toString(),
@@ -105,6 +136,7 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val bSuccess = User.createUser(email, username, bVgenero, bVsexual, bIgualdad, bNoResponder)
+                    var call = APIRetrofit().addUsername(username)
                     if(bSuccess){
                         Toast.makeText(
                             baseContext, "Registro completado con éxito.",
@@ -119,6 +151,21 @@ class RegisterActivity : AppCompatActivity() {
                         ).show()
                     }
 
+                    if (call != null) {
+                        call.enqueue(object : Callback<Boolean> {
+
+                            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                                if (response.isSuccessful) {
+                                    Log.d("TAG", "onResponse: " + response.body())
+                                }
+                            }
+
+                            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                                Log.d("TAG", "onFailure: " + t.message)
+                            }
+                        })
+                    }
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -128,6 +175,39 @@ class RegisterActivity : AppCompatActivity() {
                     progressBar.setVisibility(View.GONE)
                 }
             }
-
     }
+
+    fun focusUsername(regUsername : TextView){
+        regUsername.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                UsernameExist(regUsername)
+            }
+        }
+    }
+
+    fun UsernameExist(regUsername : TextView){
+        var call = APIRetrofit().getUsername(regUsername.text.toString())
+        if (call != null) {
+            call.enqueue(object : Callback<Boolean> {
+
+                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                    if(response.isSuccessful){
+                        if(response.body()!!){
+                            regUsername.error = "El nombre de usuario ya existe"
+                        }else{
+                            Toast.makeText(applicationContext, "El nombre de usuario está disponible",
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    }else{
+                        Toast.makeText(applicationContext, response.message(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                    Toast.makeText(applicationContext, t.message, Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
 }

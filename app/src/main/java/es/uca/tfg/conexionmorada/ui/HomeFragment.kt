@@ -1,7 +1,9 @@
 package es.uca.tfg.conexionmorada.ui
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,13 +18,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import es.uca.tfg.conexionmorada.LoginActivity
 import es.uca.tfg.conexionmorada.R
+import es.uca.tfg.conexionmorada.SearchActivity
 import es.uca.tfg.conexionmorada.SettingsActivity
 import es.uca.tfg.conexionmorada.articles.ArticleActivity
+import es.uca.tfg.conexionmorada.articles.Categories
 import es.uca.tfg.conexionmorada.articles.adapter.ArticleAdapter
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
 import es.uca.tfg.conexionmorada.firestore.User
+import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +36,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class HomeFragment : Fragment() {
+    private lateinit var sharedPreferences: SharedPreferences
+    private val sharedPrefFile = "kotlinsharedpreference"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -47,6 +54,8 @@ class HomeFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         navegateSettings()
+        sharedPreferences= activity?.getSharedPreferences(sharedPrefFile,
+            Context.MODE_PRIVATE) as SharedPreferences
 
         val doc_ref = User.getDatosUser()
         doc_ref!!.get().addOnSuccessListener { document ->
@@ -73,6 +82,8 @@ class HomeFragment : Fragment() {
             recargarButton?.visibility = View.INVISIBLE
             lastArticlesClick()
         }
+
+        searchActivity()
     }
 
     fun navegateSettings() {
@@ -84,35 +95,33 @@ class HomeFragment : Fragment() {
     }
 
     fun lastArticlesClick() {
-        var retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-        var crudInterface = retrofit.create(CRUDInterface::class.java)
-        var call = crudInterface.lastArticles(createPayloadArticles())
+        var call = APIRetrofit().lastArticles(createPayloadArticles())
 
-        call.enqueue(object : Callback<List<Article>> {
+        if (call != null) {
+            call.enqueue(object : Callback<List<Article>> {
 
-           override fun onResponse(call: Call<List<Article>>, response: Response<List<Article>>){
-               if(response.isSuccessful){
-                   Toast.makeText(activity, "Bien" + response.body()!!.size , Toast.LENGTH_SHORT).show()
-                   addRecyclerViewArticles(response.body()!!)
+                override fun onResponse(call: Call<List<Article>>, response: Response<List<Article>>){
+                    if(response.isSuccessful){
+                        Toast.makeText(activity, "Bien " + response.body()!!.get(1) , Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(activity, "Bien " + response.body() , Toast.LENGTH_SHORT).show()
+                        addRecyclerViewArticles(response.body()!!)
 
-               }else{
-                   Toast.makeText(activity, response.message(), Toast.LENGTH_SHORT).show()
-                   var regText = view?.findViewById<TextView>(R.id.errorText)
-               }
-           }
+                    }else{
+                        Toast.makeText(activity, response.message(), Toast.LENGTH_SHORT).show()
+                        var regText = view?.findViewById<TextView>(R.id.errorText)
+                    }
+                }
 
-            override fun onFailure(call: Call<List<Article>>, t: Throwable) {
-                Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
-                var regText = view?.findViewById<TextView>(R.id.errorText)
-                var regButtonError = view?.findViewById<Button>(R.id.Recargar)
-                regText?.visibility = View.VISIBLE
-                regButtonError?.visibility = View.VISIBLE
+                override fun onFailure(call: Call<List<Article>>, t: Throwable) {
+                    Toast.makeText(activity, t.message, Toast.LENGTH_SHORT).show()
+                    var regText = view?.findViewById<TextView>(R.id.errorText)
+                    var regButtonError = view?.findViewById<Button>(R.id.Recargar)
+                    regText?.visibility = View.VISIBLE
+                    regButtonError?.visibility = View.VISIBLE
 
-            }
-        })
+                }
+            })
+        }
     }
 
     fun createPayloadArticles(): PayloadArticle {
@@ -120,20 +129,22 @@ class HomeFragment : Fragment() {
         payloadArticle.numberArticles = 10
         payloadArticle.status = "REQUESTED"
         payloadArticle.preferences = ArrayList<String>()
+        var list = ArrayList<String>()
 
         val doc_ref = User.getDatosUser()
         doc_ref!!.get().addOnSuccessListener { document ->
             if (document.data != null) {
-                var list = ArrayList<String>()
                 val data_user = document.data
-                if(data_user?.get("Violencia de genero") == true) list.add(data_user?.get("Violencia de genero").toString())
+                val editor:SharedPreferences.Editor =  sharedPreferences.edit()
+                if(data_user?.get("Violencia de genero") == true) editor.putString("genero", "Violencia de genero")
 
-                if(data_user?.get("Violencia sexual") == true) list.add(data_user?.get("Violencia sexual").toString())
+                if(data_user?.get("Violencia sexual") == true) editor.putString("sexual", "Violencia sexual")
 
-                if(data_user?.get("Igualdad") == true) list.add(data_user?.get("Igualdad").toString())
+                if(data_user?.get("Igualdad") == true) editor.putString("igualdad", "Igualdad")
 
+                editor.apply()
+                editor.commit()
 
-                payloadArticle.preferences = list
             } else {
                 Log.d(TAG, "No such document")
                 var intent = Intent(activity, LoginActivity::class.java)
@@ -143,6 +154,13 @@ class HomeFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d(TAG, "get failed with ", exception)
             }
+
+        sharedPreferences.getString("genero", "")?.let { list.add(it) }
+        sharedPreferences.getString("sexual", "")?.let { list.add(it) }
+        sharedPreferences.getString("igualdad", "")?.let { list.add(it) }
+
+        for(i in list) i.replace(" ", "")
+        payloadArticle.preferences = list
 
         return payloadArticle
     }
@@ -158,6 +176,9 @@ class HomeFragment : Fragment() {
             }
         })
         (recyclerview?.adapter as ArticleAdapter).setData(articles)
+        if (recyclerview != null) {
+            //Toast.makeText(activity, (recyclerview.adapter as ArticleAdapter).itemCount , Toast.LENGTH_SHORT).show()
+        }
 
     }
 
@@ -168,6 +189,17 @@ class HomeFragment : Fragment() {
         intent.putExtra("body", article.body)
         intent.putExtra("date", article.creationDate)
         intent.putExtra("category", article.category)
+        intent.putExtra("urlImg", article.urlFrontPage)
+        intent.putExtra("creationDate", article.creationDate)
+
         activity?.startActivity(intent)
+    }
+
+    fun searchActivity() {
+        var regSearch = view?.findViewById<FloatingActionButton>(R.id.ruedaSearch)
+        regSearch?.setOnClickListener {
+            var intent = Intent(activity, SearchActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

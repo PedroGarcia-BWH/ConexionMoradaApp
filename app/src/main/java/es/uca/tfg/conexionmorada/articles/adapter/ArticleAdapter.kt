@@ -5,12 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.articles.model.Article
+import android.content.Context
+import android.widget.ImageView
 
 class ArticleAdapter(param: List<Article>) : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
     private var articles: List<Article> = emptyList()
     private lateinit var Listener : onItemClickListener
+    private lateinit var context: Context
 
     interface onItemClickListener {
         fun onItemClick(position: Int)
@@ -26,8 +30,13 @@ class ArticleAdapter(param: List<Article>) : RecyclerView.Adapter<ArticleAdapter
         notifyDataSetChanged()
     }
 
+    fun setContext(context: Context) {
+        this.context = context
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.article_cardview, parent, false)
+        setContext(parent.context)
         return ArticleViewHolder(view, Listener)
     }
 
@@ -36,6 +45,7 @@ class ArticleAdapter(param: List<Article>) : RecyclerView.Adapter<ArticleAdapter
         holder.title.text = article.title
         holder.description.text = article.description
         //imageview
+        Glide.with(context).load(article.urlFrontPage).into(holder.image)
         //creation date
     }
 
@@ -46,6 +56,7 @@ class ArticleAdapter(param: List<Article>) : RecyclerView.Adapter<ArticleAdapter
     class ArticleViewHolder(itemView: View, listener: onItemClickListener) : RecyclerView.ViewHolder(itemView){
         val title = itemView.findViewById<TextView>(R.id.title)
         val description = itemView.findViewById<TextView>(R.id.description)
+        val image = itemView.findViewById<ImageView>(R.id.Portada)
        init {
                itemView.setOnClickListener {
                    listener.onItemClick(adapterPosition)
