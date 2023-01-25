@@ -11,7 +11,7 @@ import es.uca.tfg.conexionmorada.articles.model.Article
 import android.content.Context
 import android.widget.ImageView
 
-class ArticleAdapter(param: List<Article>) : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
+class ArticleAdapter() : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
     private var articles: List<Article> = emptyList()
     private lateinit var Listener : onItemClickListener
     private lateinit var context: Context

@@ -102,9 +102,9 @@ class HomeFragment : Fragment() {
 
                 override fun onResponse(call: Call<List<Article>>, response: Response<List<Article>>){
                     if(response.isSuccessful){
-                        Toast.makeText(activity, "Bien " + response.body()!!.get(1) , Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(activity, "Bien " + response.body()!!.get(3), Toast.LENGTH_SHORT).show()
                         //Toast.makeText(activity, "Bien " + response.body() , Toast.LENGTH_SHORT).show()
-                        addRecyclerViewArticles(response.body()!!)
+                        response.body()?.let { addRecyclerViewArticles(it) }
 
                     }else{
                         Toast.makeText(activity, response.message(), Toast.LENGTH_SHORT).show()
@@ -168,17 +168,15 @@ class HomeFragment : Fragment() {
     fun addRecyclerViewArticles(articles: List<Article>) {
         var recyclerview = view?.findViewById<RecyclerView>(R.id.RecyclerViewArticles)
         recyclerview?.layoutManager = LinearLayoutManager(activity)
-        var adapter = ArticleAdapter(articles)
+        var adapter = ArticleAdapter()
         recyclerview?.adapter = adapter
+        (recyclerview?.adapter as ArticleAdapter).setData(articles)
+        //Toast.makeText(activity, articles.size, Toast.LENGTH_SHORT).show()
         adapter.setOnItemClickListener(object : ArticleAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
                 articleSelected(articles[position])
             }
         })
-        (recyclerview?.adapter as ArticleAdapter).setData(articles)
-        if (recyclerview != null) {
-            //Toast.makeText(activity, (recyclerview.adapter as ArticleAdapter).itemCount , Toast.LENGTH_SHORT).show()
-        }
 
     }
 

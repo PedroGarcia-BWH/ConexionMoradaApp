@@ -72,7 +72,7 @@ class SearchActivity : AppCompatActivity() {
     fun reloadReclyclerView(articles: ArrayList<Article>) {
         var recyclerView = findViewById<RecyclerView>(R.id.searchRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        var adapter = ArticleAdapter(articles)
+        var adapter = ArticleAdapter()
         recyclerView.adapter = adapter
         adapter.setOnItemClickListener(object : ArticleAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {

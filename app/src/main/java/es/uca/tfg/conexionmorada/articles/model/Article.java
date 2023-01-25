@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.UUID;
 
 public class Article {
-    private UUID Id;
+    private String Id;
 
     private String title;
 
@@ -31,7 +31,7 @@ public class Article {
     }
 
     //getters
-    public UUID getId() {
+    public String getId() {
         return Id;
     }
     public String getTitle() {
@@ -57,7 +57,7 @@ public class Article {
         return Category;
     }
     //setters
-    public void setId(UUID id) {
+    public void setId(String id) {
         Id = id;
     }
     public void setTitle(String title) {
@@ -81,5 +81,12 @@ public class Article {
 
     public void setCategory(String category) {
         Category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Article [Id=" + Id + ", title=" + title + ", description=" + description + ", body=" + body
+                + ", urlFrontPage=" + urlFrontPage + ", creationDate=" + creationDate + ", eliminationDate="
+                + eliminationDate + ", Category=" + Category + "]";
     }
 }
