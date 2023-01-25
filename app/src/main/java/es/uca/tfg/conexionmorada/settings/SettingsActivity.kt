@@ -22,6 +22,7 @@ class SettingsActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         logout()
+        changePhotoNavigate()
         changeUsernameNavegate()
         changePasswordNavegate()
         changePreferenciesNavegate()
@@ -31,6 +32,13 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
+    fun changePhotoNavigate() {
+        var changePhoto = findViewById<CardView>(R.id.changePhotoCardView)
+        changePhoto.setOnClickListener {
+            var intent = Intent(this, ChangePhotoActivity::class.java)
+            startActivity(intent)
+        }
+    }
     fun changeUsernameNavegate(){
         var changeUsername = findViewById<CardView>(R.id.changeUsernameCardView)
         changeUsername.setOnClickListener {
