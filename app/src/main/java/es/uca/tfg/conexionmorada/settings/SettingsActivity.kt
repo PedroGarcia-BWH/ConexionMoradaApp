@@ -1,4 +1,4 @@
-package es.uca.tfg.conexionmorada
+package es.uca.tfg.conexionmorada.settings
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -6,14 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import es.uca.tfg.conexionmorada.ui.MainActivity
+import es.uca.tfg.conexionmorada.LoginActivity
+import es.uca.tfg.conexionmorada.R
 
 class SettingsActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -24,8 +22,53 @@ class SettingsActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         logout()
+        changeUsernameNavegate()
+        changePasswordNavegate()
+        changePreferenciesNavegate()
+        desactivateAccountNavegate()
+        notificationsNavigate()
         exit()
 
+    }
+
+    fun changeUsernameNavegate(){
+        var changeUsername = findViewById<CardView>(R.id.changeUsernameCardView)
+        changeUsername.setOnClickListener {
+            var intent = Intent(this, ChangeUsernameActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    fun changePasswordNavegate(){
+        var changePassword = findViewById<CardView>(R.id.changePasswordCardview)
+        changePassword.setOnClickListener {
+            var intent = Intent(this, ChangePasswordActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    fun changePreferenciesNavegate(){
+        var changePreferencies = findViewById<CardView>(R.id.preferencesCardview)
+        changePreferencies.setOnClickListener {
+            var intent = Intent(this, ChangePreferenciesActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    fun desactivateAccountNavegate(){
+        var desactivateAccount = findViewById<CardView>(R.id.desactivateAccountCardview)
+        desactivateAccount.setOnClickListener {
+            var intent = Intent(this, DesactivateAccountActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    fun notificationsNavigate() {
+        var notifications = findViewById<CardView>(R.id.notificationCardview)
+        notifications.setOnClickListener {
+            var intent = Intent(this, NotificationsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun logout() {

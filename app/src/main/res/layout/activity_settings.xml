@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity">
+    tools:context=".settings.SettingsActivity">
 
 
     <ImageView
@@ -42,6 +42,40 @@
             app:cardBackgroundColor="#5E5858">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/changePhotoCardView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:id="@+id/changePhotoImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baseline_account_circle_24" />
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Cambiar foto de perfil"
+                    app:layout_constraintStart_toEndOf="@+id/changePhotoImage"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#5E5858">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/changeUsernameCardView"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
 
@@ -69,6 +103,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/changePasswordCardview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="#5E5858">
@@ -106,6 +141,7 @@
             app:cardBackgroundColor="#5E5858">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/preferencesCardview"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
 
@@ -138,6 +174,7 @@
             app:cardBackgroundColor="#5E5858">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/desactivateAccountCardview"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
 
@@ -159,6 +196,39 @@
                     android:layout_marginTop="10dp"
                     android:text="Desactivar cuenta"
                     app:layout_constraintStart_toEndOf="@+id/imageDeleteAccount"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="#5E5858">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/notificationCardview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <ImageView
+                    android:id="@+id/imageNotification"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/baseline_edit_notifications_24" />
+
+                <TextView
+                    android:id="@+id/textNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Notificaciones"
+                    app:layout_constraintStart_toEndOf="@+id/imageNotification"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

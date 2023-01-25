@@ -19,21 +19,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import es.uca.tfg.conexionmorada.LoginActivity
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.SearchActivity
-import es.uca.tfg.conexionmorada.SettingsActivity
+import es.uca.tfg.conexionmorada.settings.SettingsActivity
 import es.uca.tfg.conexionmorada.articles.ArticleActivity
-import es.uca.tfg.conexionmorada.articles.Categories
 import es.uca.tfg.conexionmorada.articles.adapter.ArticleAdapter
-import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
 import es.uca.tfg.conexionmorada.firestore.User
 import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
-import es.uca.tfg.conexionmorada.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class HomeFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
