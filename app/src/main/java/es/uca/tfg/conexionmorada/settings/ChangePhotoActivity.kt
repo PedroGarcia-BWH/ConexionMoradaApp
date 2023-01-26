@@ -9,18 +9,24 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatButton
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import es.uca.tfg.conexionmorada.R
+import es.uca.tfg.conexionmorada.storage.Storage
 
 class ChangePhotoActivity : AppCompatActivity() {
     private var user = Firebase.auth.currentUser
-    var profile : ImageView? = null
+    lateinit var profile : ImageView
+    var storage = Firebase.storage
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_photo)
-        profile = findViewById<ImageView>(R.id.profile)
+        profile = findViewById(R.id.profile)
+       
+        Storage().photoAccount(profile, user?.uid!!)
         var change = findViewById<AppCompatButton>(R.id.confirmChange)
 
         //on click
@@ -29,9 +35,6 @@ class ChangePhotoActivity : AppCompatActivity() {
             var openGalleryIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(openGalleryIntent, 1000)
-            //onActivityResult
-            //cambiar imageview
-            //profile.setImageURI(user?.photoUrl)
 
         }
     }
@@ -40,14 +43,40 @@ class ChangePhotoActivity : AppCompatActivity() {
         if(requestCode == 1000){
             if(resultCode == Activity.RESULT_OK){
                 val profileUpdates = userProfileChangeRequest {
-                    profile?.setImageURI(data?.data)
-                    photoUri = data?.data
+                    var storageRef = storage.reference
+                    val photoRef = storageRef.child("perfil/${user?.uid}")
+                    var uploadTask = photoRef.putFile(data?.data!!)
+                    uploadTask.addOnSuccessListener { taskSnapshot ->
+
+                        Log.d(TAG, "Upload success")
+                    }.addOnFailureListener { exception ->
+                        Log.d(TAG, "Upload failed")
+                    }
+
+                    //descargamos el archivo
+                    val urlTask = uploadTask.continueWithTask() { task ->
+                        if (!task.isSuccessful) {
+                            task.exception?.let {
+                                throw it
+                            }
+                        }
+                        photoRef.downloadUrl
+                    }.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Glide.with(applicationContext).load(task.result).into(profile!!)
+                            Log.d(TAG, "Download success" + task.result)
+                        } else {
+                            Log.d(TAG, "Download failed")
+                        }
+                    }
                 }
                 user!!.updateProfile(profileUpdates).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "User profile updated.")
                     }
                 }
+
+
             }
         }
     }

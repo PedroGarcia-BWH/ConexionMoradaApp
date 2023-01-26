@@ -17,9 +17,9 @@ class ChangePreferenciesActivity : AppCompatActivity() {
     var auth = Firebase.auth.currentUser
     var db = Firebase.firestore
 
-    var generoBox = findViewById<CheckBox>(R.id.generoBox)
-    var sexualBox = findViewById<CheckBox>(R.id.sexualBox)
-    var igualdadBox = findViewById<CheckBox>(R.id.IgualdadBox)
+    var generoBox : CheckBox? = null
+    var sexualBox : CheckBox? = null
+    var igualdadBox : CheckBox? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_preferencies)
@@ -33,9 +33,9 @@ class ChangePreferenciesActivity : AppCompatActivity() {
         preferenciasActuales()
 
         changePreferencies.setOnClickListener {
-            db.collection("users").document(auth!!.uid).update("Violencia de genero", generoBox.isChecked)
-            db.collection("users").document(auth!!.uid).update("Violencia sexual", sexualBox.isChecked)
-            db.collection("users").document(auth!!.uid).update("Igualdad", igualdadBox.isChecked)
+            db.collection("users").document(auth!!.uid).update("Violencia de genero", generoBox!!.isChecked)
+            db.collection("users").document(auth!!.uid).update("Violencia sexual", sexualBox!!.isChecked)
+            db.collection("users").document(auth!!.uid).update("Igualdad", igualdadBox!!.isChecked)
 
             //log
             Log.d(TAG, "Preferencias cambiadas")
@@ -48,9 +48,9 @@ class ChangePreferenciesActivity : AppCompatActivity() {
     fun preferenciasActuales() {
         db.collection("users").document(auth!!.uid).get().addOnSuccessListener { document ->
             if (document != null) {
-                generoBox.isChecked = document.getBoolean("Violencia de genero")!!
-                sexualBox.isChecked = document.getBoolean("Violencia sexual")!!
-                igualdadBox.isChecked = document.getBoolean("Igualdad")!!
+                generoBox!!.isChecked = document.getBoolean("Violencia de genero")!!
+                sexualBox!!.isChecked = document.getBoolean("Violencia sexual")!!
+                igualdadBox!!.isChecked = document.getBoolean("Igualdad")!!
             }
         }
     }
