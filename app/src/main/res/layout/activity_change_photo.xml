@@ -27,7 +27,7 @@
         app:layout_constraintStart_toEndOf="@+id/exit"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile"
         android:layout_width="300dp"
         android:layout_height="300dp"
@@ -35,7 +35,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@drawable/baseline_account_circle_24" />
+        app:srcCompat="@drawable/baseline_account_circle_24"
+        />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/confirmChange"

@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import com.google.firebase.auth.ktx.auth
@@ -37,6 +38,14 @@ class DesactivateAccountActivity : AppCompatActivity() {
             }
             builder.show()
 
+        }
+        exit()
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.exit)
+        exit.setOnClickListener(){
+            finish()
         }
     }
 }

@@ -35,8 +35,8 @@ class ChangePhotoActivity : AppCompatActivity() {
             var openGalleryIntent =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(openGalleryIntent, 1000)
-
         }
+        exit()
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -78,6 +78,13 @@ class ChangePhotoActivity : AppCompatActivity() {
 
 
             }
+        }
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.exit)
+        exit.setOnClickListener(){
+            finish()
         }
     }
 }

@@ -10,12 +10,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.LoginActivity
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.SearchActivity
@@ -26,6 +29,7 @@ import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
 import es.uca.tfg.conexionmorada.firestore.User
 import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.storage.Storage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,6 +37,7 @@ import retrofit2.Response
 class HomeFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private val sharedPrefFile = "kotlinsharedpreference"
+    private var user = Firebase.auth.currentUser
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -51,6 +56,9 @@ class HomeFragment : Fragment() {
         navegateSettings()
         sharedPreferences= activity?.getSharedPreferences(sharedPrefFile,
             Context.MODE_PRIVATE) as SharedPreferences
+
+        var profile = view?.findViewById<ImageView>(R.id.imageView3)
+        Storage().photoAccount(profile!!, user?.uid!!)
 
         val doc_ref = User.getDatosUser()
         doc_ref!!.get().addOnSuccessListener { document ->

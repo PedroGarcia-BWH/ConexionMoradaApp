@@ -29,6 +29,11 @@ class APIRetrofit {
         return crudInterface.addUsername(username)
     }
 
+    fun deleteUsername(username : String): Call<Boolean>? {
+        var crudInterface = retrofit.create(UsernameInterface::class.java)
+        return crudInterface.deleteUsername(username)
+    }
+
     fun lastArticles(payloadArticle: PayloadArticle): Call<List<Article>>  {
         var crudInterface = retrofit.create(CRUDInterface::class.java)
         return crudInterface.lastArticles(payloadArticle)

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import com.google.firebase.auth.ktx.auth
@@ -43,6 +44,7 @@ class ChangePreferenciesActivity : AppCompatActivity() {
 
             preferenciasActuales()
         }
+        exit()
     }
 
     fun preferenciasActuales() {
@@ -52,6 +54,13 @@ class ChangePreferenciesActivity : AppCompatActivity() {
                 sexualBox!!.isChecked = document.getBoolean("Violencia sexual")!!
                 igualdadBox!!.isChecked = document.getBoolean("Igualdad")!!
             }
+        }
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.exit)
+        exit.setOnClickListener(){
+            finish()
         }
     }
 }

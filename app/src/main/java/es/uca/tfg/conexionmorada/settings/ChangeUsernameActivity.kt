@@ -50,9 +50,36 @@ class ChangeUsernameActivity : AppCompatActivity() {
     }
 
     fun UpdateUsername(username: String){
-        db.collection("users").document(user!!.uid).update("username", username)
-        Log.d("Username", "Username cambiado")
-        successDialog(username)
+        val docRef = db.collection("users").document(user!!.uid)
+        docRef.get()
+            .addOnSuccessListener { document->
+                if(document != null){
+                    var call = APIRetrofit().deleteUsername(document.get("username").toString())
+                    call?.enqueue(object : Callback<Boolean> {
+                        override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                            if (response.isSuccessful) {
+                                Log.d("Username", "Username eliminado")
+                                db.collection("users").document(user!!.uid).update("username", username)
+                                Log.d("Username", "Username cambiado")
+                                var call = APIRetrofit().addUsername(username)
+                                successDialog(username)
+                            } else {
+                                Log.d("Username", "Error al eliminar username")
+                                errorDialog("Error al cambiar el nombre de usuario, intentelo de nuevo")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                            Log.d("Username", "Error al eliminar username")
+                            errorDialog("Error al conectar con el servidor, intentelo de nuevo")
+                        }
+                    })
+                }
+            }
+            .addOnFailureListener() { exception ->
+                Log.d("Username", "Error al eliminar username")
+                errorDialog("Error al conectar con el servidor, intentelo de nuevo")
+            }
     }
 
     fun exit(){

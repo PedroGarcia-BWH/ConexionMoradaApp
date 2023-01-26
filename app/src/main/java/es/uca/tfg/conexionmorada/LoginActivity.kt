@@ -2,6 +2,7 @@ package es.uca.tfg.conexionmorada
 
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.widget.CheckBox
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -74,18 +76,27 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    var regSession = findViewById<CheckBox>(R.id.session)
-                    val homeAct = Intent(this, MainActivity::class.java)
+                    if(auth.currentUser!!.isEmailVerified) {
+                        var regSession = findViewById<CheckBox>(R.id.session)
+                        val homeAct = Intent(this, MainActivity::class.java)
 
-                    if(regSession.isChecked){
-                        val editor:SharedPreferences.Editor =  sharedPreferences.edit()
-                        editor.putString("email", txtEmail.text.toString())
-                        editor.putString("password", txtPassword.text.toString())
-                        editor.apply()
-                        editor.commit()
+                        if (regSession.isChecked) {
+                            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+                            editor.putString("email", txtEmail.text.toString())
+                            editor.putString("password", txtPassword.text.toString())
+                            editor.apply()
+                            editor.commit()
+                        }
+
+                        startActivity(homeAct)
+                    }else{
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Verificación de correo")
+                        builder.setMessage("La cuenta introducida no ha sido verificada. Por favor, verifique su correo electrónico.")
+                        builder.setCancelable(false)
+                        builder.setPositiveButton("Aceptar", null)
+                        builder.show()
                     }
-
-                    startActivity(homeAct)
                 } else {
                     Toast.makeText(
                         applicationContext,

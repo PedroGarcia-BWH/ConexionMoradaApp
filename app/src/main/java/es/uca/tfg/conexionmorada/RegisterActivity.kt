@@ -1,12 +1,14 @@
 package es.uca.tfg.conexionmorada
 
 import android.content.ContentValues.TAG
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -142,8 +144,20 @@ class RegisterActivity : AppCompatActivity() {
                             baseContext, "Registro completado con éxito.",
                             Toast.LENGTH_SHORT
                         ).show()
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
+                        var user = auth.currentUser
+                        user!!.sendEmailVerification()
+                        Log.d(TAG, "Email de verificacion.")
+                                    //dialog
+                        val builder = AlertDialog.Builder(this)
+                        builder.setTitle("Verificación de correo")
+                        builder.setMessage("Se ha enviado un correo de verificación a su cuenta. Por favor, verifique su correo para poder iniciar sesión.")
+                        builder.setCancelable(false)
+                        builder.setPositiveButton("Aceptar", DialogInterface.OnClickListener { dialog, which ->
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                        })
+                        builder.show()
+
                     }else{
                         Toast.makeText(
                             baseContext, "Error al crear el usuario.",
@@ -165,6 +179,8 @@ class RegisterActivity : AppCompatActivity() {
                             }
                         })
                     }
+
+
 
                 } else {
                     // If sign in fails, display a message to the user.
