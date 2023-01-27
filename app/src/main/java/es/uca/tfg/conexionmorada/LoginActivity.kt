@@ -19,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.firestore.User
 import es.uca.tfg.conexionmorada.ui.HomeFragment
 import es.uca.tfg.conexionmorada.ui.MainActivity
+import es.uca.tfg.conexionmorada.utils.LoadingDialog
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var txtEmail: TextView
@@ -40,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
             Context.MODE_PRIVATE)
 
         if(sharedPreferences.getString("email", null) != null && sharedPreferences.getString("password", null) != null){
+            LoadingDialog(this).startLoadingDialog()
            login(sharedPreferences.getString("email", null)!!, sharedPreferences.getString("password", null)!!)
         }
 

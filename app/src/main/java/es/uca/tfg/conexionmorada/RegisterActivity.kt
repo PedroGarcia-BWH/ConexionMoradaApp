@@ -17,6 +17,7 @@ import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.firestore.User
 import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.Constants
+import es.uca.tfg.conexionmorada.utils.LoadingDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +40,6 @@ class RegisterActivity : AppCompatActivity() {
         val regApuestas = findViewById<CheckBox>(R.id.Apuestas)
         val regVideojuegos = findViewById<CheckBox>(R.id.Videojuegos)
         val regNose = findViewById<CheckBox>(R.id.NoSabe)
-        progressBar = findViewById<ProgressBar>(R.id.indeterminateBar)
-        progressBar.setVisibility(View.GONE)
         val regCondition = findViewById<CheckBox>(R.id.chCondition)
 
         focusUsername(regUsername)
@@ -117,7 +115,7 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                progressBar.setVisibility(View.VISIBLE)
+                LoadingDialog(this).startLoadingDialog()
                 Singin(
                     regEmail.text.toString(),
                     regPassword.text.toString(),
@@ -187,8 +185,6 @@ class RegisterActivity : AppCompatActivity() {
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
                     Toast.LENGTH_SHORT).show()
-                    //updateUI(null)
-                    progressBar.setVisibility(View.GONE)
                 }
             }
     }

@@ -4,10 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.SearchView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import es.uca.tfg.conexionmorada.articles.ArticleActivity
@@ -33,7 +30,7 @@ class SearchActivity : AppCompatActivity() {
         var search = findViewById<SearchView>(R.id.search)
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Toast.makeText(applicationContext, "Buscando: " + query, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(applicationContext, "Buscando: " + query, Toast.LENGTH_SHORT).show()
                 searchArticles(query!!)
                 return false
             }
@@ -46,14 +43,21 @@ class SearchActivity : AppCompatActivity() {
 
 
     fun searchArticles(query: String) {
-
+        var imageNoResult = findViewById<ImageView>(R.id.imageNoResults)
+        var textNoResult = findViewById<TextView>(R.id.txtNoResults)
         var call = APIRetrofit().searchArticles(query, 40)
+        imageNoResult.visibility = View.INVISIBLE
+        textNoResult.visibility = View.INVISIBLE
 
         call.enqueue(object : Callback<List<Article>> {
 
             override fun onResponse(call: Call<List<Article>>, response: Response<List<Article>>){
                 if(response.isSuccessful){
-                    Toast.makeText(applicationContext, "Bien " + response.body()!!.size , Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext, "Bien " + response.body()!!.size , Toast.LENGTH_SHORT).show()
+                    if(response.body()!!.size == 0) {
+                        imageNoResult.visibility = View.VISIBLE
+                        textNoResult.visibility = View.VISIBLE
+                    }
                     reloadReclyclerView(response.body() as ArrayList<Article>)
 
                 }else{
