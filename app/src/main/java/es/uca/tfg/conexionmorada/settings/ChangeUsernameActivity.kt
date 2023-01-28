@@ -1,6 +1,7 @@
 package es.uca.tfg.conexionmorada.settings
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.AppCompatButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import es.uca.tfg.conexionmorada.LoginActivity
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
 import retrofit2.Call
@@ -62,7 +64,7 @@ class ChangeUsernameActivity : AppCompatActivity() {
                                 db.collection("users").document(user!!.uid).update("username", username)
                                 Log.d("Username", "Username cambiado")
                                 var call = APIRetrofit().addUsername(username)
-                                successDialog(username)
+                                successDialog("Username cambiado correctamente, vuelva a iniciar sesión")
                             } else {
                                 Log.d("Username", "Error al eliminar username")
                                 errorDialog("Error al cambiar el nombre de usuario, intentelo de nuevo")
@@ -96,7 +98,10 @@ class ChangeUsernameActivity : AppCompatActivity() {
         builder.setCancelable(true)
 
         builder.setPositiveButton("Ok") { dialog, which ->
-            finish()
+            finishAffinity()
+            //loginActivity()
+            var intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
         builder.show()
     }
@@ -108,7 +113,7 @@ class ChangeUsernameActivity : AppCompatActivity() {
         builder.setCancelable(true)
 
         builder.setPositiveButton("Ok") { dialog, which ->
-            finish()
+            dialog.dismiss()
         }
         builder.show()
     }

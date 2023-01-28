@@ -69,6 +69,14 @@ class RegisterActivity : AppCompatActivity() {
             noResponse.isEnabled = !isChecked && !regApuestas.isChecked && !regRedes.isChecked
         }
 
+        regPassword.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                if (regPassword.text.toString().length < 8 || !regPassword.text.toString().contains(Regex("[0-9]"))) {
+                    regPassword.error = "La contraseña debe tener al menos 8 caracteres y contener al menos un dígito"
+                }
+            }
+        }
+
         //comprobar automaticamente que password y confirmacion coinciden
         regConfPassword.setOnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
@@ -108,14 +116,21 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-            } else if(regUsername.error != null || regUsername.text.toString().equals("")) {
+            }else if(regUsername.error != null || regUsername.text.toString().equals("")) {
                 Toast.makeText(
                     applicationContext,
                     "El nombre de usuario no es válido",
                     Toast.LENGTH_SHORT
                 ).show()
-            } else {
-                LoadingDialog(this).startLoadingDialog()
+            }else if(regPassword.text.toString().length < 8 || !regPassword.text.toString().contains(Regex("[0-9]"))) {
+                Toast.makeText(
+                    applicationContext,
+                    "La contraseña debe tener al menos 8 caracteres y contener al menos un dígito",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else {
+                var dialog = LoadingDialog(this)
+                dialog.startLoadingDialog()
                 Singin(
                     regEmail.text.toString(),
                     regPassword.text.toString(),
@@ -125,6 +140,7 @@ class RegisterActivity : AppCompatActivity() {
                     regVideojuegos.isChecked,
                     regNose.isChecked
                 )
+                dialog.dismissDialog()
             }
         })
     }
@@ -183,7 +199,7 @@ class RegisterActivity : AppCompatActivity() {
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
+                    Toast.makeText(baseContext, "No se ha podido registrar el usuario, el email ya está en uso o la contraseña es demasiado débil.",
                     Toast.LENGTH_SHORT).show()
                 }
             }

@@ -70,7 +70,7 @@ class ChangePasswordActivity : AppCompatActivity() {
         builder.setCancelable(true)
 
         builder.setPositiveButton("Ok") { dialog, which ->
-            dialog.dismiss()
+            finish()
         }
         builder.show()
     }

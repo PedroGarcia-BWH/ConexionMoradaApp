@@ -8,12 +8,14 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import es.uca.tfg.conexionmorada.LoginActivity
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.storage.Storage
 
@@ -65,6 +67,7 @@ class ChangePhotoActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Glide.with(applicationContext).load(task.result).into(profile!!)
                             Log.d(TAG, "Download success" + task.result)
+                            successDialog("Foto de perfil cambiada correctamente, inicie sesión de nuevo")
                         } else {
                             Log.d(TAG, "Download failed")
                         }
@@ -86,6 +89,21 @@ class ChangePhotoActivity : AppCompatActivity() {
         exit.setOnClickListener(){
             finish()
         }
+    }
+
+    fun successDialog(textSuccess: String){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Cambio de foto de perfil")
+        builder.setMessage(textSuccess)
+        builder.setCancelable(true)
+
+        builder.setPositiveButton("Ok") { dialog, which ->
+            finishAffinity()
+            //loginActivity()
+            var intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+        builder.show()
     }
 }
 

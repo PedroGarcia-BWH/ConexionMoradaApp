@@ -1,6 +1,7 @@
 package es.uca.tfg.conexionmorada.settings
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import es.uca.tfg.conexionmorada.LoginActivity
 import es.uca.tfg.conexionmorada.R
 
 class DesactivateAccountActivity : AppCompatActivity() {
@@ -31,7 +33,10 @@ class DesactivateAccountActivity : AppCompatActivity() {
                             Log.d(TAG, "User account deleted.")
                         }
                     }
-                finish()
+                finishAffinity()
+                //loginActivity()
+                var intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
             }
             builder.setNegativeButton("Cancelar") { dialog, which ->
                 dialog.cancel()

@@ -43,6 +43,8 @@ class ChangePreferenciesActivity : AppCompatActivity() {
             Toast.makeText(this, "Preferencias cambiadas correctamente", Toast.LENGTH_SHORT).show()
 
             preferenciasActuales()
+
+            finish()
         }
         exit()
     }
