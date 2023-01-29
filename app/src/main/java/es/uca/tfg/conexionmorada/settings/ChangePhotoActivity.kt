@@ -26,7 +26,7 @@ class ChangePhotoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_photo)
-        profile = findViewById(R.id.profile)
+        profile = findViewById(R.id.DNI)
        
         Storage().photoAccount(profile, user?.uid!!)
         var change = findViewById<AppCompatButton>(R.id.confirmChange)

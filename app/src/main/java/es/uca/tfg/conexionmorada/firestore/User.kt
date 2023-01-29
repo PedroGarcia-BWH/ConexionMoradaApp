@@ -25,7 +25,8 @@ class User {
                 "Igualdad" to bIgualdad,
                 "Violencia de genero" to bVgenero,
                 "Violencia sexual" to bVsexual,
-                "No responder" to bNoResponder
+                "No responder" to bNoResponder,
+                "verificado" to false
             )
             if (user != null) {
                 db.collection("users").document(user.uid).set(userMap)
@@ -53,6 +54,25 @@ class User {
             auth = Firebase.auth
             val user = auth.currentUser
             return user?.let { db.collection("users").document(it.uid) }
+        }
+
+        fun UserVerificado(): DocumentReference? {
+            auth = Firebase.auth
+            val user = auth.currentUser
+
+            return db.collection("users").document(user!!.uid)
+
+        }
+
+        fun updateUserVerificado(): Boolean {
+            auth = Firebase.auth
+            val user = auth.currentUser
+            var verificado = false
+            if (user != null) {
+                db.collection("users").document(user.uid).update("verificado", true)
+                verificado = true
+            }
+            return verificado
         }
 
     }
