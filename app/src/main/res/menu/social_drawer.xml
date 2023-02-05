@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/search"
+            android:icon="@drawable/baseline_search_24"
+            android:title="Buscar" />
+        <item
+            android:id="@+id/perfil"
+            android:icon="@drawable/baseline_account_circle_24"
+            android:title="Mi perfil" />
+        <item
+            android:id="@+id/notificaciones"
+            android:icon="@drawable/baseline_notifications_24"
+            android:title="Notificaciones" />
+    </group>
+</menu>

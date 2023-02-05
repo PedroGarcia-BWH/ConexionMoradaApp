@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity(){
                 Log.d(ContentValues.TAG, "No such document")
             }
         }
+
     }
 
     private fun setUptabs(){
@@ -38,11 +39,7 @@ class MainActivity : AppCompatActivity(){
         val tabs = findViewById<TabLayout>(R.id.tabs)
         viewpager.adapter = adapter
         tabs.setupWithViewPager(viewpager)
-
         viewpager.setCurrentItem(1)
-        if(viewpager.currentItem == 0 || viewpager.currentItem == 2){
-
-        }
     }
 
 
