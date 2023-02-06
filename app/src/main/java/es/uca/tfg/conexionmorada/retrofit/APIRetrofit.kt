@@ -3,6 +3,7 @@ package es.uca.tfg.conexionmorada.retrofit
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
+import es.uca.tfg.conexionmorada.cmSocial.interfaces.cmSocialInterface
 import es.uca.tfg.conexionmorada.usernames.interfaces.UsernameInterface
 import es.uca.tfg.conexionmorada.utils.Constants
 import retrofit2.Call
@@ -42,5 +43,15 @@ class APIRetrofit {
     fun searchArticles(query: String, numberArticles: Int): Call<List<Article>> {
         var crudInterface = retrofit.create(CRUDInterface::class.java)
         return  crudInterface.query(query, numberArticles)
+    }
+
+    fun getSeguidores(uuid: String): Call<Int> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return  crudInterface.getSeguidores(uuid)
+    }
+
+    fun getSeguidos(uuid: String): Call<Int> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return  crudInterface.getSeguidos(uuid)
     }
 }

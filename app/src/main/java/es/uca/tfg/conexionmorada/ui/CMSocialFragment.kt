@@ -1,26 +1,26 @@
 package es.uca.tfg.conexionmorada.ui
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.navigation.ui.AppBarConfiguration
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
-import es.uca.tfg.conexionmorada.databinding.ActivityMainBinding
 import es.uca.tfg.conexionmorada.firestore.User
-import es.uca.tfg.conexionmorada.verify.VerifyDialog
+import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.storage.Storage
 
 
 class CMSocialFragment : Fragment() {
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    private var user = Firebase.auth.currentUser
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -45,6 +45,52 @@ class CMSocialFragment : Fragment() {
             drawer?.openDrawer(Gravity.LEFT)
         }
 
+        showDetailsUserDrawer()
+
+    }
+
+    private fun showDetailsUserDrawer() {
+        var navegationView = activity?.findViewById<NavigationView>(R.id.nav_view)
+        var headerLayout = navegationView?.getHeaderView(0)
+        var image = headerLayout?.findViewById<ImageView>(R.id.ImageDrawer)
+        var name = headerLayout?.findViewById<TextView>(R.id.username)
+        var seguidores = headerLayout?.findViewById<TextView>(R.id.numberSeguidores)
+        var seguidos = headerLayout?.findViewById<TextView>(R.id.numberSeguidos)
+
+        Storage().photoAccount(image!!, user?.uid!!)
+         User.getUsername().addOnSuccessListener { document ->
+             if (document != null) {
+                 name?.text = document.data?.get("username").toString()
+             }
+         }
+
+        var call = APIRetrofit().getSeguidores(user?.uid!!)
+        if(call != null){
+            call.enqueue(object : retrofit2.Callback<Int> {
+                override fun onResponse(call: retrofit2.Call<Int>, response: retrofit2.Response<Int>) {
+                    if (response.isSuccessful) {
+                        seguidores?.text = response.body().toString()
+                    }
+                }
+                override fun onFailure(call: retrofit2.Call<Int>, t: Throwable) {
+                    seguidores?.text = "none"
+                }
+            })
+        }
+
+        call = APIRetrofit().getSeguidos(user?.uid!!)
+        if(call != null){
+            call.enqueue(object : retrofit2.Callback<Int> {
+                override fun onResponse(call: retrofit2.Call<Int>, response: retrofit2.Response<Int>) {
+                    if (response.isSuccessful) {
+                        seguidos?.text = response.body().toString()
+                    }
+                }
+                override fun onFailure(call: retrofit2.Call<Int>, t: Throwable) {
+                    seguidos?.text = "none"
+                }
+            })
+        }
     }
 
 }

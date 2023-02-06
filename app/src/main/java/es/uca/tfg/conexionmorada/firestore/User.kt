@@ -2,10 +2,12 @@ package es.uca.tfg.conexionmorada.firestore
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -75,6 +77,13 @@ class User {
             return verificado
         }
 
+        fun getUsername(): Task<DocumentSnapshot> {
+            auth = Firebase.auth
+            val user = auth.currentUser
+            var username: String? = null
+
+            return db.collection("users").document(user!!.uid).get()
+        }
     }
 
 }
