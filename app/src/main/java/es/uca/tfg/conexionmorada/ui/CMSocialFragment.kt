@@ -13,6 +13,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
+import es.uca.tfg.conexionmorada.cmSocial.activities.NuevoHiloActivity
 import es.uca.tfg.conexionmorada.firestore.User
 import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.storage.Storage
@@ -46,6 +47,7 @@ class CMSocialFragment : Fragment() {
         }
 
         showDetailsUserDrawer()
+        addHiloListener()
 
     }
 
@@ -90,6 +92,14 @@ class CMSocialFragment : Fragment() {
                     seguidos?.text = "none"
                 }
             })
+        }
+    }
+
+    private fun addHiloListener(){
+        var addHilo = activity?.findViewById<ImageView>(R.id.addHilo)
+        addHilo?.setOnClickListener {
+            var intent = android.content.Intent(activity, NuevoHiloActivity::class.java)
+            startActivity(intent)
         }
     }
 
