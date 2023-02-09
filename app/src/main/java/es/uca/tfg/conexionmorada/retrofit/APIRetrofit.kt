@@ -3,6 +3,7 @@ package es.uca.tfg.conexionmorada.retrofit
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
 import es.uca.tfg.conexionmorada.cmSocial.interfaces.cmSocialInterface
 import es.uca.tfg.conexionmorada.usernames.interfaces.UsernameInterface
 import es.uca.tfg.conexionmorada.utils.Constants
@@ -11,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class APIRetrofit {
-    lateinit var retrofit: Retrofit
+    var retrofit: Retrofit
 
     constructor(){
         retrofit = Retrofit.Builder()
@@ -45,6 +46,11 @@ class APIRetrofit {
         return  crudInterface.query(query, numberArticles)
     }
 
+    fun addUserApp(uuid: String): Call<Void> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.addUserApp(uuid)
+    }
+
     fun getSeguidores(uuid: String): Call<Int> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return  crudInterface.getSeguidores(uuid)
@@ -53,5 +59,10 @@ class APIRetrofit {
     fun getSeguidos(uuid: String): Call<Int> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return  crudInterface.getSeguidos(uuid)
+    }
+
+    fun addHilo(payloadHilo: PayloadHilo) : Call<Void> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.addHilo(payloadHilo)
     }
 }

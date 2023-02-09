@@ -7,16 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import es.uca.tfg.conexionmorada.R
-import es.uca.tfg.conexionmorada.articles.adapter.ArticleAdapter
-import es.uca.tfg.conexionmorada.articles.model.Article
-import es.uca.tfg.conexionmorada.cmSocial.data.Hilo
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
 
 
 class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 
-    private var hilos: List<Hilo> = emptyList()
+    private var hilos: List<PayloadHilo> = emptyList()
     private lateinit var Listener : HiloAdapter.onItemClickListener
     private lateinit var context: Context
 
@@ -28,7 +25,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         Listener = listener
     }
 
-    fun setData(list: List<Hilo>) {
+    fun setData(list: List<PayloadHilo>) {
         hilos = list
         notifyDataSetChanged()
     }
@@ -45,9 +42,9 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 
     override fun onBindViewHolder(holder: HiloAdapter.HiloViewHolder, position: Int) {
         val hilo = hilos[position]
-        holder.nickname.text = hilo.autor
+        holder.nickname.text = hilo.autorUuid
         holder.cuerpoMensaje.text = hilo.mensaje
-        holder.horaMensaje.text = hilo.dateCreation.toString()
+        //holder.horaMensaje.text = hilo.dateCreation.toString()
         //Glide.with(context).load(article.urlFrontPage).into(holder.mensajePerfil)
 
         /*holder.title.text = article.title

@@ -14,6 +14,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.activities.NuevoHiloActivity
+import es.uca.tfg.conexionmorada.cmSocial.activities.SearchHiloActivity
 import es.uca.tfg.conexionmorada.firestore.User
 import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.storage.Storage
@@ -103,4 +104,17 @@ class CMSocialFragment : Fragment() {
         }
     }
 
+    private fun clickDrawer(){
+        var navegationView = activity?.findViewById<NavigationView>(R.id.nav_view)
+        var menuLayout = navegationView?.menu
+        var search = menuLayout?.findItem(R.id.search)
+        var perfil = menuLayout?.findItem(R.id.perfil)
+        var notifications = menuLayout?.findItem(R.id.notificaciones)
+
+        /*search?.setOnMenuItemClickListener {
+            var intent = android.content.Intent(activity, SearchHiloActivity::class.java)
+        }*/
+    }
+
 }
+

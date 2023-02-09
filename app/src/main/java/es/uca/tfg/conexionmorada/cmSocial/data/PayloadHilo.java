@@ -1,7 +1,14 @@
 package es.uca.tfg.conexionmorada.cmSocial.data;
 
-public class PayloadHilo extends Hilo {
+public class PayloadHilo {
 
+    private String autorUuid;
+
+    private String mensaje;
+
+    private String hiloPadreUuid;
+
+    //private Date dateCreation;
     private Integer likes;
     private Integer dislikes;
 
@@ -9,8 +16,12 @@ public class PayloadHilo extends Hilo {
 
     private Boolean disliked;
 
-    public PayloadHilo(Hilo hilo, Integer likes, Integer dislikes, Boolean liked, Boolean disliked) {
-        super(hilo);
+    public PayloadHilo() {}
+
+    public PayloadHilo(String autorUuid, String mensaje, String hiloPadreUuid, Integer likes, Integer dislikes, Boolean liked, Boolean disliked) {
+        this.autorUuid = autorUuid;
+        this.mensaje = mensaje;
+        this.hiloPadreUuid = hiloPadreUuid;
         this.likes = likes;
         this.dislikes = dislikes;
         this.liked = liked;
@@ -48,4 +59,30 @@ public class PayloadHilo extends Hilo {
     public void setDisliked(Boolean disliked) {
         this.disliked = disliked;
     }
+
+    public String getAutorUuid() {
+        return autorUuid;
+    }
+
+    public void setAutorUuid(String autor_uuid) {
+        this.autorUuid = autor_uuid;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public String getHiloPadreUuid() {
+        return hiloPadreUuid;
+    }
+
+    public void setHiloPadreUuid(String hiloPadre_uuid) {
+        this.hiloPadreUuid = hiloPadre_uuid;
+    }
+
 }
+

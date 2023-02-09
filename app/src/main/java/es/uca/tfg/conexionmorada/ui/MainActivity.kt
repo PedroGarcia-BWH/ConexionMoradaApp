@@ -4,13 +4,19 @@ import android.content.ContentValues
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.firestore.User
+import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.verify.VerifyDialog
+import retrofit2.Call
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +27,8 @@ class MainActivity : AppCompatActivity(){
         User.UserVerificado()?.get()?.addOnSuccessListener { document ->
             if (document.data != null) {
                 val data_user = document.data
-                if(data_user?.get("verificado") as Boolean) VerifyDialog(this)
+                if(data_user?.get("verificado") as Boolean != true) VerifyDialog(this).startDialog()
+
             } else {
                 Log.d(ContentValues.TAG, "No such document")
             }
