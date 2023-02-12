@@ -1,5 +1,7 @@
 package es.uca.tfg.conexionmorada.cmSocial.data;
 
+import java.util.Date;
+
 public class PayloadHilo {
 
     private String autorUuid;
@@ -8,7 +10,7 @@ public class PayloadHilo {
 
     private String hiloPadreUuid;
 
-    //private Date dateCreation;
+    private Date dateCreation;
     private Integer likes;
     private Integer dislikes;
 
@@ -18,10 +20,11 @@ public class PayloadHilo {
 
     public PayloadHilo() {}
 
-    public PayloadHilo(String autorUuid, String mensaje, String hiloPadreUuid, Integer likes, Integer dislikes, Boolean liked, Boolean disliked) {
+    public PayloadHilo(String autorUuid, String mensaje, String hiloPadreUuid, Date dateCreation, Integer likes, Integer dislikes, Boolean liked, Boolean disliked) {
         this.autorUuid = autorUuid;
         this.mensaje = mensaje;
         this.hiloPadreUuid = hiloPadreUuid;
+        this.dateCreation = dateCreation;
         this.likes = likes;
         this.dislikes = dislikes;
         this.liked = liked;
@@ -82,6 +85,14 @@ public class PayloadHilo {
 
     public void setHiloPadreUuid(String hiloPadre_uuid) {
         this.hiloPadreUuid = hiloPadre_uuid;
+    }
+
+    public Date getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(Date dateCreation) {
+        this.dateCreation = dateCreation;
     }
 
 }

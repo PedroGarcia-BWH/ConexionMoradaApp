@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 public interface UsernameInterface {
 
     @POST("addUsername")
-    Call<Boolean> addUsername(@Body String username);
+    Call<Boolean> addUsername(@Body String username, @Body String uuid);
 
     @GET("getUsername/{username}")
     Call<Boolean> existUsername(@Path("username") String username);

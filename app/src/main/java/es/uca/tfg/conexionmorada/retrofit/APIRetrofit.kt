@@ -1,5 +1,7 @@
 package es.uca.tfg.conexionmorada.retrofit
 
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
@@ -28,7 +30,7 @@ class APIRetrofit {
 
     fun addUsername(username : String): Call<Boolean>? {
         var crudInterface = retrofit.create(UsernameInterface::class.java)
-        return crudInterface.addUsername(username)
+        return crudInterface.addUsername(username, Firebase.auth.currentUser?.uid)
     }
 
     fun deleteUsername(username : String): Call<Boolean>? {
@@ -64,5 +66,25 @@ class APIRetrofit {
     fun addHilo(payloadHilo: PayloadHilo) : Call<Void> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return crudInterface.addHilo(payloadHilo)
+    }
+
+    fun getLastHilos(uuid:String): Call<List<PayloadHilo>> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.getLastHilos(uuid)
+    }
+
+    fun getLastHilosSeguidos(uuid:String): Call<List<PayloadHilo>> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.getLastHilosSeguidos(uuid)
+    }
+
+    fun searchHilos(query: String): Call<List<PayloadHilo>> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.searchHilos(query)
+    }
+
+    fun searchUsuarios(query: String): Call<List<String>> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.searchUsuarios(query)
     }
 }

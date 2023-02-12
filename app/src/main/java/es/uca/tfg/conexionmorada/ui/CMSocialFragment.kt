@@ -8,16 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.tabs.TabItem
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
+import es.uca.tfg.conexionmorada.cmSocial.activities.NotificacionesSocialActivity
 import es.uca.tfg.conexionmorada.cmSocial.activities.NuevoHiloActivity
+import es.uca.tfg.conexionmorada.cmSocial.activities.PerfilSocialActivity
 import es.uca.tfg.conexionmorada.cmSocial.activities.SearchHiloActivity
+import es.uca.tfg.conexionmorada.cmSocial.adapter.HiloAdapter
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
 import es.uca.tfg.conexionmorada.firestore.User
 import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.storage.Storage
+import retrofit2.Call
 
 
 class CMSocialFragment : Fragment() {
@@ -49,6 +59,8 @@ class CMSocialFragment : Fragment() {
 
         showDetailsUserDrawer()
         addHiloListener()
+        clickDrawer()
+        recyclerViewAddSeguidos()
 
     }
 
@@ -111,9 +123,87 @@ class CMSocialFragment : Fragment() {
         var perfil = menuLayout?.findItem(R.id.perfil)
         var notifications = menuLayout?.findItem(R.id.notificaciones)
 
-        /*search?.setOnMenuItemClickListener {
+        search?.setOnMenuItemClickListener {
             var intent = android.content.Intent(activity, SearchHiloActivity::class.java)
-        }*/
+            startActivity(intent)
+            true
+        }
+
+        perfil?.setOnMenuItemClickListener {
+            var intent = android.content.Intent(activity, PerfilSocialActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
+        notifications?.setOnMenuItemClickListener {
+            var intent = android.content.Intent(activity, NotificacionesSocialActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
+    }
+    private fun recyclerViewAddSeguidos(){
+        //var content = activity?.findViewById<LinearLayout>(R.id.content)
+        var tabLayoutManager = activity?.findViewById<TabLayout>(R.id.tabLayoutSearch)
+        var tabSeguidos = activity?.findViewById<TabItem>(R.id.tabHilos)
+        var tabParaTi = activity?.findViewById<TabItem>(R.id.tabPersonas)
+        var recyclerView = activity?.findViewById<RecyclerView>(R.id.reciclerViewSocial)
+        var layoutManager = LinearLayoutManager(activity)
+        recyclerView?.layoutManager = layoutManager
+        var adapter = HiloAdapter()
+        recyclerView?.adapter = adapter
+
+
+
+        tabLayoutManager?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                //Toast.makeText(activity, "tab", Toast.LENGTH_SHORT).show()
+                lateinit var call: Call<List<PayloadHilo>>
+                when(tab?.position){
+                    0 -> {
+                        Toast.makeText(activity, "tabSeguidos", Toast.LENGTH_SHORT).show()
+                        call = APIRetrofit().getLastHilos(user?.uid!!)
+                    }
+                    1 -> {
+                        call = APIRetrofit().getLastHilosSeguidos(user?.uid!!)
+                    }
+                    else->{
+                        Toast.makeText(activity, "Error en la selección, intentelo de nuevo", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
+                    override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(activity, response.body()!!.toString(), Toast.LENGTH_SHORT).show()
+                            adapter.setData(response.body()!!)
+
+                            adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
+                                override fun onItemClick(position: Int) {
+                                    hiloSelected(response.body()!![position])
+                                }
+                            })
+                        }
+                    }
+                    override fun onFailure(call: retrofit2.Call<List<PayloadHilo>>, t: Throwable) {
+                        Toast.makeText(activity, "Error al cargar los hilos, intentelo de nuevo", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                adapter.clearData()
+            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                Toast.makeText(activity, "tab reselected", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+    }
+
+    fun hiloSelected(hilo: PayloadHilo) {
+        /*var intent = android.content.Intent(activity, HiloActivity::class.java)
+        intent.putExtra("hilo", hilo)
+        startActivity(intent)*/
     }
 
 }

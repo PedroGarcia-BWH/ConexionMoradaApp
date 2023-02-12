@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
-
+import es.uca.tfg.conexionmorada.storage.Storage
 
 class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 
@@ -30,6 +30,11 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun clearData() {
+        hilos = emptyList()
+        notifyDataSetChanged()
+    }
+
     fun setContext(context: Context) {
         this.context = context
     }
@@ -46,7 +51,8 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         holder.cuerpoMensaje.text = hilo.mensaje
         //holder.horaMensaje.text = hilo.dateCreation.toString()
         //Glide.with(context).load(article.urlFrontPage).into(holder.mensajePerfil)
-
+        Storage().photoAccount(holder.mensajePerfil, hilo.autorUuid)
+        holder.horaMensaje.text = hilo.dateCreation.toString()
         /*holder.title.text = article.title
         holder.description.text = article.description
         //imageview
@@ -63,7 +69,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         var nickname = itemView.findViewById<TextView>(R.id.nickname)
         var cuerpoMensaje = itemView.findViewById<TextView>(R.id.cuerpoMensaje)
         var horaMensaje = itemView.findViewById<TextView>(R.id.horaMensaje)
-        var mensajePerfil = itemView.findViewById<ImageView>(R.id.mensajePerfil)
+        var mensajePerfil = itemView.findViewById<ImageView>(R.id.Perfil)
 
         init {
             itemView.setOnClickListener {

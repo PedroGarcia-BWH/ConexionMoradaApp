@@ -43,4 +43,10 @@ public interface cmSocialInterface {
     @GET("/add/userApp/{uuid}")
     Call<Void> addUserApp(@Path("uuid") String uuid);
 
+    @GET("/search/hilos/{search}")
+    Call<List<PayloadHilo>> searchHilos(@Path("search") String search);
+
+    @GET("/search/usuarios/{search}")
+    Call<List<String>> searchUsuarios(@Path("search") String search);
+
 }

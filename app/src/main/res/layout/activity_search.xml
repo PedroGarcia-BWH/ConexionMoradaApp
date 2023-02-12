@@ -15,7 +15,7 @@
         android:iconifiedByDefault="false"
         android:queryHint="Search here"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent">
 
     </SearchView>
@@ -49,5 +49,15 @@
         android:text="No se han encontrado resultados"
         app:layout_constraintStart_toEndOf="@+id/imageNoResults"
         app:layout_constraintTop_toBottomOf="@+id/search" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_arrow_back_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

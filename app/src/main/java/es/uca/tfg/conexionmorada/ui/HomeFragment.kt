@@ -180,7 +180,6 @@ class HomeFragment : Fragment() {
                 articleSelected(articles[position])
             }
         })
-
     }
 
     fun articleSelected(article: Article) {

@@ -58,6 +58,10 @@ class User {
             return user?.let { db.collection("users").document(it.uid) }
         }
 
+        fun  getDatosUser(uid: String): DocumentReference? {
+            return db.collection("users").document(uid)
+        }
+
         fun UserVerificado(): DocumentReference? {
             auth = Firebase.auth
             val user = auth.currentUser
