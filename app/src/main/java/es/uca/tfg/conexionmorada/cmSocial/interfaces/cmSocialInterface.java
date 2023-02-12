@@ -3,6 +3,7 @@ package es.uca.tfg.conexionmorada.cmSocial.interfaces;
 import java.util.List;
 
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo;
+import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -47,6 +48,6 @@ public interface cmSocialInterface {
     Call<List<PayloadHilo>> searchHilos(@Path("search") String search);
 
     @GET("/search/usuarios/{search}")
-    Call<List<String>> searchUsuarios(@Path("search") String search);
+    Call<List<PayloadUsername>> searchUsuarios(@Path("search") String search);
 
 }

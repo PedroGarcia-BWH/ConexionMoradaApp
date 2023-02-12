@@ -175,7 +175,6 @@ class CMSocialFragment : Fragment() {
                 call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
                     override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
                         if (response.isSuccessful) {
-                            Toast.makeText(activity, response.body()!!.toString(), Toast.LENGTH_SHORT).show()
                             adapter.setData(response.body()!!)
 
                             adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {

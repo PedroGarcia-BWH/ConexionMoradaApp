@@ -44,7 +44,7 @@ class NuevoHiloActivity : AppCompatActivity() {
             if(mensaje.text.toString().isEmpty()){
 
             }else{
-                var payloadHilo = PayloadHilo(Firebase.auth.currentUser?.uid.toString(), mensaje.text.toString(), null, 0, 0, false, false)
+                var payloadHilo = PayloadHilo(Firebase.auth.currentUser?.uid.toString(), mensaje.text.toString(),null, null, 0, 0, false, false)
                 Toast.makeText(this@NuevoHiloActivity, payloadHilo.mensaje, Toast.LENGTH_SHORT).show()
                 var call = APIRetrofit().addHilo(payloadHilo)
                 call.enqueue(object : Callback<Void> {

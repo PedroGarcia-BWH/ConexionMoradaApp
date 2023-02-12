@@ -15,28 +15,31 @@ import es.uca.tfg.conexionmorada.cmSocial.adapter.HiloAdapter
 import es.uca.tfg.conexionmorada.cmSocial.adapter.PersonaAdapter
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
 import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 
 class SearchHiloActivity : AppCompatActivity() {
-    lateinit var text: String
+    var text: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_hilo)
 
         search()
+        onTabSelected()
     }
 
 
     fun search() {
+        var tabLayoutManager = findViewById<TabLayout>(R.id.tabLayoutSearch)
         var search = findViewById<SearchView>(R.id.search)
-        var tabHilos = findViewById<TabItem>(R.id.tabHilos)
-        var tabPersonas = findViewById<TabItem>(R.id.tabPersonas)
+        var tabHilos = tabLayoutManager.getTabAt(0)
+        var tabPersonas = tabLayoutManager.getTabAt(1)
         search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 text = query!!
                 //Toast.makeText(applicationContext, "Buscando: " + query, Toast.LENGTH_SHORT).show()
-                if(tabHilos.isSelected) {
+                if(tabHilos!!.isSelected) {
                     searchHilos()
-                } else if(tabPersonas.isSelected) {
+                } else if(tabPersonas!!.isSelected) {
                     searchPersonas()
                 }
                 return false
@@ -51,7 +54,7 @@ class SearchHiloActivity : AppCompatActivity() {
     fun searchHilos() {
         var noResultImage = findViewById<ImageView>(R.id.imageNoResults)
         var txtNoResult = findViewById<TextView>(R.id.txtNoResults)
-        var call = APIRetrofit().searchHilos(text)
+        var call = APIRetrofit().searchHilos(text!!)
         call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
             override fun onResponse(
                 call: retrofit2.Call<List<PayloadHilo>>,
@@ -77,9 +80,10 @@ class SearchHiloActivity : AppCompatActivity() {
     fun searchPersonas(){
         var noResultImage = findViewById<ImageView>(R.id.imageNoResults)
         var txtNoResult = findViewById<TextView>(R.id.txtNoResults)
-        var call = APIRetrofit().searchUsuarios(text)
-        call.enqueue(object : retrofit2.Callback<List<String>> {
-            override fun onResponse(call: retrofit2.Call<List<String>>, response: retrofit2.Response<List<String>>) {
+        Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
+        var call = APIRetrofit().searchUsuarios(text!!)
+        call.enqueue(object : retrofit2.Callback<List<PayloadUsername>> {
+            override fun onResponse(call: retrofit2.Call<List<PayloadUsername>>, response: retrofit2.Response<List<PayloadUsername>>) {
                 if (response.isSuccessful) {
                     var personas = response.body()
                     if(personas!!.size == 0) {
@@ -91,8 +95,8 @@ class SearchHiloActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: retrofit2.Call<List<String>>, t: Throwable) {
-                Toast.makeText(applicationContext, "Error al buscar hilos", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: retrofit2.Call<List<PayloadUsername>>, t: Throwable) {
+                //Toast.makeText(applicationContext, "Error al buscar personas", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -110,7 +114,7 @@ class SearchHiloActivity : AppCompatActivity() {
         })
     }
 
-    fun addDataRecyclerViewPersonas(personas : List<String>) {
+    fun addDataRecyclerViewPersonas(personas : List<PayloadUsername>) {
         var recyclerview = findViewById<RecyclerView>(R.id.searchRecyclerView)
         recyclerview?.layoutManager = LinearLayoutManager(this)
         var adapter = PersonaAdapter()

@@ -7,6 +7,7 @@ import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
 import es.uca.tfg.conexionmorada.cmSocial.interfaces.cmSocialInterface
+import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 import es.uca.tfg.conexionmorada.usernames.interfaces.UsernameInterface
 import es.uca.tfg.conexionmorada.utils.Constants
 import retrofit2.Call
@@ -30,7 +31,7 @@ class APIRetrofit {
 
     fun addUsername(username : String): Call<Boolean>? {
         var crudInterface = retrofit.create(UsernameInterface::class.java)
-        return crudInterface.addUsername(username, Firebase.auth.currentUser?.uid)
+        return crudInterface.addUsername(PayloadUsername(Firebase.auth.currentUser!!.uid, username))
     }
 
     fun deleteUsername(username : String): Call<Boolean>? {
@@ -83,7 +84,7 @@ class APIRetrofit {
         return crudInterface.searchHilos(query)
     }
 
-    fun searchUsuarios(query: String): Call<List<String>> {
+    fun searchUsuarios(query: String): Call<List<PayloadUsername>> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return crudInterface.searchUsuarios(query)
     }

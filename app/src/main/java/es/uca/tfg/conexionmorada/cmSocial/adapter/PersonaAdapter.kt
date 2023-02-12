@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,10 +12,11 @@ import com.bumptech.glide.Glide
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.firestore.User
 import es.uca.tfg.conexionmorada.storage.Storage
+import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 
 class PersonaAdapter: RecyclerView.Adapter<PersonaAdapter.PersonaViewHolder>() {
 
-    private var personas: List<String> = emptyList()
+    private var personas: List<PayloadUsername> = emptyList()
     private lateinit var Listener : PersonaAdapter.onItemClickListener
     private lateinit var context: Context
 
@@ -26,7 +28,7 @@ class PersonaAdapter: RecyclerView.Adapter<PersonaAdapter.PersonaViewHolder>() {
         Listener = listener
     }
 
-    fun setData(list: List<String>) {
+    fun setData(list: List<PayloadUsername>) {
         personas = list
         notifyDataSetChanged()
     }
@@ -43,14 +45,9 @@ class PersonaAdapter: RecyclerView.Adapter<PersonaAdapter.PersonaViewHolder>() {
 
     override fun onBindViewHolder(holder: PersonaAdapter.PersonaViewHolder, position: Int) {
         val persona = personas[position]
-        var data = User.getDatosUser(persona)
 
-        data!!.get().addOnSuccessListener { document ->
-            if (document != null) {
-                holder.nickname.text = document.getString("nickname")
-                Storage().photoAccount(holder.Perfil, persona)
-            }
-        }
+        holder.nickname.text = persona.username
+        Storage().photoAccount(holder.Perfil, persona.uuid)
     }
 
     override fun getItemCount(): Int {
@@ -61,7 +58,7 @@ class PersonaAdapter: RecyclerView.Adapter<PersonaAdapter.PersonaViewHolder>() {
 
         var nickname = itemView.findViewById<TextView>(R.id.nickname)
         var Perfil = itemView.findViewById<ImageView>(R.id.Perfil)
-        var followButton = itemView.findViewById<ImageView>(R.id.follow)
+        var followButton = itemView.findViewById<Button>(R.id.follow)
 
         init {
             itemView.setOnClickListener {
