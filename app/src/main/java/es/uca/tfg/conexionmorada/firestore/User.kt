@@ -88,6 +88,10 @@ class User {
 
             return db.collection("users").document(user!!.uid).get()
         }
+
+        fun getUsername(uid: String): Task<DocumentSnapshot> {
+            return db.collection("users").document(uid).get()
+        }
     }
 
 }

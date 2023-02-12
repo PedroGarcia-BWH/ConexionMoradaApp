@@ -15,7 +15,7 @@
         android:iconifiedByDefault="false"
         android:queryHint="Search here"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/Exit"
         app:layout_constraintTop_toTopOf="parent">
 
     </SearchView>
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toBottomOf="@+id/search" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/Exit"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"

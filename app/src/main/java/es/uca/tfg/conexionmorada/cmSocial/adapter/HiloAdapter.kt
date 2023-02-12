@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
+import es.uca.tfg.conexionmorada.firestore.User
 import es.uca.tfg.conexionmorada.storage.Storage
 
 class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
@@ -47,11 +49,14 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 
     override fun onBindViewHolder(holder: HiloAdapter.HiloViewHolder, position: Int) {
         val hilo = hilos[position]
-        holder.nickname.text = hilo.autorUuid
+        var data = User.getUsername(hilo.autorUuid)
+        data.addOnSuccessListener { document ->
+            if (document != null) {
+                holder.nickname.text = document.getString("username")
+            }
+        }
         holder.cuerpoMensaje.text = hilo.mensaje
-        //holder.horaMensaje.text = hilo.dateCreation.toString()
-        //Glide.with(context).load(article.urlFrontPage).into(holder.mensajePerfil)
-        Storage().photoAccount(holder.mensajePerfil, hilo.autorUuid)
+        Glide.with(context).load(hilo.autorUuid).into(holder.mensajePerfil)
         holder.horaMensaje.text = hilo.dateCreation.toString()
         /*holder.title.text = article.title
         holder.description.text = article.description

@@ -15,7 +15,7 @@
         android:iconifiedByDefault="false"
         android:queryHint="Search here"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/Exit"
         app:layout_constraintTop_toTopOf="parent">
 
     </SearchView>
@@ -42,9 +42,17 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchRecyclerView"
+        android:id="@+id/searchRecyclerViewHilo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRecyclerViewPersona"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch"
         tools:layout_editor_absoluteX="16dp" />
 
@@ -72,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/search" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/Exit"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
