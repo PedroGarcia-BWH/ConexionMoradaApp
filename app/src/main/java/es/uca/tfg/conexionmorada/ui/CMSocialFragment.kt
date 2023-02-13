@@ -131,6 +131,7 @@ class CMSocialFragment : Fragment() {
 
         perfil?.setOnMenuItemClickListener {
             var intent = android.content.Intent(activity, PerfilSocialActivity::class.java)
+            intent.putExtra("uuid", Firebase.auth.currentUser?.uid)
             startActivity(intent)
             true
         }
@@ -161,11 +162,10 @@ class CMSocialFragment : Fragment() {
                 lateinit var call: Call<List<PayloadHilo>>
                 when(tab?.position){
                     0 -> {
-                        Toast.makeText(activity, "tabSeguidos", Toast.LENGTH_SHORT).show()
-                        call = APIRetrofit().getLastHilos(user?.uid!!)
+                        call = APIRetrofit().getLastHilosSeguidos(user?.uid!!)
                     }
                     1 -> {
-                        call = APIRetrofit().getLastHilosSeguidos(user?.uid!!)
+                        call = APIRetrofit().getLastHilos(user?.uid!!)
                     }
                     else->{
                         Toast.makeText(activity, "Error en la selección, intentelo de nuevo", Toast.LENGTH_SHORT).show()
@@ -196,6 +196,26 @@ class CMSocialFragment : Fragment() {
                 Toast.makeText(activity, "tab reselected", Toast.LENGTH_SHORT).show()
             }
         })
+
+        // primera llamada a la api
+        var call = APIRetrofit().getLastHilosSeguidos(user?.uid!!)
+        call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
+            override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
+                if (response.isSuccessful) {
+                    adapter.setData(response.body()!!)
+
+                    adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
+                        override fun onItemClick(position: Int) {
+                            hiloSelected(response.body()!![position])
+                        }
+                    })
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<List<PayloadHilo>>, t: Throwable) {
+                Toast.makeText(activity, "Error al cargar los hilos, intentelo de nuevo", Toast.LENGTH_SHORT).show()
+            }
+        })
+
 
     }
 
