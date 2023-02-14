@@ -97,7 +97,7 @@ class APIRetrofit {
 
     fun searchHilos(query: String): Call<List<PayloadHilo>> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
-        return crudInterface.searchHilos(query)
+        return crudInterface.searchHilos(query, Firebase.auth.currentUser!!.uid)
     }
 
     fun searchUsuarios(query: String): Call<List<PayloadUsername>> {
@@ -108,5 +108,40 @@ class APIRetrofit {
     fun getHilosUser(uuid: String): Call<List<PayloadHilo>> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return crudInterface.getHilosUser(uuid)
+    }
+
+    fun getRespuestas(idHilo: String): Call<List<PayloadHilo>> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.getRespuestas(idHilo, Firebase.auth.currentUser!!.uid)
+    }
+
+    fun addLike(payloadHilo: PayloadHilo): Call<Void> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.addLike(payloadHilo)
+    }
+
+    fun deleteLike(idHilo: String, uuid: String): Call<Void> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.deleteLike(idHilo, uuid)
+    }
+
+    fun addDislike(payloadHilo: PayloadHilo): Call<Void> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.addDislike(payloadHilo)
+    }
+
+    fun deleteDislike(idHilo: String, uuid: String): Call<Void> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.deleteDislike(idHilo, uuid)
+    }
+
+    fun getLike(idHilo: String, uuid: String): Call<Boolean> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.getLike(idHilo, uuid)
+    }
+
+    fun getDislike(idHilo: String, uuid: String): Call<Boolean> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.getDislike(idHilo, uuid)
     }
 }

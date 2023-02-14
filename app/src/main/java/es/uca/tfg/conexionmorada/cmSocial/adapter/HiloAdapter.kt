@@ -1,17 +1,26 @@
 package es.uca.tfg.conexionmorada.cmSocial.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.like.LikeButton
+import com.like.OnLikeListener
 import es.uca.tfg.conexionmorada.R
+import es.uca.tfg.conexionmorada.cmSocial.activities.PerfilSocialActivity
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
+import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.firestore.User
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.storage.Storage
+
 
 class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 
@@ -56,13 +65,52 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
             }
         }
         holder.cuerpoMensaje.text = hilo.mensaje
-        Glide.with(context).load(hilo.autorUuid).into(holder.mensajePerfil)
+        Storage().photoAccount(holder.mensajePerfil, hilo.autorUuid)
         holder.horaMensaje.text = hilo.dateCreation.toString()
-        /*holder.title.text = article.title
-        holder.description.text = article.description
-        //imageview
-        Glide.with(context).load(article.urlFrontPage).into(holder.image)
-        //creation date*/
+
+        if(hilo.autorUuid.equals(Firebase.auth.currentUser!!.uid)) {
+            holder.likeButton.visibility = View.GONE
+        }else{
+            holder.likeButton.setOnLikeListener(object : OnLikeListener {
+                override fun liked(likeButton: LikeButton) {
+                    var payloadHilo = PayloadHilo(hilo.idHilo, Firebase.auth.currentUser!!.uid)
+                    var call = APIRetrofit().addLike(payloadHilo)
+                    call.enqueue(object : retrofit2.Callback<Void> {
+                        override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                            if (response.isSuccessful) {
+                                println("Like añadido")
+                            }
+                        }
+                        override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                            println("Error al añadir like")
+                        }
+                    })
+                }
+                override fun unLiked(likeButton: LikeButton) {
+                    var call = APIRetrofit().deleteLike(hilo.idHilo, Firebase.auth.currentUser!!.uid)
+                    call.enqueue(object : retrofit2.Callback<Void> {
+                        override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                            if (response.isSuccessful) {
+                                println("Like eliminado")
+                            }
+                        }
+                        override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                            println("Error al eliminar like")
+                        }
+                    })
+                }
+            })
+
+            if(hilo.liked) holder.likeButton.isLiked = true
+        }
+
+        holder.nickname.setOnClickListener {
+            var intent = Intent(context, PerfilSocialActivity::class.java)
+            intent.putExtra("uuid", hilo.autorUuid)
+            context.startActivity(intent)
+        }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -75,6 +123,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         var cuerpoMensaje = itemView.findViewById<TextView>(R.id.cuerpoMensaje)
         var horaMensaje = itemView.findViewById<TextView>(R.id.horaMensaje)
         var mensajePerfil = itemView.findViewById<ImageView>(R.id.Perfil)
+        var likeButton = itemView.findViewById<LikeButton>(R.id.like_button)
 
         init {
             itemView.setOnClickListener {

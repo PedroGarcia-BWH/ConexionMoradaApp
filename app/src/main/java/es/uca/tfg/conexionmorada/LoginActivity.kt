@@ -24,7 +24,7 @@ import es.uca.tfg.conexionmorada.utils.LoadingDialog
 class LoginActivity : AppCompatActivity() {
     private lateinit var txtEmail: TextView
     private lateinit var txtPassword: TextView
-    private lateinit var progressBar: ProgressBar
+
     private lateinit var sharedPreferences: SharedPreferences
     private val sharedPrefFile = "kotlinsharedpreference"
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +34,6 @@ class LoginActivity : AppCompatActivity() {
         txtEmail = findViewById(R.id.email)
         txtPassword = findViewById(R.id.password)
         val logLogin = findViewById<Button>(R.id.login)
-        progressBar = findViewById<ProgressBar>(R.id.indeterminateBarLogin)
-        progressBar.setVisibility(View.GONE)
 
         sharedPreferences= this.getSharedPreferences(sharedPrefFile,
             Context.MODE_PRIVATE)
@@ -53,7 +51,6 @@ class LoginActivity : AppCompatActivity() {
 
         val regLogin = findViewById<TextView>(R.id.login)
         regLogin.setOnClickListener {
-           progressBar.setVisibility(View.VISIBLE)
 
             /*var success = User.login(txtEmail.text.toString(), txtPassword.text.toString())
             if (success) {
@@ -107,6 +104,5 @@ class LoginActivity : AppCompatActivity() {
                     ).show()
                 }
             }
-        progressBar.setVisibility(View.GONE)
     }
 }

@@ -133,7 +133,7 @@ class PerfilSocialActivity : AppCompatActivity() {
         var adapter = HiloAdapter()
         recyclerView.adapter = adapter
 
-        var call = APIRetrofit().getHilosUser(Firebase.auth.currentUser?.uid!!)
+        var call = APIRetrofit().getHilosUser(uuid)
 
         call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {

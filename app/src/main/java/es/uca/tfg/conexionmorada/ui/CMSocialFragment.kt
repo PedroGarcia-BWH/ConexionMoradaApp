@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -153,53 +154,62 @@ class CMSocialFragment : Fragment() {
         var adapter = HiloAdapter()
         recyclerView?.adapter = adapter
 
-
-
+        var progressBar = activity?.findViewById<ProgressBar>(R.id.progressBar3)
         tabLayoutManager?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                //Toast.makeText(activity, "tab", Toast.LENGTH_SHORT).show()
-                lateinit var call: Call<List<PayloadHilo>>
-                when(tab?.position){
-                    0 -> {
-                        call = APIRetrofit().getLastHilosSeguidos(user?.uid!!)
-                    }
-                    1 -> {
-                        call = APIRetrofit().getLastHilos(user?.uid!!)
-                    }
-                    else->{
-                        Toast.makeText(activity, "Error en la selección, intentelo de nuevo", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
-                    override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
-                        if (response.isSuccessful) {
-                            adapter.setData(response.body()!!)
-
-                            adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
-                                override fun onItemClick(position: Int) {
-                                    Utils.hiloSelected(
-                                        activity!! as AppCompatActivity, response.body()!![position].idHilo
-                                    )
-                                }
-                            })
-                        }
-                    }
-                    override fun onFailure(call: retrofit2.Call<List<PayloadHilo>>, t: Throwable) {
-                        Toast.makeText(activity, "Error al cargar los hilos, intentelo de nuevo", Toast.LENGTH_SHORT).show()
-                    }
-                })
+                progressBar?.visibility = View.VISIBLE
+                getHilos(tab,adapter)
+                progressBar?.visibility = View.GONE
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 adapter.clearData()
             }
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                Toast.makeText(activity, "tab reselected", Toast.LENGTH_SHORT).show()
+                progressBar?.visibility = View.VISIBLE
+                getHilos(tab,adapter)
+                progressBar?.visibility = View.GONE
             }
         })
 
         // primera llamada a la api
+        progressBar?.visibility = View.VISIBLE
         var call = APIRetrofit().getLastHilosSeguidos(user?.uid!!)
+        call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
+            override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
+                if (response.isSuccessful) {
+                    adapter.setData(response.body()!!)
+                    progressBar?.visibility = View.GONE
+                    adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
+                        override fun onItemClick(position: Int) {
+                            Utils.hiloSelected(
+                                activity!! as AppCompatActivity, response.body()!![position].idHilo
+                            )
+                        }
+                    })
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<List<PayloadHilo>>, t: Throwable) {
+                Toast.makeText(activity, "Error al cargar los hilos, intentelo de nuevo", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
+    }
+
+    fun getHilos(tab: TabLayout.Tab?, adapter: HiloAdapter){
+        lateinit var call: Call<List<PayloadHilo>>
+        when(tab?.position){
+            0 -> {
+                call = APIRetrofit().getLastHilosSeguidos(user?.uid!!)
+            }
+            1 -> {
+                call = APIRetrofit().getLastHilos(user?.uid!!)
+            }
+            else->{
+                Toast.makeText(activity, "Error en la selección, intentelo de nuevo", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
                 if (response.isSuccessful) {
@@ -218,8 +228,6 @@ class CMSocialFragment : Fragment() {
                 Toast.makeText(activity, "Error al cargar los hilos, intentelo de nuevo", Toast.LENGTH_SHORT).show()
             }
         })
-
-
     }
 
 }

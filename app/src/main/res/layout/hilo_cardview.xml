@@ -40,6 +40,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-black"
                 android:text="Nickname"
+                android:clickable="true"
                 app:layout_constraintStart_toEndOf="@+id/Perfil"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,23 +54,33 @@
                 app:layout_constraintStart_toEndOf="@+id/Perfil"
                 app:layout_constraintTop_toBottomOf="@+id/nickname" />
 
+            <com.like.LikeButton
+                android:id="@+id/like_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:visibility="visible"
+                app:icon_size="25dp"
+                app:icon_type="thumb"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/Perfil"
+                app:layout_constraintTop_toBottomOf="@+id/cuerpoMensaje" />
+
             <TextView
                 android:id="@+id/horaMensaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cuerpoMensaje" />
+                app:layout_constraintStart_toEndOf="@+id/textView12"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="3dp"
+                android:layout_marginStart="50dp"
                 android:text="Hilo creado el"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/horaMensaje" />
+                app:layout_constraintStart_toEndOf="@+id/nickname"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/more"

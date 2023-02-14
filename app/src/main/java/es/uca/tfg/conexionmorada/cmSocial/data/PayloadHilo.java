@@ -34,6 +34,11 @@ public class PayloadHilo {
         this.disliked = disliked;
     }
 
+    public PayloadHilo(String idHilo, String autorUuid){
+        this.idHilo = idHilo;
+        this.autorUuid = autorUuid;
+    }
+
     public Integer getLikes() {
         return likes;
     }

@@ -41,22 +41,28 @@ public interface cmSocialInterface {
     Call<Void> deleteHilo(@Body PayloadHilo hilo);
 
     @POST("/add/like")
-    Call addLike(@Body PayloadHilo hilo, @Body String uuid);
+    Call<Void> addLike(@Body PayloadHilo hilo);
 
     @POST("/add/dislike")
-    Call addDislike(PayloadHilo hilo, String uuid);
+    Call<Void> addDislike(@Body PayloadHilo hilo);
 
-    @POST("/delete/like")
-    Call deleteLike(PayloadHilo hilo, String uuid);
+    @DELETE("/delete/like/{idHilo}/{uuid}")
+    Call<Void> deleteLike(@Path("idHilo") String idHilo, @Path("uuid") String uuid);
 
-    @POST("/delete/dislike")
-    Call deleteDislike(PayloadHilo hilo, String uuid);
+    @DELETE("/delete/dislike/{idHilo}/{uuid}")
+    Call<Void> deleteDislike(@Path("idHilo") String idHilo, @Path("uuid") String uuid);
+
+    @GET("/get/like/{idHilo}/{uuid}")
+    Call<Boolean> getLike(@Path("idHilo") String idHilo, @Path("uuid") String uuid);
+
+    @GET("/get/dislike/{idHilo}/{uuid}")
+    Call<Boolean> getDislike(@Path("idHilo") String idHilo, @Path("uuid") String uuid);
 
     @GET("/add/userApp/{uuid}")
     Call<Void> addUserApp(@Path("uuid") String uuid);
 
-    @GET("/search/hilos/{search}")
-    Call<List<PayloadHilo>> searchHilos(@Path("search") String search);
+    @GET("/search/hilos/{search}/{uuid}")
+    Call<List<PayloadHilo>> searchHilos(@Path("search") String search, @Path("uuid") String uuid);
 
     @GET("/search/usuarios/{search}")
     Call<List<PayloadUsername>> searchUsuarios(@Path("search") String search);
@@ -64,4 +70,6 @@ public interface cmSocialInterface {
     @GET("/get/hilos/{uuid}")
     Call<List<PayloadHilo>> getHilosUser(@Path("uuid") String uuid);
 
+    @GET("get/respuesta/{idHilo}/{uuid}")
+    Call<List<PayloadHilo>> getRespuestas(@Path("idHilo") String idHilo, @Path("uuid") String uuid);
 }
