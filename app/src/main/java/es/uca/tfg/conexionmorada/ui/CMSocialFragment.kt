@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,15 +19,13 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
-import es.uca.tfg.conexionmorada.cmSocial.activities.NotificacionesSocialActivity
-import es.uca.tfg.conexionmorada.cmSocial.activities.NuevoHiloActivity
-import es.uca.tfg.conexionmorada.cmSocial.activities.PerfilSocialActivity
-import es.uca.tfg.conexionmorada.cmSocial.activities.SearchHiloActivity
+import es.uca.tfg.conexionmorada.cmSocial.activities.*
 import es.uca.tfg.conexionmorada.cmSocial.adapter.HiloAdapter
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
-import es.uca.tfg.conexionmorada.firestore.User
-import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
-import es.uca.tfg.conexionmorada.storage.Storage
+import es.uca.tfg.conexionmorada.utils.firestore.User
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.storage.Storage
+import es.uca.tfg.conexionmorada.utils.Utils
 import retrofit2.Call
 
 
@@ -179,7 +178,9 @@ class CMSocialFragment : Fragment() {
 
                             adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
                                 override fun onItemClick(position: Int) {
-                                    hiloSelected(response.body()!![position])
+                                    Utils.hiloSelected(
+                                        activity!! as AppCompatActivity, response.body()!![position].idHilo
+                                    )
                                 }
                             })
                         }
@@ -206,7 +207,9 @@ class CMSocialFragment : Fragment() {
 
                     adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
                         override fun onItemClick(position: Int) {
-                            hiloSelected(response.body()!![position])
+                            Utils.hiloSelected(
+                                activity!! as AppCompatActivity, response.body()!![position].idHilo
+                            )
                         }
                     })
                 }
@@ -217,12 +220,6 @@ class CMSocialFragment : Fragment() {
         })
 
 
-    }
-
-    fun hiloSelected(hilo: PayloadHilo) {
-        /*var intent = android.content.Intent(activity, HiloActivity::class.java)
-        intent.putExtra("hilo", hilo)
-        startActivity(intent)*/
     }
 
 }

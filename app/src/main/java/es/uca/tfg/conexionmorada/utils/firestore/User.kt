@@ -1,4 +1,4 @@
-package es.uca.tfg.conexionmorada.firestore
+package es.uca.tfg.conexionmorada.utils.firestore
 
 import android.content.ContentValues.TAG
 import android.util.Log

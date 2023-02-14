@@ -1,5 +1,6 @@
 package es.uca.tfg.conexionmorada.cmSocial.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -14,7 +15,7 @@ import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.adapter.HiloAdapter
 import es.uca.tfg.conexionmorada.cmSocial.adapter.PersonaAdapter
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
-import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 import es.uca.tfg.conexionmorada.utils.Utils
 
@@ -113,7 +114,7 @@ class SearchHiloActivity : AppCompatActivity() {
         //Toast.makeText(activity, articles.size, Toast.LENGTH_SHORT).show()
         adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                //articleSelected(articles[position])
+                Utils.hiloSelected(this@SearchHiloActivity, hilos[position].idHilo)
             }
         })
     }
@@ -127,7 +128,9 @@ class SearchHiloActivity : AppCompatActivity() {
         //Toast.makeText(activity, articles.size, Toast.LENGTH_SHORT).show()
         adapter.setOnItemClickListener(object : PersonaAdapter.onItemClickListener {
             override fun onItemClick(position: Int) {
-                //articleSelected(articles[position])
+                var intent = Intent(this@SearchHiloActivity, PerfilSocialActivity::class.java)
+                intent.putExtra("uuid", personas[position].uuid)
+                startActivity(intent)
             }
         })
     }

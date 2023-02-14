@@ -14,8 +14,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
-import es.uca.tfg.conexionmorada.firestore.User
-import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.firestore.User
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.Constants
 import es.uca.tfg.conexionmorada.utils.LoadingDialog
 import retrofit2.Call

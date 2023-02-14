@@ -1,4 +1,4 @@
-package es.uca.tfg.conexionmorada.retrofit
+package es.uca.tfg.conexionmorada.utils.retrofit
 
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -6,6 +6,7 @@ import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadSeguidores
 import es.uca.tfg.conexionmorada.cmSocial.interfaces.cmSocialInterface
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 import es.uca.tfg.conexionmorada.usernames.interfaces.UsernameInterface
@@ -64,6 +65,21 @@ class APIRetrofit {
         return  crudInterface.getSeguidos(uuid)
     }
 
+    fun addSeguidor(payloadSeguidores: PayloadSeguidores): Call<Void> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.addSeguidor(payloadSeguidores)
+    }
+
+    fun deleteSeguidor(uuidSeguido: String, uuidSeguidor: String): Call<Void> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.deleteSeguidor(uuidSeguido, uuidSeguidor)
+    }
+
+    fun seguidorExist(uuidSeguidor: String, uuidSeguido: String): Call<Boolean> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.getSeguidorExist(uuidSeguidor, uuidSeguido)
+    }
+
     fun addHilo(payloadHilo: PayloadHilo) : Call<Void> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return crudInterface.addHilo(payloadHilo)
@@ -87,5 +103,10 @@ class APIRetrofit {
     fun searchUsuarios(query: String): Call<List<PayloadUsername>> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return crudInterface.searchUsuarios(query)
+    }
+
+    fun getHilosUser(uuid: String): Call<List<PayloadHilo>> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.getHilosUser(uuid)
     }
 }

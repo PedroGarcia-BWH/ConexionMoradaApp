@@ -17,7 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import es.uca.tfg.conexionmorada.LoginActivity
 import es.uca.tfg.conexionmorada.R
-import es.uca.tfg.conexionmorada.storage.Storage
+import es.uca.tfg.conexionmorada.utils.storage.Storage
 
 class ChangePhotoActivity : AppCompatActivity() {
     private var user = Firebase.auth.currentUser

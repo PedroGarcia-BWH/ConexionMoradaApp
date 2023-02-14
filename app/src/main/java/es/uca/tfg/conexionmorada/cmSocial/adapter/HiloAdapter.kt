@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
-import es.uca.tfg.conexionmorada.firestore.User
-import es.uca.tfg.conexionmorada.storage.Storage
+import es.uca.tfg.conexionmorada.utils.firestore.User
+import es.uca.tfg.conexionmorada.utils.storage.Storage
 
 class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 

@@ -27,9 +27,9 @@ import es.uca.tfg.conexionmorada.articles.ArticleActivity
 import es.uca.tfg.conexionmorada.articles.adapter.ArticleAdapter
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
-import es.uca.tfg.conexionmorada.firestore.User
-import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
-import es.uca.tfg.conexionmorada.storage.Storage
+import es.uca.tfg.conexionmorada.utils.firestore.User
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.storage.Storage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

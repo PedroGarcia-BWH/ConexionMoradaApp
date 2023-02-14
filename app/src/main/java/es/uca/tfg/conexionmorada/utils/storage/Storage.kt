@@ -1,4 +1,4 @@
-package es.uca.tfg.conexionmorada.storage
+package es.uca.tfg.conexionmorada.utils.storage
 
 import android.app.Activity
 import android.content.ContentValues

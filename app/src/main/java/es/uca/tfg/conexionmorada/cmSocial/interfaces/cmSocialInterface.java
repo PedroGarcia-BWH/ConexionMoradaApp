@@ -3,19 +3,30 @@ package es.uca.tfg.conexionmorada.cmSocial.interfaces;
 import java.util.List;
 
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo;
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadSeguidores;
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface cmSocialInterface {
-    @GET("get/Seguidores/{uuid}")
+    @GET("/get/Seguidores/{uuid}")
     Call<Integer> getSeguidores(@Path("uuid") String uuid);
 
-    @GET("get/Seguidos/{uuid}")
+    @GET("/get/Seguidos/{uuid}")
     Call<Integer> getSeguidos(@Path("uuid") String uuid);
+
+    @POST("/add/Seguidor")
+    Call<Void> addSeguidor(@Body PayloadSeguidores payloadSeguidores);
+
+    @DELETE("/delete/Seguidor/{uuidSeguidor}/{uuidSeguido}")
+    Call<Void> deleteSeguidor(@Path("uuidSeguidor") String uuidSeguidor, @Path("uuidSeguido") String uuidSeguido);
+
+    @GET("/get/SeguidorExist/{uuidSeguidor}/{uuidSeguido}")
+    Call<Boolean> getSeguidorExist(@Path("uuidSeguidor") String uuidSeguidor, @Path("uuidSeguido") String uuidSeguido);
 
     @GET("/get/lastHilos/{uuid}")
     Call<List<PayloadHilo>> getLastHilos(@Path("uuid") String uuid);
@@ -49,5 +60,8 @@ public interface cmSocialInterface {
 
     @GET("/search/usuarios/{search}")
     Call<List<PayloadUsername>> searchUsuarios(@Path("search") String search);
+
+    @GET("/get/hilos/{uuid}")
+    Call<List<PayloadHilo>> getHilosUser(@Path("uuid") String uuid);
 
 }

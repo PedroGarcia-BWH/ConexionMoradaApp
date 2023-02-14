@@ -11,7 +11,7 @@ import es.uca.tfg.conexionmorada.articles.ArticleActivity
 import es.uca.tfg.conexionmorada.articles.adapter.ArticleAdapter
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
-import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback

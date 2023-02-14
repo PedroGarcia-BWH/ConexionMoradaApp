@@ -12,8 +12,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
-import es.uca.tfg.conexionmorada.firestore.User
-import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.firestore.User
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.verify.VerifyDialog
 import retrofit2.Call
 import retrofit2.Response

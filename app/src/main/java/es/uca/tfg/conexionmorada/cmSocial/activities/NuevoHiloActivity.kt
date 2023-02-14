@@ -10,8 +10,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
-import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
-import es.uca.tfg.conexionmorada.storage.Storage
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.storage.Storage
 import es.uca.tfg.conexionmorada.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,8 +44,7 @@ class NuevoHiloActivity : AppCompatActivity() {
             if(mensaje.text.toString().isEmpty()){
 
             }else{
-                var payloadHilo = PayloadHilo(Firebase.auth.currentUser?.uid.toString(), mensaje.text.toString(),null, null, 0, 0, false, false)
-                Toast.makeText(this@NuevoHiloActivity, payloadHilo.mensaje, Toast.LENGTH_SHORT).show()
+                var payloadHilo = PayloadHilo(null, Firebase.auth.currentUser?.uid.toString(), mensaje.text.toString(),null, null, 0, 0, false, false)
                 var call = APIRetrofit().addHilo(payloadHilo)
                 call.enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {

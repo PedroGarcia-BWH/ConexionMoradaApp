@@ -15,7 +15,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.LoginActivity
 import es.uca.tfg.conexionmorada.R
-import es.uca.tfg.conexionmorada.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

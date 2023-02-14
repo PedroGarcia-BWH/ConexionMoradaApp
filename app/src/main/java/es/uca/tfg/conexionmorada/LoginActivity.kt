@@ -16,7 +16,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import es.uca.tfg.conexionmorada.firestore.User
+import es.uca.tfg.conexionmorada.utils.firestore.User
 import es.uca.tfg.conexionmorada.ui.HomeFragment
 import es.uca.tfg.conexionmorada.ui.MainActivity
 import es.uca.tfg.conexionmorada.utils.LoadingDialog
