@@ -36,6 +36,11 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         Listener = listener
     }
 
+    fun addData(hilo: PayloadHilo) {
+        hilos = hilos + hilo
+        notifyDataSetChanged()
+    }
+
     fun setData(list: List<PayloadHilo>) {
         hilos = list
         notifyDataSetChanged()
@@ -67,42 +72,45 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         holder.cuerpoMensaje.text = hilo.mensaje
         Storage().photoAccount(holder.mensajePerfil, hilo.autorUuid)
         holder.horaMensaje.text = hilo.dateCreation.toString()
+        holder.numberLike.text = hilo.likes.toString()
+        holder.numberDislike.text = hilo.dislikes.toString()
 
         if(hilo.autorUuid.equals(Firebase.auth.currentUser!!.uid)) {
             holder.likeButton.visibility = View.GONE
+            holder.dislikeButton.visibility = View.GONE
         }else{
             holder.likeButton.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton) {
-                    var payloadHilo = PayloadHilo(hilo.idHilo, Firebase.auth.currentUser!!.uid)
-                    var call = APIRetrofit().addLike(payloadHilo)
-                    call.enqueue(object : retrofit2.Callback<Void> {
-                        override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
-                            if (response.isSuccessful) {
-                                println("Like añadido")
-                            }
-                        }
-                        override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
-                            println("Error al añadir like")
-                        }
-                    })
+                    if(hilo.disliked){
+                        deleteDislike(hilo, holder)
+                        holder.dislikeButton.isLiked = false
+                    }
+                    addLike(hilo, holder)
                 }
                 override fun unLiked(likeButton: LikeButton) {
-                    var call = APIRetrofit().deleteLike(hilo.idHilo, Firebase.auth.currentUser!!.uid)
-                    call.enqueue(object : retrofit2.Callback<Void> {
-                        override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
-                            if (response.isSuccessful) {
-                                println("Like eliminado")
-                            }
-                        }
-                        override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
-                            println("Error al eliminar like")
-                        }
-                    })
+                    deleteLike(hilo, holder)
+                }
+            })
+
+            holder.dislikeButton.setOnLikeListener(object : OnLikeListener {
+                override fun liked(likeButton: LikeButton) {
+                    if(hilo.liked){
+                        deleteLike(hilo, holder)
+                        holder.likeButton.isLiked = false
+                    }
+                    addDislike(hilo, holder)
+                }
+                override fun unLiked(likeButton: LikeButton) {
+                    deleteDislike(hilo, holder)
                 }
             })
 
             if(hilo.liked) holder.likeButton.isLiked = true
+            if(hilo.disliked) holder.dislikeButton.isLiked = true
         }
+
+
+
 
         holder.nickname.setOnClickListener {
             var intent = Intent(context, PerfilSocialActivity::class.java)
@@ -124,12 +132,73 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         var horaMensaje = itemView.findViewById<TextView>(R.id.horaMensaje)
         var mensajePerfil = itemView.findViewById<ImageView>(R.id.Perfil)
         var likeButton = itemView.findViewById<LikeButton>(R.id.like_button)
+        var dislikeButton = itemView.findViewById<LikeButton>(R.id.unlike_button)
+        var numberLike = itemView.findViewById<TextView>(R.id.numberLike)
+        var numberDislike = itemView.findViewById<TextView>(R.id.numberDislike)
 
         init {
             itemView.setOnClickListener {
                 listener.onItemClick(adapterPosition)
             }
         }
+    }
+
+    private fun addLike(hilo: PayloadHilo, holder: HiloViewHolder){
+        var payloadHilo = PayloadHilo(hilo.idHilo, Firebase.auth.currentUser!!.uid)
+        var call = APIRetrofit().addLike(payloadHilo)
+        call.enqueue(object : retrofit2.Callback<Void> {
+            override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                if (response.isSuccessful) {
+                    holder.numberLike.text = (hilo.likes + 1).toString()
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                println("Error al añadir like")
+            }
+        })
+    }
+
+    private fun deleteLike(hilo: PayloadHilo, holder: HiloViewHolder){
+        var call = APIRetrofit().deleteLike(hilo.idHilo, Firebase.auth.currentUser!!.uid)
+        call.enqueue(object : retrofit2.Callback<Void> {
+            override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                if (response.isSuccessful) {
+                    holder.numberLike.text = (hilo.likes - 1).toString()
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                println("Error al eliminar like")
+            }
+        })
+    }
+
+    private fun addDislike(hilo: PayloadHilo, holder: HiloViewHolder){
+        var payloadHilo = PayloadHilo(hilo.idHilo, Firebase.auth.currentUser!!.uid)
+        var call = APIRetrofit().addDislike(payloadHilo)
+        call.enqueue(object : retrofit2.Callback<Void> {
+            override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                if (response.isSuccessful) {
+                    holder.numberDislike.text = (hilo.dislikes + 1).toString()
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                println("Error al añadir dislike")
+            }
+        })
+    }
+
+    private fun deleteDislike(hilo: PayloadHilo, holder: HiloViewHolder){
+        var call = APIRetrofit().deleteDislike(hilo.idHilo, Firebase.auth.currentUser!!.uid)
+        call.enqueue(object : retrofit2.Callback<Void> {
+            override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
+                if (response.isSuccessful) {
+                    holder.numberDislike.text = (hilo.dislikes - 1).toString()
+                }
+            }
+            override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
+                println("Error al eliminar dislike")
+            }
+        })
     }
 
 }

@@ -1,17 +1,25 @@
 package es.uca.tfg.conexionmorada.utils.retrofit
 
+import android.content.ContentValues.TAG
+import android.util.Log
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadNotificationHilo
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadNotificationPersona
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadSeguidores
 import es.uca.tfg.conexionmorada.cmSocial.interfaces.cmSocialInterface
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 import es.uca.tfg.conexionmorada.usernames.interfaces.UsernameInterface
 import es.uca.tfg.conexionmorada.utils.Constants
 import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -30,9 +38,34 @@ class APIRetrofit {
         return crudInterface.existUsername(username)
     }
 
-    fun addUsername(username : String): Call<Boolean>? {
+    fun addUsername(username : String) {
         var crudInterface = retrofit.create(UsernameInterface::class.java)
-        return crudInterface.addUsername(PayloadUsername(Firebase.auth.currentUser!!.uid, username))
+
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+            var call = crudInterface.addUsername(PayloadUsername(Firebase.auth.currentUser!!.uid, username, token))
+
+            if (call != null) {
+                call.enqueue(object : Callback<Boolean> {
+
+                    override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                        if (response.isSuccessful) {
+                            Log.d("TAG", "onResponse: " + response.body())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                        Log.d("TAG", "onFailure: " + t.message)
+                    }
+                })
+            }
+        })
     }
 
     fun deleteUsername(username : String): Call<Boolean>? {
@@ -143,5 +176,20 @@ class APIRetrofit {
     fun getDislike(idHilo: String, uuid: String): Call<Boolean> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return crudInterface.getDislike(idHilo, uuid)
+    }
+
+    fun getNotificationsHilo(uuid: String): Call<List<PayloadNotificationHilo>> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.getNotificationsHilo(uuid)
+    }
+
+    fun getNotificationsPersona(uuid: String): Call<List<PayloadNotificationPersona>> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.getNotificationsPersona(uuid)
+    }
+
+    fun deleteNotifications(uuid: String): Call<Void> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.deleteNotifications(uuid)
     }
 }

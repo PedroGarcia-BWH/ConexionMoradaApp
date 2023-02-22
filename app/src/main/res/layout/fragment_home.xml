@@ -93,7 +93,7 @@
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/ruedaSearch"
+            app:layout_constraintTop_toBottomOf="@+id/ruedaDelete"
             tools:layout_editor_absoluteX="0dp" />
 
         <Button
@@ -124,7 +124,7 @@
         </androidx.recyclerview.widget.RecyclerView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/ruedaSearch"
+            android:id="@+id/ruedaDelete"
             android:layout_width="56dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

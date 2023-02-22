@@ -16,6 +16,7 @@ import es.uca.tfg.conexionmorada.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class NuevoHiloActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,7 @@ class NuevoHiloActivity : AppCompatActivity() {
             if(mensaje.text.toString().isEmpty()){
 
             }else{
-                var payloadHilo = PayloadHilo(null, Firebase.auth.currentUser?.uid.toString(), mensaje.text.toString(),null, null, 0, 0, false, false)
+                var payloadHilo = PayloadHilo(null, Firebase.auth.currentUser?.uid.toString(), mensaje.text.toString(),null, Date(), 0, 0, false, false)
                 var call = APIRetrofit().addHilo(payloadHilo)
                 call.enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {

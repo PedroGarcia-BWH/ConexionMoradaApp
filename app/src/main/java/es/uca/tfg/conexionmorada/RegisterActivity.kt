@@ -152,7 +152,7 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val bSuccess = User.createUser(email, username, bVgenero, bVsexual, bIgualdad, bNoResponder)
-                    var call = APIRetrofit().addUsername(username)
+                    APIRetrofit().addUsername(username)
                     if(bSuccess){
                         Toast.makeText(
                             baseContext, "Registro completado con éxito.",
@@ -178,23 +178,6 @@ class RegisterActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-
-                    if (call != null) {
-                        call.enqueue(object : Callback<Boolean> {
-
-                            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                                if (response.isSuccessful) {
-                                    Log.d("TAG", "onResponse: " + response.body())
-                                }
-                            }
-
-                            override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                                Log.d("TAG", "onFailure: " + t.message)
-                            }
-                        })
-                    }
-
-
 
                 } else {
                     // If sign in fails, display a message to the user.

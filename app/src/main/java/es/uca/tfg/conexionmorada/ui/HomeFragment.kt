@@ -196,7 +196,7 @@ class HomeFragment : Fragment() {
     }
 
     fun searchActivity() {
-        var regSearch = view?.findViewById<FloatingActionButton>(R.id.ruedaSearch)
+        var regSearch = view?.findViewById<FloatingActionButton>(R.id.ruedaDelete)
         regSearch?.setOnClickListener {
             var intent = Intent(activity, SearchActivity::class.java)
             startActivity(intent)

@@ -3,6 +3,8 @@ package es.uca.tfg.conexionmorada.cmSocial.interfaces;
 import java.util.List;
 
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo;
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadNotificationHilo;
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadNotificationPersona;
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadSeguidores;
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername;
 import retrofit2.Call;
@@ -72,4 +74,13 @@ public interface cmSocialInterface {
 
     @GET("get/respuesta/{idHilo}/{uuid}")
     Call<List<PayloadHilo>> getRespuestas(@Path("idHilo") String idHilo, @Path("uuid") String uuid);
+
+    @GET("/get/Notifications/hilo/{uuid}")
+    Call<List<PayloadNotificationHilo>> getNotificationsHilo(@Path("uuid") String uuid);
+
+    @GET("/get/Notifications/persona/{uuid}")
+    Call<List<PayloadNotificationPersona>> getNotificationsPersona(@Path("uuid") String uuid);
+
+    @DELETE("/delete/Notifications/{uuid}")
+    Call<Void> deleteNotifications(@Path("uuid") String uuid);
 }

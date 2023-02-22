@@ -12,7 +12,7 @@ public class PayloadHilo {
 
     private String hiloPadreUuid;
 
-    private Date dateCreation;
+    private String dateCreation;
     private Integer likes;
     private Integer dislikes;
 
@@ -27,7 +27,7 @@ public class PayloadHilo {
         this.autorUuid = autorUuid;
         this.mensaje = mensaje;
         this.hiloPadreUuid = hiloPadreUuid;
-        this.dateCreation = dateCreation;
+        this.dateCreation = dateCreation.toString();
         this.likes = likes;
         this.dislikes = dislikes;
         this.liked = liked;
@@ -95,12 +95,12 @@ public class PayloadHilo {
         this.hiloPadreUuid = hiloPadre_uuid;
     }
 
-    public Date getDateCreation() {
+    public String getDateCreation() {
         return dateCreation;
     }
 
     public void setDateCreation(Date dateCreation) {
-        this.dateCreation = dateCreation;
+        this.dateCreation = dateCreation.toString();
     }
 
     public String getIdHilo() {

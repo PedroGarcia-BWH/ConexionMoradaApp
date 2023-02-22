@@ -5,8 +5,11 @@ public class PayloadUsername {
 
     public String username;
 
-    public PayloadUsername(String uuid, String username) {
+    public String token;
+
+    public PayloadUsername(String uuid, String username, String token) {
         this.uuid = uuid;
         this.username = username;
+        this.token = token;
     }
 }

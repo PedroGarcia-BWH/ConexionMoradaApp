@@ -65,6 +65,23 @@
                 app:layout_constraintStart_toEndOf="@+id/Perfil"
                 app:layout_constraintTop_toBottomOf="@+id/cuerpoMensaje" />
 
+            <com.like.LikeButton
+                android:id="@+id/unlike_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:rotation="-180"
+                android:rotationX="0"
+                android:visibility="visible"
+                app:circle_end_color="#C51A1A"
+                app:circle_start_color="#FF0000"
+                app:dots_primary_color="#FF0000"
+                app:dots_secondary_color="#C51A1A"
+                app:icon_size="25dp"
+                app:icon_type="thumb"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cuerpoMensaje" />
+
             <TextView
                 android:id="@+id/horaMensaje"
                 android:layout_width="wrap_content"
@@ -89,6 +106,27 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/baseline_more_vert_24" />
+
+            <TextView
+                android:id="@+id/numberLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/like_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.81" />
+
+            <TextView
+                android:id="@+id/numberDislike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/unlike_button" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
