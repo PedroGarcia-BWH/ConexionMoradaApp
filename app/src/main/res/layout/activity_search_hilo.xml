@@ -13,7 +13,7 @@
         android:layout_marginTop="10dp"
         android:background="#1C1B1B"
         android:iconifiedByDefault="false"
-        android:queryHint="Search here"
+        android:queryHint="Buscar en conexión morada"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/Exit"
         app:layout_constraintTop_toTopOf="parent">
@@ -44,17 +44,27 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchRecyclerViewHilo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch"
-        tools:layout_editor_absoluteX="16dp" />
+        android:layout_height="0dp"
+        android:padding="4dp"
+        android:scrollbars="vertical"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="@+id/searchRecyclerViewPersona"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchRecyclerViewPersona"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:padding="4dp"
+        android:scrollbars="vertical"
         android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch" />
 
     <ImageView
         android:id="@+id/imageNoResults"

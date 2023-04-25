@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/loginbtn"
+    android:layout_height="200dp"
+    android:background="@color/Morada"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -15,8 +15,8 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ImageDrawer"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
         android:contentDescription="Description"
@@ -32,8 +32,8 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Username"
         android:textAlignment="center"
-        android:textSize="20dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="20dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -45,8 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
             android:text="0"
-            android:textStyle="bold"
             android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="parent"
@@ -69,8 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:text="0"
-            android:textStyle="bold"
             android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

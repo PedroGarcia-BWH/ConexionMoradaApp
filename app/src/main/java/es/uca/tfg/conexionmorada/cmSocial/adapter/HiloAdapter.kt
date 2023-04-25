@@ -76,8 +76,8 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         holder.numberDislike.text = hilo.dislikes.toString()
 
         if(hilo.autorUuid.equals(Firebase.auth.currentUser!!.uid)) {
-            holder.likeButton.visibility = View.GONE
-            holder.dislikeButton.visibility = View.GONE
+            holder.likeButton.isEnabled = false
+            holder.dislikeButton.isEnabled= false
         }else{
             holder.likeButton.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton) {
