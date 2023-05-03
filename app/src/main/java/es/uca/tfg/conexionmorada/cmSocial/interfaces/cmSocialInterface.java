@@ -5,6 +5,7 @@ import java.util.List;
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo;
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadNotificationHilo;
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadNotificationPersona;
+import es.uca.tfg.conexionmorada.cmSocial.data.PayloadReporte;
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadSeguidores;
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername;
 import retrofit2.Call;
@@ -83,4 +84,7 @@ public interface cmSocialInterface {
 
     @DELETE("/delete/Notifications/{uuid}")
     Call<Void> deleteNotifications(@Path("uuid") String uuid);
+
+    @POST("/reporte")
+    Call<Boolean> addReporte(@Body PayloadReporte reporte);
 }

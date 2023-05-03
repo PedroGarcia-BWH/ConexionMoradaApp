@@ -9,10 +9,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
-import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
-import es.uca.tfg.conexionmorada.cmSocial.data.PayloadNotificationHilo
-import es.uca.tfg.conexionmorada.cmSocial.data.PayloadNotificationPersona
-import es.uca.tfg.conexionmorada.cmSocial.data.PayloadSeguidores
+import es.uca.tfg.conexionmorada.cmSocial.data.*
 import es.uca.tfg.conexionmorada.cmSocial.interfaces.cmSocialInterface
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 import es.uca.tfg.conexionmorada.usernames.interfaces.UsernameInterface
@@ -191,5 +188,10 @@ class APIRetrofit {
     fun deleteNotifications(uuid: String): Call<Void> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return crudInterface.deleteNotifications(uuid)
+    }
+
+    fun addReporte(payloadReporte: PayloadReporte): Call<Boolean> {
+        var crudInterface = retrofit.create(cmSocialInterface::class.java)
+        return crudInterface.addReporte(payloadReporte)
     }
 }

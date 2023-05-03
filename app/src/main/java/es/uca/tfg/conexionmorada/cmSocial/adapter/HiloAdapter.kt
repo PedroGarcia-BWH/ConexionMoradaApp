@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -15,6 +16,7 @@ import com.like.LikeButton
 import com.like.OnLikeListener
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.activities.PerfilSocialActivity
+import es.uca.tfg.conexionmorada.cmSocial.activities.ReportActivity
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
 import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.firestore.User
@@ -118,6 +120,24 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
             context.startActivity(intent)
         }
 
+        holder.more.setOnClickListener { view ->
+            val popup = PopupMenu(context, view)
+            popup.inflate(R.menu.mensaje)
+            popup.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.report -> {
+                        val intent = Intent(context, ReportActivity::class.java)
+                        intent.putExtra("mensajeUuid", hilo.idHilo)
+                        intent.putExtra("autorUuid", hilo.autorUuid)
+                        context.startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popup.show()
+        }
+
 
     }
 
@@ -135,6 +155,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         var dislikeButton = itemView.findViewById<LikeButton>(R.id.unlike_button)
         var numberLike = itemView.findViewById<TextView>(R.id.numberLike)
         var numberDislike = itemView.findViewById<TextView>(R.id.numberDislike)
+        var more = itemView.findViewById<ImageView>(R.id.more)
 
         init {
             itemView.setOnClickListener {

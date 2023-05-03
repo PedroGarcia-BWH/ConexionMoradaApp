@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".cmSocial.activities.ReportActivity"
+            android:exported="false" />
+        <activity
             android:name=".cmSocial.activities.HiloSelectedActivity"
             android:exported="false" />
         <activity

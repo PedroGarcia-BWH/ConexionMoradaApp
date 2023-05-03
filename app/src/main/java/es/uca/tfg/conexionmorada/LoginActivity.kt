@@ -2,22 +2,17 @@ package es.uca.tfg.conexionmorada
 
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import es.uca.tfg.conexionmorada.utils.firestore.User
-import es.uca.tfg.conexionmorada.ui.HomeFragment
 import es.uca.tfg.conexionmorada.ui.MainActivity
 import es.uca.tfg.conexionmorada.utils.LoadingDialog
 
@@ -33,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
         txtEmail = findViewById(R.id.email)
         txtPassword = findViewById(R.id.password)
-        val logLogin = findViewById<Button>(R.id.login)
+        val logLogin = findViewById<Button>(R.id.sendReport)
 
         sharedPreferences= this.getSharedPreferences(sharedPrefFile,
             Context.MODE_PRIVATE)
@@ -49,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(registerAct)
         }
 
-        val regLogin = findViewById<TextView>(R.id.login)
+        val regLogin = findViewById<TextView>(R.id.sendReport)
         regLogin.setOnClickListener {
 
             /*var success = User.login(txtEmail.text.toString(), txtPassword.text.toString())

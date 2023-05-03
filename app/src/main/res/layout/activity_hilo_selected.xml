@@ -39,7 +39,7 @@
         app:layout_constraintVertical_bias="0.07999998" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/mensajeLayout"
+        android:id="@+id/otherMensajeLayout"
         android:layout_width="279dp"
         android:layout_height="105dp"
         android:layout_marginBottom="10dp"
@@ -86,7 +86,7 @@
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/mensajeLayout"
+        app:layout_constraintStart_toEndOf="@+id/otherMensajeLayout"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
