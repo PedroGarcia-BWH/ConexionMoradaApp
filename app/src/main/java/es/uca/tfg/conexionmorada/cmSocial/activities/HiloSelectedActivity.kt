@@ -13,6 +13,7 @@ import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.adapter.HiloAdapter
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
+import es.uca.tfg.conexionmorada.cmSocial.filter.SocialProfanity
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.storage.Storage
@@ -90,7 +91,7 @@ class HiloSelectedActivity : AppCompatActivity() {
             if(mensaje.text.toString().isEmpty()){
 
             }else{
-                var payloadHilo = PayloadHilo(null, Firebase.auth.currentUser?.uid.toString(), mensaje.text.toString(), hiloPadreUuid, Date(), 0, 0, false, false)
+                var payloadHilo = PayloadHilo(null, Firebase.auth.currentUser?.uid.toString(), SocialProfanity().replaceProfanity(mensaje.text.toString()), hiloPadreUuid, Date(), 0, 0, false, false)
                 var call = APIRetrofit().addHilo(payloadHilo)
                 call.enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
