@@ -1,15 +1,20 @@
 package es.uca.tfg.conexionmorada.utils.storage
 
-import android.app.Activity
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.Blob
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
-import java.util.UUID
+import java.io.IOException
+import java.util.concurrent.TimeUnit
+
 
 class Storage {
     var storage = Firebase.storage
@@ -56,4 +61,17 @@ class Storage {
             }
             return result
         }
+
+    fun getImageArticle(url: String, imageView: ImageView) {
+        var url = url.replace("%2F", "/")
+        // Obtener el nombre del archivo de la URL
+        val nombreArchivo = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('?'))
+        var storageRef = storage.reference.child("portadaArticulos/${nombreArchivo}")
+
+        storageRef.downloadUrl.addOnSuccessListener { Uri ->
+            Glide.with(imageView.context)
+                .load(Uri.toString())
+                .into(imageView)
+        }
+    }
 }

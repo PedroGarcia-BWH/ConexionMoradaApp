@@ -1,18 +1,21 @@
 package es.uca.tfg.conexionmorada.cmSocial.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.modernmt.text.profanity.ProfanityFilter
+import com.modernmt.text.profanity.dictionary.Profanity
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
+import es.uca.tfg.conexionmorada.cmSocial.filter.SocialProfanity
+import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.storage.Storage
-import es.uca.tfg.conexionmorada.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,12 +48,12 @@ class NuevoHiloActivity : AppCompatActivity() {
             if(mensaje.text.toString().isEmpty()){
 
             }else{
-                var payloadHilo = PayloadHilo(null, Firebase.auth.currentUser?.uid.toString(), mensaje.text.toString(),null, Date(), 0, 0, false, false)
+                var payloadHilo = PayloadHilo(null, Firebase.auth.currentUser?.uid.toString(), SocialProfanity().replaceProfanity(mensaje.text.toString()),null, Date(), 0, 0, false, false)
                 var call = APIRetrofit().addHilo(payloadHilo)
                 call.enqueue(object : Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if(response.isSuccessful){
-                            //Toast.makeText(this@NuevoHiloActivity, "Hilo creado correctamente", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@NuevoHiloActivity, "Hilo creado correctamente", Toast.LENGTH_SHORT).show()
                             finish()
                         }
                     }

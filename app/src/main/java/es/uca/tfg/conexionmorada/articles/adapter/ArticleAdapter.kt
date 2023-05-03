@@ -10,6 +10,7 @@ import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.articles.model.Article
 import android.content.Context
 import android.widget.ImageView
+import es.uca.tfg.conexionmorada.utils.storage.Storage
 
 class ArticleAdapter() : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
     private var articles: List<Article> = emptyList()
@@ -44,8 +45,13 @@ class ArticleAdapter() : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>(
         val article = articles[position]
         holder.title.text = article.title
         holder.description.text = article.description
-        //imageview
-        Glide.with(context).load(article.urlFrontPage).into(holder.image)
+
+        if(article.urlFrontPage.contains("storage.googleapis.com")){
+            Storage().getImageArticle(article.urlFrontPage, holder.image)
+        }else{
+            //imageview
+            Glide.with(context).load(article.urlFrontPage).into(holder.image)
+        }
         //creation date
     }
 
@@ -63,4 +69,6 @@ class ArticleAdapter() : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>(
                }
        }
     }
+
+
 }
