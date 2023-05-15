@@ -50,7 +50,7 @@ class CMSocialFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         var drawer = activity?.findViewById<DrawerLayout>(R.id.drawer_layout)
-        var button = activity?.findViewById<View>(R.id.button)
+        var button = activity?.findViewById<View>(R.id.showDrawer)
 
        //open navigationView
         button?.setOnClickListener {

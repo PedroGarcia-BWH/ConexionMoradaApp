@@ -1,25 +1,34 @@
 package es.uca.tfg.conexionmorada.ui
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import es.uca.tfg.conexionmorada.R
-import android.Manifest.permission.ACCESS_FINE_LOCATION
+import com.google.android.gms.maps.model.MarkerOptions
+import es.uca.tfg.conexionmorada.sistemaCompanero.AddPointActivity
+import es.uca.tfg.conexionmorada.sistemaCompanero.PointCompaneroActivity
+import es.uca.tfg.conexionmorada.sistemaCompanero.ZonaSistemaCompaneroActivity
+
+
 class SistemaCompaneroFragment : Fragment() {
     private lateinit var mMap: GoogleMap
     private val REQUEST_LOCATION_PERMISSION = 1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +37,8 @@ class SistemaCompaneroFragment : Fragment() {
             != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSION)
         }
+
+
     }
 
     override fun onCreateView(
@@ -35,18 +46,44 @@ class SistemaCompaneroFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sistema_companero, container, false)
+         return inflater.inflate(es.uca.tfg.conexionmorada.R.layout.fragment_sistema_companero, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         // Inicializar el mapa
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        val mapFragment = childFragmentManager.findFragmentById(es.uca.tfg.conexionmorada.R.id.map) as SupportMapFragment
         mapFragment.getMapAsync { googleMap ->
             mMap = googleMap
             mMap.uiSettings.isZoomControlsEnabled = false
             checkLocationPermissionAndSetCenter()
+            //onmarkerClick
+            mMap.setOnMarkerClickListener { marker ->
+                // Aquí puedes agregar el código para abrir otra actividad al hacer clic en el marcador
+                if (marker.title == "Mi marcador") {
+                    val intent = Intent(context, PointCompaneroActivity::class.java)
+                    startActivity(intent)
+                }
+
+                // Si quieres que el comportamiento predeterminado de los marcadores también se ejecute, devuelve false
+                // De lo contrario, devuelve true para indicar que ya se ha manejado el clic en el marcador
+                true
+            }
+
         }
+
+        val addButon = view?.findViewById<View>(es.uca.tfg.conexionmorada.R.id.add)
+        addButon?.setOnClickListener {
+            val intent = Intent(requireContext(), AddPointActivity::class.java)
+            startActivity(intent)
+        }
+
+        val more = view?.findViewById<View>(es.uca.tfg.conexionmorada.R.id.zona_companero)
+        more?.setOnClickListener {
+            val intent = Intent(requireContext(), ZonaSistemaCompaneroActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onRequestPermissionsResult(
@@ -81,8 +118,30 @@ class SistemaCompaneroFragment : Fragment() {
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 val latLng = LatLng(location.latitude, location.longitude)
+                val markerOptions = MarkerOptions()
+                    .position(LatLng(location.latitude, location.longitude))
+                    .title("Mi marcador")
+                    .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap()!!))
+                mMap.addMarker(markerOptions)
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
             }
         }
+    }
+
+
+    private fun createCustomMarkerBitmap(): Bitmap? {
+        val markerView: View =
+            LayoutInflater.from(context).inflate(es.uca.tfg.conexionmorada.R.layout.punto_companero_layout, null)
+        markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
+        markerView.buildDrawingCache()
+        val bitmap = Bitmap.createBitmap(
+            markerView.measuredWidth,
+            markerView.measuredHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        markerView.draw(canvas)
+        return bitmap
     }
 }

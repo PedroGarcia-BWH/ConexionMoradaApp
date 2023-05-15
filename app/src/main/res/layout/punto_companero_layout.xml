@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/marker" />
+
+    <ImageView
+        android:id="@+id/userPhotoImageView"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+
+        android:src="@drawable/baseline_account_circle_24" />
+
+</RelativeLayout>

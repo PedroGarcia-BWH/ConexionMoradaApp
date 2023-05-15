@@ -25,13 +25,25 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
-
+        <activity
+            android:name=".sistemaCompanero.ZonaSistemaCompaneroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sistemaCompanero.ZonaCompaneroActivity"
+            android:exported="false"
+            android:label="@string/title_activity_zona_companero"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".sistemaCompanero.PointCompaneroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sistemaCompanero.AddPointActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBUS4GUI9HbpZ1rwCOxgI2O7B87Vp5APYU"
-            />
+            android:value="AIzaSyBUS4GUI9HbpZ1rwCOxgI2O7B87Vp5APYU" />
+
         <activity
             android:name=".cmSocial.activities.ReportActivity"
             android:exported="false" />

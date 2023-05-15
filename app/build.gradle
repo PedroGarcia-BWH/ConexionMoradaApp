@@ -61,6 +61,8 @@ dependencies {
     implementation 'androidx.core:core-ktx:+'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.android.libraries.places:places:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
@@ -85,4 +87,7 @@ dependencies {
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     implementation group: 'com.modernmt.text', name: 'profanity-filter', version: '1.0.1'
     implementation group: 'com.github.pemistahl', name: 'lingua', version: '1.2.2'
+    implementation 'com.google.android.gms:play-services-places:17.0.0'
+    implementation 'com.google.maps:google-maps-services:0.18.0'
+
 }
