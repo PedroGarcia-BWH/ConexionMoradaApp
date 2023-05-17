@@ -11,6 +11,8 @@ import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
 import es.uca.tfg.conexionmorada.cmSocial.data.*
 import es.uca.tfg.conexionmorada.cmSocial.interfaces.cmSocialInterface
+import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
+import es.uca.tfg.conexionmorada.sistemaCompanero.interfaces.SistemaCompaneroInterface
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 import es.uca.tfg.conexionmorada.usernames.interfaces.UsernameInterface
 import es.uca.tfg.conexionmorada.utils.Constants
@@ -193,5 +195,16 @@ class APIRetrofit {
     fun addReporte(payloadReporte: PayloadReporte): Call<Boolean> {
         var crudInterface = retrofit.create(cmSocialInterface::class.java)
         return crudInterface.addReporte(payloadReporte)
+    }
+
+
+    fun getAllPuntoCompaneroActive(): Call<List<PayloadPuntoCompanero>> {
+        var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
+        return crudInterface.allPointsActive
+    }
+
+    fun addPuntoCompanero(payloadPuntoCompanero: PayloadPuntoCompanero): Call<Void> {
+        var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
+        return crudInterface.addPuntoCompanero(payloadPuntoCompanero)
     }
 }

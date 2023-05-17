@@ -10,19 +10,12 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
-import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.utils.firestore.User
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
-import es.uca.tfg.conexionmorada.utils.Constants
 import es.uca.tfg.conexionmorada.utils.LoadingDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -35,7 +28,7 @@ class RegisterActivity : AppCompatActivity() {
         val regUsername = findViewById<TextView>(R.id.nickNameRegister)
         val regPassword = findViewById<TextView>(R.id.passwordRegister)
         val regConfPassword = findViewById<TextView>(R.id.passwordConfirm)
-        val regRegistro = findViewById<Button>(R.id.confirmRegister)
+        val regRegistro = findViewById<Button>(R.id.addPoint)
         val regRedes = findViewById<CheckBox>(R.id.redesSociales)
         val regApuestas = findViewById<CheckBox>(R.id.Apuestas)
         val regVideojuegos = findViewById<CheckBox>(R.id.Videojuegos)

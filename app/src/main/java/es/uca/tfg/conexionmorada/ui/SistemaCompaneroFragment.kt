@@ -23,6 +23,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import es.uca.tfg.conexionmorada.sistemaCompanero.AddPointActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.PointCompaneroActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.ZonaSistemaCompaneroActivity
+import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 
 
 class SistemaCompaneroFragment : Fragment() {
@@ -58,7 +60,7 @@ class SistemaCompaneroFragment : Fragment() {
             mMap.uiSettings.isZoomControlsEnabled = false
             checkLocationPermissionAndSetCenter()
             //onmarkerClick
-            mMap.setOnMarkerClickListener { marker ->
+           /* mMap.setOnMarkerClickListener { marker ->
                 // Aquí puedes agregar el código para abrir otra actividad al hacer clic en el marcador
                 if (marker.title == "Mi marcador") {
                     val intent = Intent(context, PointCompaneroActivity::class.java)
@@ -68,7 +70,7 @@ class SistemaCompaneroFragment : Fragment() {
                 // Si quieres que el comportamiento predeterminado de los marcadores también se ejecute, devuelve false
                 // De lo contrario, devuelve true para indicar que ya se ha manejado el clic en el marcador
                 true
-            }
+            }*/
 
         }
 
@@ -118,14 +120,55 @@ class SistemaCompaneroFragment : Fragment() {
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
             if (location != null) {
                 val latLng = LatLng(location.latitude, location.longitude)
-                val markerOptions = MarkerOptions()
+                /*val markerOptions = MarkerOptions()
                     .position(LatLng(location.latitude, location.longitude))
                     .title("Mi marcador")
                     .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap()!!))
-                mMap.addMarker(markerOptions)
+                mMap.addMarker(markerOptions)*/
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
             }
         }
+
+        var call = APIRetrofit().getAllPuntoCompaneroActive()
+        call.enqueue(object : retrofit2.Callback<List<PayloadPuntoCompanero>> {
+            override fun onResponse(
+                call: retrofit2.Call<List<PayloadPuntoCompanero>>,
+                response: retrofit2.Response<List<PayloadPuntoCompanero>>
+            ) {
+                if (response.isSuccessful) {
+                    val puntos = response.body()
+                    if (puntos != null) {
+                        for (punto in puntos) {
+                           val markerOptions = MarkerOptions()
+                                .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
+                                .title(punto.id)
+                                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap()!!))
+                            val marker = mMap.addMarker(markerOptions)
+                        }
+
+                        mMap.setOnMarkerClickListener { marker ->
+                                val intent = Intent(context, PointCompaneroActivity::class.java)
+                                intent.putExtra("id", marker.title)
+                                startActivity(intent)
+
+
+                            // Si quieres que el comportamiento predeterminado de los marcadores también se ejecute, devuelve false
+                            // De lo contrario, devuelve true para indicar que ya se ha manejado el clic en el marcador
+                            true
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(
+                call: retrofit2.Call<List<PayloadPuntoCompanero>>,
+                t: Throwable
+            ) {
+                Toast.makeText(requireContext(), "Error al cargar los puntos", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
     }
 
 

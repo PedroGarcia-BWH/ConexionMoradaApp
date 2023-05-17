@@ -11,11 +11,13 @@ import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
@@ -29,12 +31,19 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
 import com.google.maps.PendingResult
 import com.google.maps.model.DirectionsResult
 import com.google.maps.model.TravelMode
 import es.uca.tfg.conexionmorada.R
+import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.Date
 import java.util.Locale
 
 
@@ -91,6 +100,8 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
                 ), myCalendar!!.get(Calendar.MINUTE), true
             ).show()
         })
+
+        addPoint()
     }
     @RequiresApi(Build.VERSION_CODES.N)
     private fun updateLabel() {
@@ -243,5 +254,79 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
             e.printStackTrace()
         }
         return ""
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun addPoint() {
+        var btnAddPoint = findViewById<AppCompatButton>(R.id.addPoint)
+        //click listener
+        btnAddPoint.setOnClickListener {
+            //input validation
+            if (editTextDate!!.text.toString().isEmpty()) {
+                Toast.makeText(this, "Por favor, introduce una fecha", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (editTextTime!!.text.toString().isEmpty()) {
+                Toast.makeText(this, "Por favor, introduce una hora", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (originMarker == null) {
+                Toast.makeText(this, "Por favor, seleccione un punto de  origen", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            if (destinationMarker == null) {
+                Toast.makeText(this, "Por favor, seleccione un punto de destino", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            //get current user
+            val user = FirebaseAuth.getInstance().currentUser
+            //get current user id
+            val userId = user!!.uid
+
+            //get current date
+            val date = editTextDate?.text.toString()
+            val time = editTextTime?.text.toString()
+
+            val dateTimeString = "$date $time"
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+            val dateTime: Date = dateFormat.parse(dateTimeString)
+
+
+            //get current origin
+            val origin = originMarker!!.position.toString()
+            //get current destination
+            val destination = destinationMarker!!.position.toString()
+
+            //create new point
+            var payloadPuntoCompanero = PayloadPuntoCompanero(
+                null, //idPunto
+                user!!.uid, //idSolicitante
+                null,   //idAceptante
+                originMarker!!.position.latitude.toString(),
+                originMarker!!.position.longitude.toString(),
+                originMarker!!.title,
+                destinationMarker!!.position.latitude.toString(),
+                destinationMarker!!.position.longitude.toString(),
+                destinationMarker!!.title,
+                Date().toString(),
+                null,
+                dateTime.toString()
+            )
+
+            var call = APIRetrofit().addPuntoCompanero(payloadPuntoCompanero)
+            call.enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if(response.isSuccessful){
+                        Toast.makeText(this@AddPointActivity, "Punto compañero creado correctamente", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(this@AddPointActivity, "Ha ocurrido un error al crear el punto compañero, por favor intentélo de nuevo", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 }
