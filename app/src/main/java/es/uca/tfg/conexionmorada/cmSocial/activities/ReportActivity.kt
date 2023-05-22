@@ -3,7 +3,6 @@ package es.uca.tfg.conexionmorada.cmSocial.activities
 import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -11,15 +10,12 @@ import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
-import es.uca.tfg.conexionmorada.cmSocial.data.PayloadHilo
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadReporte
-import es.uca.tfg.conexionmorada.cmSocial.filter.SocialProfanity
 import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 class ReportActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +30,7 @@ class ReportActivity : AppCompatActivity() {
 
         var rbOther = findViewById<RadioButton>(R.id.rbOther)
         var otherMensajeLayout = findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.otherMensajeLayout)
-        var sendReport = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.sendReport)
+        var sendReport = findViewById<androidx.appcompat.widget.AppCompatButton>(R.id.btnAcept)
         var motivoSelect = findViewById<RadioGroup>(R.id.motivoSelect)
 
         rbOther.setOnCheckedChangeListener { _, isChecked ->

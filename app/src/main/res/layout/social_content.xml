@@ -34,7 +34,7 @@
                 app:srcCompat="@drawable/conexion_logo"/>
 
             <ImageView
-                android:id="@+id/addHilo"
+                android:id="@+id/seePoints"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="right"

@@ -26,6 +26,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".sistemaCompanero.ChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sistemaCompanero.HistoryPointCompaneroActivity"
+            android:exported="false" />
+        <activity
             android:name=".sistemaCompanero.ZonaSistemaCompaneroActivity"
             android:exported="false" />
         <activity

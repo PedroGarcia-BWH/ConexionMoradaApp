@@ -1,6 +1,5 @@
 package es.uca.tfg.conexionmorada.sistemaCompanero.data;
 
-import javax.xml.transform.sax.SAXResult;
 
 public class PayloadChat {
     private String id;
@@ -59,5 +58,9 @@ public class PayloadChat {
 
     public void setnNotificaciones(String nNotificaciones) {
         this.nNotificaciones = nNotificaciones;
+    }
+
+    public String nNotificaciones() {
+        return nNotificaciones;
     }
 }

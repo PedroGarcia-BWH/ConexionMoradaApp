@@ -14,6 +14,7 @@ import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadSeguidores
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadChat
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
+import es.uca.tfg.conexionmorada.utils.firestore.User
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.storage.Storage
 
@@ -49,44 +50,25 @@ class ChatAdapter: RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
     override fun onBindViewHolder(holder: ChatAdapter.ChatViewHolder, position: Int) {
         val chats = chats[position]
 
-       /* holder.nickname.text = .username
-        Storage().photoAccount(holder.Perfil, persona.uuid)
+       holder.lastMensaje.text = chats.lastMensaje
+        holder.date.text = chats.fecha
 
-
-        var call = APIRetrofit().seguidorExist(persona.uuid, Firebase.auth.currentUser?.uid.toString())
-        call.enqueue(object : retrofit2.Callback<Boolean> {
-            override fun onResponse(call: retrofit2.Call<Boolean>, response: retrofit2.Response<Boolean>) {
-                if (response.isSuccessful) {
-                    if(response.body()!!){
-                        holder.followButton.text = "Siguiendo"
-                    }
-
-                    holder.followButton.setOnClickListener(){
-
-                        lateinit var followCall : retrofit2.Call<Void>
-                        if(holder.followButton.text.equals("Siguiendo")) followCall = APIRetrofit().deleteSeguidor(persona.uuid, Firebase.auth.currentUser?.uid.toString())
-                        else followCall = APIRetrofit().addSeguidor(PayloadSeguidores(persona.uuid, Firebase.auth.currentUser?.uid.toString()))
-
-                        followCall.enqueue(object : retrofit2.Callback<Void> {
-                            override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
-                                if (response.isSuccessful) {
-                                    if(holder.followButton.text.equals("Siguiendo")) {
-                                        holder.followButton.text = "Seguir"
-                                    }
-                                    else {
-                                        holder.followButton.text = "Siguiendo"
-                                    }
-                                }
-                            }
-                            override fun onFailure(call: retrofit2.Call<Void>, t: Throwable) {
-                            }
-                        })
-                    }
-                }
+        Storage().photoAccount(holder.Perfil, chats.uuidUser)
+        var data = User.getUsername(chats.uuidUser)
+        data.addOnSuccessListener { document ->
+            if (document != null) {
+                    holder.nickname.text = document.getString("username")
             }
-            override fun onFailure(call: retrofit2.Call<Boolean>, t: Throwable) {
-            }
-        })*/
+        }
+
+
+        if(chats.nNotificaciones().toInt() == 0) {
+            holder.imageNotificattion.visibility = View.INVISIBLE
+            holder.txtNotificacionCount.visibility = View.INVISIBLE
+        } else {
+            holder.txtNotificacionCount.text = chats.nNotificaciones()
+        }
+
 
     }
 
@@ -102,7 +84,6 @@ class ChatAdapter: RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
         var Perfil = itemView.findViewById<ImageView>(R.id.Perfil)
         var imageNotificattion = itemView.findViewById<ImageView>(R.id.viewNotification)
         var txtNotificacionCount = itemView.findViewById<TextView>(R.id.txtNotificationCount)
-        var followButton = itemView.findViewById<Button>(R.id.follow)
 
         init {
             itemView.setOnClickListener {

@@ -109,7 +109,7 @@ class CMSocialFragment : Fragment() {
     }
 
     private fun addHiloListener(){
-        var addHilo = activity?.findViewById<ImageView>(R.id.addHilo)
+        var addHilo = activity?.findViewById<ImageView>(R.id.seePoints)
         addHilo?.setOnClickListener {
             var intent = android.content.Intent(activity, NuevoHiloActivity::class.java)
             startActivity(intent)

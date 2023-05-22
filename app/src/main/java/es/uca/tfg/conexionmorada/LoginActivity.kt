@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
         txtEmail = findViewById(R.id.email)
         txtPassword = findViewById(R.id.password)
-        val logLogin = findViewById<Button>(R.id.sendReport)
+        val logLogin = findViewById<Button>(R.id.btnAcept)
 
         sharedPreferences= this.getSharedPreferences(sharedPrefFile,
             Context.MODE_PRIVATE)
@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(registerAct)
         }
 
-        val regLogin = findViewById<TextView>(R.id.sendReport)
+        val regLogin = findViewById<TextView>(R.id.btnAcept)
         regLogin.setOnClickListener {
 
             /*var success = User.login(txtEmail.text.toString(), txtPassword.text.toString())

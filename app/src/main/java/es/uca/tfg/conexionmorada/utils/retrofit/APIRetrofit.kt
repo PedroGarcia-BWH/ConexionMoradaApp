@@ -11,6 +11,8 @@ import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
 import es.uca.tfg.conexionmorada.cmSocial.data.*
 import es.uca.tfg.conexionmorada.cmSocial.interfaces.cmSocialInterface
+import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadChat
+import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadMensaje
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
 import es.uca.tfg.conexionmorada.sistemaCompanero.interfaces.SistemaCompaneroInterface
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
@@ -206,5 +208,39 @@ class APIRetrofit {
     fun addPuntoCompanero(payloadPuntoCompanero: PayloadPuntoCompanero): Call<Void> {
         var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
         return crudInterface.addPuntoCompanero(payloadPuntoCompanero)
+    }
+
+    fun aceptPuntoCompanero(id:String, uuid: String): Call<Boolean>{
+        var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
+        return crudInterface.aceptPuntoCompanero(id, uuid)
+    }
+
+    fun getAllPuntoCompaneroByUuid(uuid: String): Call<List<PayloadPuntoCompanero>> {
+        var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
+        return crudInterface.getAllPointsByUuid(uuid)
+    }
+
+    fun getPuntoCompaneroById(id: String): Call<PayloadPuntoCompanero> {
+        var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
+        return crudInterface.getPointById(id)
+    }
+
+    fun getAllChatsByUuid(uuid: String): Call<List<PayloadChat>> {
+        var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
+        return crudInterface.getAllChatsByUuid(uuid)
+    }
+
+    fun checkMensajesChat(id: String, uuid: String): Call<Void> {
+        var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
+        return crudInterface.checkMensajesChat(id, uuid)
+    }
+    fun getAllMensajesChat(id: String): Call<List<PayloadMensaje>> {
+        var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
+        return crudInterface.getAllMensajesByChatId(id)
+    }
+
+    fun addMensajeChat(payloadMensaje: PayloadMensaje): Call<Boolean> {
+        var crudInterface = retrofit.create(SistemaCompaneroInterface::class.java)
+        return crudInterface.addMensaje(payloadMensaje)
     }
 }

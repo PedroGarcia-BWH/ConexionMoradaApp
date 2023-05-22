@@ -55,8 +55,6 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
     private var timeCalendar: Calendar? = null
     private var originMarker: Marker? = null
     private var destinationMarker: Marker? = null
-    private lateinit var googleApiClient: GoogleApiClient
-
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,6 +122,11 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setOnMapClickListener(OnMapClickListener { latLng ->
             if (originMarker == null) {
                 // Si no hay un marcador de origen, crea uno en la ubicación seleccionada
+                Toast.makeText(
+                    this,
+                    ""  + latLng.latitude + " " + latLng.longitude,
+                    Toast.LENGTH_SHORT
+                ).show()
                 originMarker = mMap.addMarker(
                     MarkerOptions()
                         .position(latLng)
@@ -281,8 +284,7 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
 
             //get current user
             val user = FirebaseAuth.getInstance().currentUser
-            //get current user id
-            val userId = user!!.uid
+
 
             //get current date
             val date = editTextDate?.text.toString()
@@ -291,12 +293,6 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
             val dateTimeString = "$date $time"
             val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
             val dateTime: Date = dateFormat.parse(dateTimeString)
-
-
-            //get current origin
-            val origin = originMarker!!.position.toString()
-            //get current destination
-            val destination = destinationMarker!!.position.toString()
 
             //create new point
             var payloadPuntoCompanero = PayloadPuntoCompanero(

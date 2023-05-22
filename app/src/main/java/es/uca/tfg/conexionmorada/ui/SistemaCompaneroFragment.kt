@@ -143,7 +143,7 @@ class SistemaCompaneroFragment : Fragment() {
                                 .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
                                 .title(punto.id)
                                 .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap()!!))
-                            val marker = mMap.addMarker(markerOptions)
+                            mMap.addMarker(markerOptions)
                         }
 
                         mMap.setOnMarkerClickListener { marker ->
@@ -151,10 +151,7 @@ class SistemaCompaneroFragment : Fragment() {
                                 intent.putExtra("id", marker.title)
                                 startActivity(intent)
 
-
-                            // Si quieres que el comportamiento predeterminado de los marcadores también se ejecute, devuelve false
-                            // De lo contrario, devuelve true para indicar que ya se ha manejado el clic en el marcador
-                            true
+                                 true
                         }
                     }
                 }
