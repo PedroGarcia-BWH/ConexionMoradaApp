@@ -1,21 +1,32 @@
 package es.uca.tfg.conexionmorada.ui
 
+import android.Manifest
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -33,6 +44,9 @@ import es.uca.tfg.conexionmorada.utils.storage.Storage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
+import java.util.Locale
+
 
 class HomeFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
@@ -87,6 +101,62 @@ class HomeFragment : Fragment() {
         }
 
         searchActivity()
+
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                val latitude: Double = location.latitude
+                val longitude: Double = location.longitude
+                var geocoder = Geocoder(requireContext(), Locale.getDefault())
+                try {
+                    val addresses: List<Address> = geocoder.getFromLocation(latitude, longitude, 1) as List<Address>
+                    if (addresses.isNotEmpty()) {
+                        val address: Address = addresses[0]
+                        val city: String? = address.locality
+                        val comunidad: String? = address.adminArea
+                        val country: String? = address.countryName
+
+                        val spinner: Spinner? = view?.findViewById(R.id.spinner2)
+                        val items = arrayOf("Buscar en " + country, "Buscar en " + comunidad, "Buscar en " + city)
+                        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
+
+                        spinner?.adapter = adapter
+
+                        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                                val selectedItem = items[position]
+                                if (selectedItem.contains(comunidad.toString())) lastArticlesClick("", comunidad.toString())
+                                else if (selectedItem.contains(city.toString())) lastArticlesClick(city.toString(), "")
+                                else lastArticlesClick("","")
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                                // Acciones a realizar cuando no se selecciona ningún elemento
+                            }
+                        }
+                    }
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
     fun navegateSettings() {
@@ -97,8 +167,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun lastArticlesClick() {
-        var call = APIRetrofit().lastArticles(createPayloadArticles())
+    fun lastArticlesClick(city: String = "", comunidad: String = "") {
+        var call = APIRetrofit().lastArticles(createPayloadArticles(city, comunidad))
 
         if (call != null) {
             call.enqueue(object : Callback<List<Article>> {
@@ -127,7 +197,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun createPayloadArticles(): PayloadArticle {
+    fun createPayloadArticles(city: String, comunidad: String): PayloadArticle {
         var payloadArticle = PayloadArticle()
         payloadArticle.numberArticles = 10
         payloadArticle.status = "REQUESTED"
@@ -161,6 +231,8 @@ class HomeFragment : Fragment() {
         sharedPreferences.getString("genero", "")?.let { list.add(it) }
         sharedPreferences.getString("sexual", "")?.let { list.add(it) }
         sharedPreferences.getString("igualdad", "")?.let { list.add(it) }
+        list.add(city)
+        list.add(comunidad)
 
         for(i in list) i.replace(" ", "")
         payloadArticle.preferences = list
