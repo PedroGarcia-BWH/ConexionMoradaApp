@@ -1,20 +1,29 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/markerImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/marker" />
+        android:src="@drawable/marker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
         android:id="@+id/userPhotoImageView"
         android:layout_width="40dp"
         android:layout_height="30dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
+        android:src="@drawable/baseline_account_circle_24"
+        app:layout_constraintBottom_toBottomOf="@id/markerImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@id/markerImageView"
+        app:layout_constraintTop_toTopOf="@id/markerImageView"
+        app:layout_constraintVertical_bias="0.45" />
 
-        android:src="@drawable/baseline_account_circle_24" />
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

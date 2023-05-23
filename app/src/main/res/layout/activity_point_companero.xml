@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView5"
+                android:id="@+id/cardViewSolicitante"
                 android:layout_width="373dp"
                 android:layout_height="60dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
                         tools:layout_editor_absoluteX="16dp" />
 
                     <TextView
-                        android:id="@+id/textView22"
+                        android:id="@+id/txtSolicitante"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nombre usuario solicitante"
@@ -76,11 +76,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView5"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewSolicitante"
                 app:layout_constraintVertical_bias="0.100000024" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView6"
+                android:id="@+id/cardViewAceptante"
                 android:layout_width="373dp"
                 android:layout_height="60dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +102,7 @@
                         tools:layout_editor_absoluteX="16dp" />
 
                     <TextView
-                        android:id="@+id/textView23"
+                        android:id="@+id/txtAceptante"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nombre usuario solicitante"
@@ -126,13 +126,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView6"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewAceptante"
                 map:cameraZoom="10"
                 map:uiRotateGestures="true"
                 map:uiZoomControls="true" />
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/txtDateEvento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -143,15 +143,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/map" />
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/txtDateCreation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Fecha de creación"
+                android:text="Fecha de creación:"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.13"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                app:layout_constraintTop_toBottomOf="@+id/txtDateEvento" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAcept"
@@ -163,7 +163,7 @@
                 android:text="Iniciar Sesión"
 
                 android:textColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/textView24"
+                app:layout_constraintTop_toBottomOf="@+id/txtDateCreation"
                 tools:layout_editor_absoluteX="0dp" />
 
 

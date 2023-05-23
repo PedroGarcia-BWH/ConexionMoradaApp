@@ -8,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
+import androidx.cardview.widget.CardView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,6 +21,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
@@ -26,8 +29,11 @@ import com.google.maps.PendingResult
 import com.google.maps.model.DirectionsResult
 import com.google.maps.model.TravelMode
 import es.uca.tfg.conexionmorada.R
+import es.uca.tfg.conexionmorada.cmSocial.activities.PerfilSocialActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
+import es.uca.tfg.conexionmorada.utils.firestore.User
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.storage.Storage
 
 class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
@@ -99,6 +105,53 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
                             var accept = findViewById<AppCompatButton>(R.id.btnAcept)
                             accept.visibility = View.INVISIBLE
                         }
+
+                        var cardViewSolicitante = findViewById<CardView>(R.id.cardViewSolicitante)
+                        var cardViewAceptante = findViewById<CardView>(R.id.cardViewAceptante)
+                        var textViewSolicitante = findViewById<TextView>(R.id.txtSolicitante)
+                        var textViewAceptante = findViewById<TextView>(R.id.txtAceptante)
+                        var imgSolicitante = findViewById<ImageView>(R.id.PerfilSolicitante)
+                        var imgAceptante = findViewById<ImageView>(R.id.PerfilAceptante)
+
+                        //datos solicitante
+                        cardViewSolicitante.setOnClickListener(View.OnClickListener {
+                            var intent = Intent(this@PointCompaneroActivity, PerfilSocialActivity::class.java)
+                            intent.putExtra("uuid", response.body()!!.uuidSolicitante)
+                            startActivity(intent)
+                        })
+                        var data = User.getUsername(response.body()!!.uuidSolicitante)
+                        data.addOnSuccessListener { document ->
+                            if (document != null) {
+                                textViewSolicitante.text = document.getString("username")
+                            }
+                        }
+                        Storage().photoAccount(imgSolicitante, response.body()!!.uuidSolicitante)
+
+                        if(response.body()!!.uuidAceptante == null) {
+                            textViewAceptante.text = "Sin aceptar"
+                        }
+                        else{
+                            //datos aceptante
+                            cardViewAceptante.setOnClickListener(View.OnClickListener {
+                                var intent = Intent(this@PointCompaneroActivity, PerfilSocialActivity::class.java)
+                                intent.putExtra("uuid", response.body()!!.uuidAceptante)
+                                startActivity(intent)
+                            })
+
+                            data = User.getUsername(response.body()!!.uuidAceptante)
+                            data.addOnSuccessListener { document ->
+                                if (document != null) {
+                                    textViewAceptante.text = document.getString("username")
+                                }
+                            }
+
+                            Storage().photoAccount(imgAceptante, response.body()!!.uuidAceptante)
+                        }
+
+                        var txtDateCreation = findViewById<TextView>(R.id.txtDateCreation)
+                        var txtDateEvento = findViewById<TextView>(R.id.txtDateEvento)
+                        txtDateCreation.text = "Fecha de creación: " + response.body()!!.dateCreated
+                        txtDateEvento.text = "Fecha de inicio de evento: "  + response.body()!!.dateEvento
                     }
                 }
             }
@@ -180,4 +233,5 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return ""
     }
+
 }

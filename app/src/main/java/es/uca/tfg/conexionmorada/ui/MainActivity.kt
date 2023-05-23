@@ -11,6 +11,8 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.utils.firestore.User
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
@@ -33,7 +35,6 @@ class MainActivity : AppCompatActivity(){
                 Log.d(ContentValues.TAG, "No such document")
             }
         }
-
     }
 
     private fun setUptabs(){

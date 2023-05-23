@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
@@ -13,8 +14,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import es.uca.tfg.conexionmorada.ui.MainActivity
+import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 import es.uca.tfg.conexionmorada.utils.LoadingDialog
+import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var txtEmail: TextView
@@ -81,6 +85,34 @@ class LoginActivity : AppCompatActivity() {
                             editor.apply()
                             editor.commit()
                         }
+
+                        FirebaseMessaging.getInstance().token
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    val token = task.result
+                                    var payloadUsername = PayloadUsername(auth.currentUser!!.uid, null, token)
+                                    var call = APIRetrofit().updateToken(payloadUsername)
+                                    call.enqueue(object : retrofit2.Callback<Boolean> {
+                                        override fun onResponse(
+                                            call: retrofit2.Call<Boolean>,
+                                            response: retrofit2.Response<Boolean>
+                                        ) {
+                                            if (response.isSuccessful) {
+                                                Log.d("Token", "Token actualizado")
+                                            } else {
+                                                Log.d("Token", "Token no actualizado")
+                                            }
+                                        }
+
+                                        override fun onFailure(
+                                            call: retrofit2.Call<Boolean>,
+                                            t: Throwable
+                                        ) {
+                                            Log.d("Token", "Token no actualizado")
+                                        }
+                                    })
+                                }
+                            }
 
                         startActivity(homeAct)
                     }else{
