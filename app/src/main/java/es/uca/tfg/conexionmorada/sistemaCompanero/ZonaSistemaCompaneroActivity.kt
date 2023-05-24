@@ -3,6 +3,7 @@ package es.uca.tfg.conexionmorada.sistemaCompanero
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,26 +26,33 @@ class ZonaSistemaCompaneroActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        var call = APIRetrofit().getAllChatsByUuid(FirebaseAuth.getInstance().uid.toString())
-        call.enqueue(object : retrofit2.Callback<List<PayloadChat>> {
-            override fun onResponse(
-                call: retrofit2.Call<List<PayloadChat>>,
-                response: retrofit2.Response<List<PayloadChat>>
-            ) {
-                if (response.isSuccessful) {
-                    val chats = response.body()
-                    addDataChats(chats!!)
+        val handler = Handler()
 
-                }
+        val runnable = object : Runnable {
+            override fun run() {
+                var call = APIRetrofit(this@ZonaSistemaCompaneroActivity).getAllChatsByUuid(FirebaseAuth.getInstance().uid.toString())
+                call.enqueue(object : retrofit2.Callback<List<PayloadChat>> {
+                    override fun onResponse(
+                        call: retrofit2.Call<List<PayloadChat>>,
+                        response: retrofit2.Response<List<PayloadChat>>
+                    ) {
+                        if (response.isSuccessful) {
+                            val chats = response.body()
+                            addDataChats(chats!!)
+
+                        }
+                    }
+
+                    override fun onFailure(call: retrofit2.Call<List<PayloadChat>>, t: Throwable) {
+                        Toast.makeText(this@ZonaSistemaCompaneroActivity, "No se ha podido cargar los chats, intentelo de nuevo", Toast.LENGTH_SHORT).show()
+                    }
+                })
+
+                handler.postDelayed(this, 5000) // Ejecutar el código cada 5 segundos
             }
-
-            override fun onFailure(call: retrofit2.Call<List<PayloadChat>>, t: Throwable) {
-                Toast.makeText(this@ZonaSistemaCompaneroActivity, "No se ha podido cargar los chats, intentelo de nuevo", Toast.LENGTH_SHORT).show()
-            }
-        })
-
-
-
+        }
+        //primera llamada
+        handler.postDelayed(runnable,1)
     }
 
     private fun addDataChats(chats: List<PayloadChat>){

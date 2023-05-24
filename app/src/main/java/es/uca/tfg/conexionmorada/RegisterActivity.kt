@@ -145,7 +145,7 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val bSuccess = User.createUser(email, username, bVgenero, bVsexual, bIgualdad, bNoResponder)
-                    APIRetrofit().addUsername(username)
+                    APIRetrofit(this).addUsername(username)
                     if(bSuccess){
                         Toast.makeText(
                             baseContext, "Registro completado con éxito.",
@@ -190,7 +190,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun UsernameExist(regUsername : TextView){
-        var call = APIRetrofit().getUsername(regUsername.text.toString())
+        var call = APIRetrofit(this).getUsername(regUsername.text.toString())
         if (call != null) {
             call.enqueue(object : Callback<Boolean> {
 

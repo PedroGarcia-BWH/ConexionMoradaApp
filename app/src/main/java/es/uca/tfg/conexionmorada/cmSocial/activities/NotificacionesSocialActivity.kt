@@ -42,7 +42,7 @@ class NotificacionesSocialActivity : AppCompatActivity() {
         adapterHilo = NotificationHiloAdapter()
         recyclerviewHilo.adapter = adapterHilo
 
-        var call = APIRetrofit().getNotificationsHilo(Firebase.auth.currentUser!!.uid)
+        var call = APIRetrofit(this).getNotificationsHilo(Firebase.auth.currentUser!!.uid)
         call.enqueue(object : retrofit2.Callback<List<PayloadNotificationHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadNotificationHilo>>, response: retrofit2.Response<List<PayloadNotificationHilo>>) {
                 if (response.isSuccessful) {
@@ -74,7 +74,7 @@ class NotificacionesSocialActivity : AppCompatActivity() {
         adapterPersona = NotificationPersonaAdapter()
         recyclerviewPersona.adapter = adapterPersona
 
-        var call = APIRetrofit().getNotificationsPersona(Firebase.auth.currentUser!!.uid)
+        var call = APIRetrofit(this).getNotificationsPersona(Firebase.auth.currentUser!!.uid)
         call.enqueue(object : retrofit2.Callback<List<PayloadNotificationPersona>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadNotificationPersona>>, response: retrofit2.Response<List<PayloadNotificationPersona>>) {
                 if (response.isSuccessful) {
@@ -140,7 +140,7 @@ class NotificacionesSocialActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "No hay notificaciones para eliminar", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }else {
-                var call = APIRetrofit().deleteNotifications(Firebase.auth.currentUser!!.uid)
+                var call = APIRetrofit(this).deleteNotifications(Firebase.auth.currentUser!!.uid)
                 call.enqueue(object : retrofit2.Callback<Void> {
                     override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
                         if (response.isSuccessful) {

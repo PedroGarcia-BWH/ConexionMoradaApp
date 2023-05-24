@@ -129,7 +129,7 @@ class SistemaCompaneroFragment : Fragment() {
             }
         }
 
-        var call = APIRetrofit().getAllPuntoCompaneroActive()
+        var call = APIRetrofit(requireContext()).getAllPuntoCompaneroActive()
         call.enqueue(object : retrofit2.Callback<List<PayloadPuntoCompanero>> {
             override fun onResponse(
                 call: retrofit2.Call<List<PayloadPuntoCompanero>>,

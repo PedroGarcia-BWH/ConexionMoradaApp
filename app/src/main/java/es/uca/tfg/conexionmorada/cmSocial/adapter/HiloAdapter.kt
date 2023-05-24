@@ -166,7 +166,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 
     private fun addLike(hilo: PayloadHilo, holder: HiloViewHolder){
         var payloadHilo = PayloadHilo(hilo.idHilo, Firebase.auth.currentUser!!.uid)
-        var call = APIRetrofit().addLike(payloadHilo)
+        var call = APIRetrofit(context).addLike(payloadHilo)
         call.enqueue(object : retrofit2.Callback<Void> {
             override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
                 if (response.isSuccessful) {
@@ -180,7 +180,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
     }
 
     private fun deleteLike(hilo: PayloadHilo, holder: HiloViewHolder){
-        var call = APIRetrofit().deleteLike(hilo.idHilo, Firebase.auth.currentUser!!.uid)
+        var call = APIRetrofit(context).deleteLike(hilo.idHilo, Firebase.auth.currentUser!!.uid)
         call.enqueue(object : retrofit2.Callback<Void> {
             override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
                 if (response.isSuccessful) {
@@ -195,7 +195,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 
     private fun addDislike(hilo: PayloadHilo, holder: HiloViewHolder){
         var payloadHilo = PayloadHilo(hilo.idHilo, Firebase.auth.currentUser!!.uid)
-        var call = APIRetrofit().addDislike(payloadHilo)
+        var call = APIRetrofit(context).addDislike(payloadHilo)
         call.enqueue(object : retrofit2.Callback<Void> {
             override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
                 if (response.isSuccessful) {
@@ -209,7 +209,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
     }
 
     private fun deleteDislike(hilo: PayloadHilo, holder: HiloViewHolder){
-        var call = APIRetrofit().deleteDislike(hilo.idHilo, Firebase.auth.currentUser!!.uid)
+        var call = APIRetrofit(context).deleteDislike(hilo.idHilo, Firebase.auth.currentUser!!.uid)
         call.enqueue(object : retrofit2.Callback<Void> {
             override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
                 if (response.isSuccessful) {

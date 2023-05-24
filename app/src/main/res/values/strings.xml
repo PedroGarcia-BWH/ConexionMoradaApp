@@ -44,4 +44,7 @@ Taciti commodo parturient posuere eget interdum a proin, auctor per enim venenat
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+
+    <string name="username">conexionMorada</string>
+    <string name="password">admin</string>
 </resources>

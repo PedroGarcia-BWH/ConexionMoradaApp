@@ -310,7 +310,7 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
                 dateTime.toString()
             )
 
-            var call = APIRetrofit().addPuntoCompanero(payloadPuntoCompanero)
+            var call = APIRetrofit(this).addPuntoCompanero(payloadPuntoCompanero)
             call.enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if(response.isSuccessful){

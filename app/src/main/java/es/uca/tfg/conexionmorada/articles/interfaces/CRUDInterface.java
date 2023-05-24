@@ -14,6 +14,7 @@ public interface CRUDInterface {
     @POST("lastArticles")
     Call<List<Article>> lastArticles(@Body PayloadArticle payloadArticle);
 
-    @GET("query/{query}/{numberArticles}")
-    Call<List<Article>> query(@Path("query") String query, @Path("numberArticles") int numberArticles);
+    @GET("/query/{query}/{numberArticles}/{comunidad}/{city}")
+    Call<List<Article>> query(@Path("query") String query, @Path("numberArticles") int numberArticles,
+                              @Path("comunidad") String comunidad, @Path("city") String city);
 }

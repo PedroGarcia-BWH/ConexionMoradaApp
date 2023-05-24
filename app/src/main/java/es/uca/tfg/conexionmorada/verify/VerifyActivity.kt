@@ -35,7 +35,7 @@ class VerifyActivity : AppCompatActivity() {
             if(result) {
                 Toast.makeText(this, "Verificación realizada con éxito", Toast.LENGTH_SHORT).show()
                 //añadimos el usuario a la base de datos para asociar la app
-                var call = APIRetrofit().addUserApp(Firebase.auth.currentUser!!.uid)
+                var call = APIRetrofit(this).addUserApp(Firebase.auth.currentUser!!.uid)
                 call.enqueue(object : retrofit2.Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if(response.isSuccessful){

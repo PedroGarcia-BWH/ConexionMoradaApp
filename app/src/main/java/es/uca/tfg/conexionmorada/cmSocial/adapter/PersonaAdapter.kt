@@ -55,7 +55,7 @@ class PersonaAdapter: RecyclerView.Adapter<PersonaAdapter.PersonaViewHolder>() {
         Storage().photoAccount(holder.Perfil, persona.uuid)
 
 
-        var call = APIRetrofit().seguidorExist(persona.uuid, Firebase.auth.currentUser?.uid.toString())
+        var call = APIRetrofit(context).seguidorExist(persona.uuid, Firebase.auth.currentUser?.uid.toString())
         call.enqueue(object : retrofit2.Callback<Boolean> {
             override fun onResponse(call: retrofit2.Call<Boolean>, response: retrofit2.Response<Boolean>) {
                 if (response.isSuccessful) {
@@ -66,8 +66,8 @@ class PersonaAdapter: RecyclerView.Adapter<PersonaAdapter.PersonaViewHolder>() {
                     holder.followButton.setOnClickListener(){
 
                         lateinit var followCall : retrofit2.Call<Void>
-                        if(holder.followButton.text.equals("Siguiendo")) followCall = APIRetrofit().deleteSeguidor(persona.uuid, Firebase.auth.currentUser?.uid.toString())
-                        else followCall = APIRetrofit().addSeguidor(PayloadSeguidores(persona.uuid, Firebase.auth.currentUser?.uid.toString()))
+                        if(holder.followButton.text.equals("Siguiendo")) followCall = APIRetrofit(context).deleteSeguidor(persona.uuid, Firebase.auth.currentUser?.uid.toString())
+                        else followCall = APIRetrofit(context).addSeguidor(PayloadSeguidores(persona.uuid, Firebase.auth.currentUser?.uid.toString()))
 
                         followCall.enqueue(object : retrofit2.Callback<Void> {
                             override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {

@@ -56,14 +56,14 @@ class ChangeUsernameActivity : AppCompatActivity() {
         docRef.get()
             .addOnSuccessListener { document->
                 if(document != null){
-                    var call = APIRetrofit().deleteUsername(document.get("username").toString())
+                    var call = APIRetrofit(this).deleteUsername(document.get("username").toString())
                     call?.enqueue(object : Callback<Boolean> {
                         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                             if (response.isSuccessful) {
                                 Log.d("Username", "Username eliminado")
                                 db.collection("users").document(user!!.uid).update("username", username)
                                 Log.d("Username", "Username cambiado")
-                                var call = APIRetrofit().addUsername(username)
+                                var call = APIRetrofit(this@ChangeUsernameActivity).addUsername(username)
                                 successDialog("Username cambiado correctamente, vuelva a iniciar sesión")
                             } else {
                                 Log.d("Username", "Error al eliminar username")
@@ -119,7 +119,7 @@ class ChangeUsernameActivity : AppCompatActivity() {
     }
 
     fun UsernameExist(username: EditText) {
-        var call = APIRetrofit().getUsername(username.text.toString())
+        var call = APIRetrofit(this).getUsername(username.text.toString())
         if (call != null) {
             call.enqueue(object : Callback<Boolean> {
 

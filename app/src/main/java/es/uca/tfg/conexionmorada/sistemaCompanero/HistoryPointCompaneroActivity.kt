@@ -41,7 +41,7 @@ class HistoryPointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
 
         setCenterLocation()
 
-        var call = APIRetrofit().getAllPuntoCompaneroByUuid(FirebaseAuth.getInstance().currentUser!!.uid)
+        var call = APIRetrofit(this).getAllPuntoCompaneroByUuid(FirebaseAuth.getInstance().currentUser!!.uid)
         call.enqueue(object : retrofit2.Callback<List<PayloadPuntoCompanero>> {
             override fun onResponse(
                 call: retrofit2.Call<List<PayloadPuntoCompanero>>,

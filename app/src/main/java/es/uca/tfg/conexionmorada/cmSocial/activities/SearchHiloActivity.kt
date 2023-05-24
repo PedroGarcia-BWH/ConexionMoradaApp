@@ -61,7 +61,7 @@ class SearchHiloActivity : AppCompatActivity() {
     fun searchHilos() {
         var noResultImage = findViewById<ImageView>(R.id.imageNoResults)
         var txtNoResult = findViewById<TextView>(R.id.txtNoResults)
-        var call = APIRetrofit().searchHilos(text!!)
+        var call = APIRetrofit(this).searchHilos(text!!)
         call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
             override fun onResponse(
                 call: retrofit2.Call<List<PayloadHilo>>,
@@ -87,7 +87,7 @@ class SearchHiloActivity : AppCompatActivity() {
     fun searchPersonas(){
         var noResultImage = findViewById<ImageView>(R.id.imageNoResults)
         var txtNoResult = findViewById<TextView>(R.id.txtNoResults)
-        var call = APIRetrofit().searchUsuarios(text!!)
+        var call = APIRetrofit(this).searchUsuarios(text!!)
         call.enqueue(object : retrofit2.Callback<List<PayloadUsername>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadUsername>>, response: retrofit2.Response<List<PayloadUsername>>) {
                 if (response.isSuccessful) {

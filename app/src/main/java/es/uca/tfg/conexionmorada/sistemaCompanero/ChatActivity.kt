@@ -2,6 +2,7 @@ package es.uca.tfg.conexionmorada.sistemaCompanero
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
@@ -28,7 +29,18 @@ class ChatActivity : AppCompatActivity() {
 
         checkLeidoMensajes(id!!)
 
-        callData(id!!)
+        val handler = Handler()
+
+        val runnable = object : Runnable {
+            override fun run() {
+
+                callData(id!!)
+
+                handler.postDelayed(this, 5000) // Ejecutar el código cada 5 segundos
+            }
+        }
+        //primera llamada
+        handler.postDelayed(runnable,1)
 
         var button = findViewById<FloatingActionButton>(R.id.sendMesage)
         button.setOnClickListener(){
@@ -37,7 +49,7 @@ class ChatActivity : AppCompatActivity() {
                 Toast.makeText(this, "Por favor escriba un mensaje", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            var call = APIRetrofit().addMensajeChat(PayloadMensaje(
+            var call = APIRetrofit(this).addMensajeChat(PayloadMensaje(
                 id!!, //id del chat
                 mensaje.text.toString(),
                 FirebaseAuth.getInstance().currentUser!!.uid)
@@ -88,7 +100,7 @@ class ChatActivity : AppCompatActivity() {
 
 
     private fun checkLeidoMensajes(id: String){
-        var call = APIRetrofit().checkMensajesChat(id, FirebaseAuth.getInstance().currentUser!!.uid)
+        var call = APIRetrofit(this).checkMensajesChat(id, FirebaseAuth.getInstance().currentUser!!.uid)
             call.enqueue(object : retrofit2.Callback<Void> {
             override fun onResponse(
                 call: retrofit2.Call<Void>,
@@ -106,7 +118,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun callData(id: String){
-        var call = APIRetrofit().getAllMensajesChat(id!!)
+        var call = APIRetrofit(this).getAllMensajesChat(id!!)
         call.enqueue(object : retrofit2.Callback<List<PayloadMensaje>> {
             override fun onResponse(
                 call: retrofit2.Call<List<PayloadMensaje>>,

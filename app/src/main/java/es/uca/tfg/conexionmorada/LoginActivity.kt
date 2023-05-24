@@ -91,7 +91,7 @@ class LoginActivity : AppCompatActivity() {
                                 if (task.isSuccessful) {
                                     val token = task.result
                                     var payloadUsername = PayloadUsername(auth.currentUser!!.uid, null, token)
-                                    var call = APIRetrofit().updateToken(payloadUsername)
+                                    var call = APIRetrofit(this).updateToken(payloadUsername)
                                     call.enqueue(object : retrofit2.Callback<Boolean> {
                                         override fun onResponse(
                                             call: retrofit2.Call<Boolean>,

@@ -168,7 +168,7 @@ class HomeFragment : Fragment() {
     }
 
     fun lastArticlesClick(city: String = "", comunidad: String = "") {
-        var call = APIRetrofit().lastArticles(createPayloadArticles(city, comunidad))
+        var call = APIRetrofit(requireContext()).lastArticles(createPayloadArticles(city, comunidad))
 
         if (call != null) {
             call.enqueue(object : Callback<List<Article>> {

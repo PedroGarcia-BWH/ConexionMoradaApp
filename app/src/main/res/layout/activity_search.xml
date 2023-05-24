@@ -24,14 +24,14 @@
         android:id="@+id/searchRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:padding="4dp"
         android:scrollbars="vertical"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search" />
+        app:layout_constraintTop_toBottomOf="@+id/txtNoResults" />
 
     <ImageView
         android:id="@+id/imageNoResults"
@@ -64,5 +64,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_arrow_back_24" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/search">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabCountry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="En tu pais" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabComunidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="En tu Comunidad" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="En tu localidad" />
+
+    </com.google.android.material.tabs.TabLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,14 @@
 package es.uca.tfg.conexionmorada.utils.retrofit
 
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.provider.Settings.Global.getString
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
 import es.uca.tfg.conexionmorada.articles.model.Article
 import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
@@ -18,6 +21,7 @@ import es.uca.tfg.conexionmorada.sistemaCompanero.interfaces.SistemaCompaneroInt
 import es.uca.tfg.conexionmorada.usernames.data.PayloadUsername
 import es.uca.tfg.conexionmorada.usernames.interfaces.UsernameInterface
 import es.uca.tfg.conexionmorada.utils.Constants
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,9 +31,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 class APIRetrofit {
     var retrofit: Retrofit
 
-    constructor(){
+    constructor(context: Context){
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(BasicAuthInterceptor(context.getString(R.string.username), context.getString(R.string.password)))
         retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
+            .client(httpClient.build())
             .addConverterFactory(GsonConverterFactory.create())
             .build();
     }
@@ -84,9 +91,9 @@ class APIRetrofit {
         return crudInterface.lastArticles(payloadArticle)
     }
 
-    fun searchArticles(query: String, numberArticles: Int): Call<List<Article>> {
+    fun searchArticles(query: String, numberArticles: Int, comunidad:String, city:String): Call<List<Article>> {
         var crudInterface = retrofit.create(CRUDInterface::class.java)
-        return  crudInterface.query(query, numberArticles)
+        return  crudInterface.query(query, numberArticles, comunidad, city)
     }
 
     fun addUserApp(uuid: String): Call<Void> {

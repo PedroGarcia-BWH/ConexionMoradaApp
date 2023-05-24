@@ -79,7 +79,7 @@ class CMSocialFragment : Fragment() {
              }
          }
 
-        var call = APIRetrofit().getSeguidores(user?.uid!!)
+        var call = APIRetrofit(requireContext()).getSeguidores(user?.uid!!)
         if(call != null){
             call.enqueue(object : retrofit2.Callback<Int> {
                 override fun onResponse(call: retrofit2.Call<Int>, response: retrofit2.Response<Int>) {
@@ -93,7 +93,7 @@ class CMSocialFragment : Fragment() {
             })
         }
 
-        call = APIRetrofit().getSeguidos(user?.uid!!)
+        call = APIRetrofit(requireContext()).getSeguidos(user?.uid!!)
         if(call != null){
             call.enqueue(object : retrofit2.Callback<Int> {
                 override fun onResponse(call: retrofit2.Call<Int>, response: retrofit2.Response<Int>) {
@@ -173,7 +173,7 @@ class CMSocialFragment : Fragment() {
 
         // primera llamada a la api
         progressBar?.visibility = View.VISIBLE
-        var call = APIRetrofit().getLastHilosSeguidos(user?.uid!!)
+        var call = APIRetrofit(requireContext()).getLastHilosSeguidos(user?.uid!!)
         call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
                 if (response.isSuccessful) {
@@ -200,10 +200,10 @@ class CMSocialFragment : Fragment() {
         lateinit var call: Call<List<PayloadHilo>>
         when(tab?.position){
             0 -> {
-                call = APIRetrofit().getLastHilosSeguidos(user?.uid!!)
+                call = APIRetrofit(requireContext()).getLastHilosSeguidos(user?.uid!!)
             }
             1 -> {
-                call = APIRetrofit().getLastHilos(user?.uid!!)
+                call = APIRetrofit(requireContext()).getLastHilos(user?.uid!!)
             }
             else->{
                 Toast.makeText(activity, "Error en la selección, intentelo de nuevo", Toast.LENGTH_SHORT).show()

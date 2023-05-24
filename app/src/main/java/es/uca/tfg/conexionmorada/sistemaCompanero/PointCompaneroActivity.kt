@@ -49,7 +49,7 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
 
         var accept = findViewById<AppCompatButton>(R.id.btnAcept)
         accept.setOnClickListener {
-            var call = APIRetrofit().aceptPuntoCompanero(id, FirebaseAuth.getInstance().currentUser!!.uid)
+            var call = APIRetrofit(this).aceptPuntoCompanero(id, FirebaseAuth.getInstance().currentUser!!.uid)
             call.enqueue(object : retrofit2.Callback<Boolean> {
                 override fun onResponse(
                     call: retrofit2.Call<Boolean>,
@@ -77,7 +77,7 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
 
-        var call = APIRetrofit().getPuntoCompaneroById(id)
+        var call = APIRetrofit(this).getPuntoCompaneroById(id)
         call.enqueue(object : retrofit2.Callback<PayloadPuntoCompanero> {
             override fun onResponse(
                 call: retrofit2.Call<PayloadPuntoCompanero>,

@@ -50,7 +50,7 @@ class ReportActivity : AppCompatActivity() {
                 val radioButton = findViewById<RadioButton>(selectedId)
                 if (radioButton == rbOther && otherMensajeLayout.editText?.text.toString().isNotEmpty() || radioButton != rbOther) {
                     var payloadReporte = PayloadReporte(autorUuid, Firebase.auth.currentUser?.uid.toString(), radioButton.text.toString(), otherMensajeLayout.editText?.text.toString(), mensajeUuid)
-                    var call = APIRetrofit().addReporte(payloadReporte)
+                    var call = APIRetrofit(this).addReporte(payloadReporte)
                     call.enqueue(object : Callback<Boolean> {
                         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                             if(response.isSuccessful){

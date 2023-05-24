@@ -35,7 +35,7 @@ class PerfilSocialActivity : AppCompatActivity() {
         if(uuid.equals(Firebase.auth.currentUser?.uid)) {
             follow.visibility = Button.INVISIBLE
         }else{
-            var call = APIRetrofit().seguidorExist(uuid, Firebase.auth.currentUser?.uid.toString())
+            var call = APIRetrofit(this).seguidorExist(uuid, Firebase.auth.currentUser?.uid.toString())
             call.enqueue(object : retrofit2.Callback<Boolean> {
                 override fun onResponse(call: retrofit2.Call<Boolean>, response: retrofit2.Response<Boolean>) {
                     if (response.isSuccessful) {
@@ -46,8 +46,8 @@ class PerfilSocialActivity : AppCompatActivity() {
                         follow.setOnClickListener(){
 
                             lateinit var followCall : retrofit2.Call<Void>
-                            if(follow.text.equals("Siguiendo")) followCall = APIRetrofit().deleteSeguidor(uuid, Firebase.auth.currentUser?.uid.toString())
-                            else followCall = APIRetrofit().addSeguidor(PayloadSeguidores(uuid, Firebase.auth.currentUser?.uid.toString()))
+                            if(follow.text.equals("Siguiendo")) followCall = APIRetrofit(this@PerfilSocialActivity).deleteSeguidor(uuid, Firebase.auth.currentUser?.uid.toString())
+                            else followCall = APIRetrofit(this@PerfilSocialActivity).addSeguidor(PayloadSeguidores(uuid, Firebase.auth.currentUser?.uid.toString()))
 
                             followCall.enqueue(object : retrofit2.Callback<Void> {
                                 override fun onResponse(call: retrofit2.Call<Void>, response: retrofit2.Response<Void>) {
@@ -97,7 +97,7 @@ class PerfilSocialActivity : AppCompatActivity() {
             }
         }
 
-        var call = APIRetrofit().getSeguidores(uuid)
+        var call = APIRetrofit(this).getSeguidores(uuid)
         if(call != null){
             call.enqueue(object : retrofit2.Callback<Int> {
                 override fun onResponse(call: retrofit2.Call<Int>, response: retrofit2.Response<Int>) {
@@ -111,7 +111,7 @@ class PerfilSocialActivity : AppCompatActivity() {
             })
         }
 
-        call = APIRetrofit().getSeguidos(uuid)
+        call = APIRetrofit(this).getSeguidos(uuid)
         if(call != null){
             call.enqueue(object : retrofit2.Callback<Int> {
                 override fun onResponse(call: retrofit2.Call<Int>, response: retrofit2.Response<Int>) {
@@ -133,7 +133,7 @@ class PerfilSocialActivity : AppCompatActivity() {
         var adapter = HiloAdapter()
         recyclerView.adapter = adapter
 
-        var call = APIRetrofit().getHilosUser(uuid)
+        var call = APIRetrofit(this).getHilosUser(uuid)
 
         call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
