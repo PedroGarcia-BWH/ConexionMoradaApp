@@ -47,4 +47,12 @@ Taciti commodo parturient posuere eget interdum a proin, auctor per enim venenat
 
     <string name="username">conexionMorada</string>
     <string name="password">admin</string>
+
+    <string name="conditions">
+        <u>Pulse <b>aquí</b> para ver las condiciones de uso y normas de la comunidad.</u>
+    </string>
+
+    <string name="check_conditions">
+        Acepto las <b>condiciones</b> de uso y <b>normas</b> de la comunidad.
+    </string>
 </resources>

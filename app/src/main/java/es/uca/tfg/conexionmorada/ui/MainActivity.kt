@@ -37,17 +37,24 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun setUptabs(){
+    private fun setUptabs() {
         val adapter = Controller(supportFragmentManager)
-        adapter.addFragment(CMSocialFragment(), "CM Social")
-        adapter.addFragment(HomeFragment(), "Home")
-        adapter.addFragment(SistemaCompaneroFragment(), "Sistema Compañero")
-        //tabs.getTabAt(0)?.setIcon(R.drawable.)
+        adapter.addFragment(CMSocialFragment(), "")
+        adapter.addFragment(HomeFragment(), "")
+        adapter.addFragment(SistemaCompaneroFragment(), "")
+
         val viewpager = findViewById<ViewPager>(R.id.viewpager)
         val tabs = findViewById<TabLayout>(R.id.tabs)
         viewpager.adapter = adapter
         tabs.setupWithViewPager(viewpager)
         viewpager.setCurrentItem(1)
+
+        tabs.getTabAt(0)?.setIcon(R.drawable.baseline_connect_without_contact_24) // Establecer icono para el primer tab
+        tabs.getTabAt(1)?.setIcon(R.drawable.baseline_home_24) // Establecer icono para el segundo tab
+        tabs.getTabAt(2)?.setIcon(R.drawable.baseline_social_distance_24) // Establecer icono para el tercer tab
+
+        tabs.tabMode = TabLayout.MODE_FIXED // Establecer el modo de tabs fijo
+        tabs.isInlineLabel = false // Ocultar los títulos de los tabs
     }
 
 

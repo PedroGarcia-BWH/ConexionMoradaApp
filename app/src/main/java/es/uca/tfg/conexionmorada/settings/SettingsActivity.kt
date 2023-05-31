@@ -27,7 +27,6 @@ class SettingsActivity : AppCompatActivity() {
         changePasswordNavegate()
         changePreferenciesNavegate()
         desactivateAccountNavegate()
-        notificationsNavigate()
         exit()
 
     }
@@ -71,13 +70,7 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    fun notificationsNavigate() {
-        var notifications = findViewById<CardView>(R.id.notificationCardview)
-        notifications.setOnClickListener {
-            var intent = Intent(this, NotificationsActivity::class.java)
-            startActivity(intent)
-        }
-    }
+
 
     fun logout() {
         var logout = findViewById<CardView>(R.id.logout)

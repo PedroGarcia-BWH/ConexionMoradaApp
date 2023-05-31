@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Estado cuando el checkbox está marcado -->
+    <item android:state_checked="true">
+        <shape>
+            <solid android:color="#cb6ce6" /> <!-- Cambia el color aquí -->
+        </shape>
+    </item>
+    <!-- Estado predeterminado del checkbox -->
+    <item>
+        <shape>
+            <solid android:color="#000000" /> <!-- Cambia el color aquí -->
+        </shape>
+    </item>
+</selector>

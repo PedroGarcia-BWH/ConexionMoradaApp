@@ -26,6 +26,7 @@ class Storage {
 
             Glide.with(imageView.context)
                 .load(Uri.toString())
+                .circleCrop()
                 .into(imageView)
         }
     }

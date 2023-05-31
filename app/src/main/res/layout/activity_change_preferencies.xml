@@ -6,36 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".settings.ChangePreferenciesActivity">
 
-    <ImageView
-    android:id="@+id/exit"
-    android:layout_width="35dp"
-    android:layout_height="35dp"
-    android:layout_marginStart="15dp"
-    android:layout_marginTop="20dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:srcCompat="@drawable/baseline_arrow_back_24" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
-        android:text="Modificar preferencias"
-        android:textSize="20dp"
-        app:layout_constraintStart_toEndOf="@+id/exit"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="center"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/exit"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/baseline_arrow_back_24" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_toEndOf="@+id/exit"
+                    android:layout_centerVertical="true"
+                    android:text="Modificar preferencias"
+                    android:textSize="20dp" />
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:text="Seleccione los temas preferidos y pulse modificar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <CheckBox
         android:id="@+id/generoBox"
@@ -44,6 +70,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:text="Violencia de género"
+        style="@style/CheckboxCustomStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -54,6 +81,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:text="Violencia sexual"
+        style="@style/CheckboxCustomStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/generoBox" />
 
@@ -64,6 +92,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:text="Igualdad"
+        style="@style/CheckboxCustomStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sexualBox" />
 

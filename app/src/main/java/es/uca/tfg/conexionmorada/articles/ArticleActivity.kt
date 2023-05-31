@@ -28,6 +28,7 @@ class ArticleActivity : AppCompatActivity() {
         creationDate = intent.getSerializableExtra("creationDate") as Date
 
         setData()
+        exit()
 
     }
 
@@ -44,5 +45,12 @@ class ArticleActivity : AppCompatActivity() {
         Glide.with(this).load(urlImage).into(regImagen)
         regDate.text = creationDate.toString()
 
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.exit)
+        exit.setOnClickListener {
+            finish()
+        }
     }
 }

@@ -20,11 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#6166B3"
+        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
-        app:tabIndicatorColor="#ff00ff"
+        app:tabIndicatorColor="@color/morada_main"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="#ffffff"
-        app:tabTextColor="#d3d3d3"/>
+        app:tabSelectedTextColor="@color/morada_main"
+        app:tabTextColor="@color/morada_main"/>
 
 </RelativeLayout>

@@ -65,7 +65,7 @@ class ChangePhotoActivity : AppCompatActivity() {
                         photoRef.downloadUrl
                     }.addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Glide.with(applicationContext).load(task.result).into(profile!!)
+                            Glide.with(applicationContext).load(task.result).circleCrop().into(profile!!)
                             Log.d(TAG, "Download success" + task.result)
                             successDialog("Foto de perfil cambiada correctamente, inicie sesión de nuevo")
                         } else {
