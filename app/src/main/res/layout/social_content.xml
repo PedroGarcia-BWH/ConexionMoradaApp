@@ -12,9 +12,9 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_marginTop="25dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
             android:background="?attr/colorPrimary"
             app:layout_anchor="@+id/appBarLayout"
             app:layout_anchorGravity="center"
@@ -24,27 +24,27 @@
                 android:id="@+id/showDrawer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:background="@drawable/button_background"
+                android:drawableLeft="@drawable/baseline_dehaze_24"
+                android:text="" />
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/conexion_logo"/>
+                app:srcCompat="@drawable/conexion_logo" />
 
             <ImageView
                 android:id="@+id/seePoints"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="right"
                 android:layout_marginRight="20dp"
                 app:srcCompat="@drawable/baseline_add_24" />
 
 
         </androidx.appcompat.widget.Toolbar>
-
-
 
 
     </com.google.android.material.appbar.AppBarLayout>

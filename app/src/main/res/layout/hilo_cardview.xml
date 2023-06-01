@@ -9,10 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="1dp"
         android:layout_marginTop="5dp"
-        app:cardBackgroundColor="#94B3FD"
 
+        android:layout_marginEnd="1dp"
+        app:cardBackgroundColor="@color/morada_main"
         app:cardElevation="1dp"
         app:contentPadding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,21 +29,22 @@
                 android:id="@+id/Perfil"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/nickname"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 app:srcCompat="@drawable/no_profile" />
 
             <TextView
                 android:id="@+id/nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="15dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:fontFamily="sans-serif-black"
-                android:textSize="15dp"
                 android:text="Nickname"
+                android:textSize="15dp"
                 app:layout_constraintStart_toEndOf="@+id/Perfil"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +52,7 @@
                 android:id="@+id/cuerpoMensaje"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="52dp"
+                android:layout_marginStart="55dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="1dp"
                 android:text="Mensaje"
@@ -60,22 +62,21 @@
 
             <com.like.LikeButton
                 android:id="@+id/like_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="3dp"
                 android:visibility="visible"
                 app:icon_size="25dp"
                 app:icon_type="thumb"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/Perfil"
-                app:layout_constraintTop_toBottomOf="@+id/cuerpoMensaje" />
+                app:layout_constraintStart_toEndOf="@+id/numberLike" />
 
             <com.like.LikeButton
                 android:id="@+id/unlike_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="50dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
                 android:rotation="-180"
                 android:rotationX="0"
                 android:visibility="visible"
@@ -85,28 +86,18 @@
                 app:dots_secondary_color="#C51A1A"
                 app:icon_size="25dp"
                 app:icon_type="thumb"
-                app:like_drawable="@drawable/dislike_on"
-                app:unlike_drawable="@drawable/thumb_off"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintStart_toEndOf="@+id/numberDislike"
+                app:like_drawable="@drawable/dislike_on"
+                app:unlike_drawable="@drawable/thumb_off" />
 
             <TextView
                 android:id="@+id/horaMensaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:text="00:00"
-                app:layout_constraintStart_toEndOf="@+id/textView12"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="Hilo creado el"
-                app:layout_constraintStart_toEndOf="@+id/nickname"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <ImageView
                 android:id="@+id/more"
@@ -121,20 +112,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="60dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
                 android:text="0"
+                android:textColor="#36454F"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.96" />
+                app:layout_constraintTop_toBottomOf="@+id/cuerpoMensaje"
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/numberDislike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginBottom="5dp"
                 android:text="0"
+                android:textColor="#36454F"
+                android:textSize="11sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/unlike_button" />
+                app:layout_constraintStart_toEndOf="@+id/like_button" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

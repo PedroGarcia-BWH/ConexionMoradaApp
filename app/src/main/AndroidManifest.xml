@@ -20,7 +20,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/CustomTheme"
         android:usesCleartextTraffic="true"
@@ -34,11 +34,6 @@
         <activity
             android:name=".sistemaCompanero.ZonaSistemaCompaneroActivity"
             android:exported="false" />
-        <activity
-            android:name=".sistemaCompanero.ZonaCompaneroActivity"
-            android:exported="false"
-            android:label="@string/title_activity_zona_companero"
-            android:theme="@style/NoActionBar" />
         <activity
             android:name=".sistemaCompanero.PointCompaneroActivity"
             android:exported="false" />

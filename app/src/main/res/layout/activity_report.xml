@@ -75,29 +75,34 @@
             android:id="@+id/rbSpam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/RadioButtonStyle"
             android:text="El contenido del mensaje contiene spam." />
 
         <RadioButton
             android:id="@+id/rbLanguage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/RadioButtonStyle"
             android:text="Uso de lenguaje malsonante o soez." />
 
         <RadioButton
             android:id="@+id/rbPhoto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/RadioButtonStyle"
             android:text="El usuario tiene una foto de perfil de carácter delicado" />
 
         <RadioButton
             android:id="@+id/rbComunity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/RadioButtonStyle"
             android:text="El mensaje infringe las normas de la comunidad(contiene un mensaje racista, homófobo..etc)." />
 
         <RadioButton
             android:id="@+id/rbOther"
             android:layout_width="match_parent"
+            style="@style/RadioButtonStyle"
             android:layout_height="wrap_content"
             android:text="Otro" />
     </RadioGroup>
@@ -139,6 +144,7 @@
 
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        android:layout_marginBottom="75dp"
         android:background="@drawable/loginbtn"
         android:gravity="center"
         android:text="Enviar reporte"
@@ -146,6 +152,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/otherMensajeLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/otherMensajeLayout"
+        app:layout_constraintVertical_bias="0.97" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
