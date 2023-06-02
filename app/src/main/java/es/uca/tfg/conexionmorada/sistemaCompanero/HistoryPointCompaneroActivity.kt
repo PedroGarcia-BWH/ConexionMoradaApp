@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationServices
@@ -33,6 +34,7 @@ class HistoryPointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        exit()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -119,5 +121,12 @@ class HistoryPointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
         val canvas = Canvas(bitmap)
         markerView.draw(canvas)
         return bitmap
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.exit)
+        exit.setOnClickListener {
+            finish()
+        }
     }
 }

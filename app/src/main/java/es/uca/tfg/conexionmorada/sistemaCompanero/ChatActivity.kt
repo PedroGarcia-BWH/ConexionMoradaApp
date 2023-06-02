@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -74,6 +75,8 @@ class ChatActivity : AppCompatActivity() {
             })
         }
 
+        exit()
+
     }
 
 
@@ -135,5 +138,12 @@ class ChatActivity : AppCompatActivity() {
                 //finish()
             }
         })
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.exit)
+        exit.setOnClickListener {
+            finish()
+        }
     }
 }

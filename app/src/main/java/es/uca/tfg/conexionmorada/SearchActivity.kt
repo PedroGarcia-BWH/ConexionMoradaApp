@@ -38,6 +38,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         search()
+        exit()
 
 
     }
@@ -194,6 +195,13 @@ class SearchActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
+        }
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.exit)
+        exit.setOnClickListener {
+            finish()
         }
     }
 }

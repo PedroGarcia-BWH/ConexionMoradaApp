@@ -50,7 +50,15 @@ class LoginActivity : AppCompatActivity() {
 
         val regLogin = findViewById<TextView>(R.id.btnAcept)
         regLogin.setOnClickListener {
-
+            if(txtEmail.text.toString().isEmpty() || txtPassword.text.toString().isEmpty()) {
+                Toast.makeText(
+                    applicationContext,
+                    "Por favor, rellene los campos de correo electrónico y contraseña",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                login(txtEmail.text.toString(), txtPassword.text.toString())
+            }
             /*var success = User.login(txtEmail.text.toString(), txtPassword.text.toString())
             if (success) {
                 val homeAct = Intent(this, MainActivity::class.java)
@@ -62,7 +70,6 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }*/
-            login(txtEmail.text.toString(), txtPassword.text.toString())
 
         }
 
@@ -70,7 +77,8 @@ class LoginActivity : AppCompatActivity() {
 
     fun login(email: String, password: String) {
         var auth = Firebase.auth
-
+        var dialog = LoadingDialog(this)
+        dialog.startLoadingDialog()
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -116,6 +124,7 @@ class LoginActivity : AppCompatActivity() {
 
                         startActivity(homeAct)
                     }else{
+                        dialog.dismissDialog()
                         val builder = AlertDialog.Builder(this)
                         builder.setTitle("Verificación de correo")
                         builder.setMessage("La cuenta introducida no ha sido verificada. Por favor, verifique su correo electrónico.")
@@ -124,6 +133,7 @@ class LoginActivity : AppCompatActivity() {
                         builder.show()
                     }
                 } else {
+                    dialog.dismissDialog()
                     Toast.makeText(
                         applicationContext,
                         "Usuario o contraseña incorrectos",

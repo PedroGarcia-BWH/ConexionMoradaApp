@@ -1,6 +1,7 @@
 package es.uca.tfg.conexionmorada.ui
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.LocationServices
@@ -77,7 +79,7 @@ class SistemaCompaneroFragment : Fragment() {
         val addButon = view?.findViewById<View>(es.uca.tfg.conexionmorada.R.id.add)
         addButon?.setOnClickListener {
             val intent = Intent(requireContext(), AddPointActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, REQUEST_CODE_ADD_POINT)
         }
 
         val more = view?.findViewById<View>(es.uca.tfg.conexionmorada.R.id.zona_companero)
@@ -86,6 +88,16 @@ class SistemaCompaneroFragment : Fragment() {
             startActivity(intent)
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_ADD_POINT && resultCode == Activity.RESULT_OK) {
+            // Realizar las acciones que deseas al recibir el resultado "RESULT_OK" de AddPointActivity
+            // por ejemplo, recargar la actividad anterior
+            recreate(requireActivity())
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -183,5 +195,9 @@ class SistemaCompaneroFragment : Fragment() {
         val canvas = Canvas(bitmap)
         markerView.draw(canvas)
         return bitmap
+    }
+
+    companion object {
+        private const val REQUEST_CODE_ADD_POINT = 1001
     }
 }

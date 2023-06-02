@@ -1,6 +1,7 @@
 package es.uca.tfg.conexionmorada.sistemaCompanero
 
 import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
@@ -13,12 +14,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -74,11 +77,19 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
         editTextDate!!.setOnClickListener(View.OnClickListener {
-            DatePickerDialog(
-                this, dateSetListener, myCalendar!!.get(
-                    Calendar.YEAR
-                ), myCalendar!!.get(Calendar.MONTH), myCalendar!!.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            val datePicker = DatePickerDialog(
+                this,
+                dateSetListener,
+                myCalendar!!.get(Calendar.YEAR),
+                myCalendar!!.get(Calendar.MONTH),
+                myCalendar!!.get(Calendar.DAY_OF_MONTH)
+            )
+
+            // Establecer la fecha mínima como la fecha actual
+            val currentDate = Calendar.getInstance()
+            datePicker.datePicker.minDate = currentDate.timeInMillis
+
+            datePicker.show()
         })
 
         editTextTime = findViewById(R.id.editTextTime);
@@ -100,6 +111,7 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
         })
 
         addPoint()
+        exit()
     }
     @RequiresApi(Build.VERSION_CODES.N)
     private fun updateLabel() {
@@ -225,6 +237,8 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
 
                     val polylineOptions = PolylineOptions()
+                        .color(ContextCompat.getColor(this@AddPointActivity, R.color.morada_main)) // Establecer el color de la línea
+
                     for (step in result.routes[0].legs[0].steps) {
                         val startLocation = LatLng(
                             step.startLocation.lat,
@@ -282,6 +296,7 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
                 return@setOnClickListener
             }
 
+
             //get current user
             val user = FirebaseAuth.getInstance().currentUser
 
@@ -315,6 +330,7 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if(response.isSuccessful){
                         Toast.makeText(this@AddPointActivity, "Punto compañero creado correctamente", Toast.LENGTH_SHORT).show()
+                        setResult(Activity.RESULT_OK) // Establecer el resultado como "RESULT_OK"
                         finish()
                     }
                 }
@@ -323,6 +339,13 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
                     Toast.makeText(this@AddPointActivity, "Ha ocurrido un error al crear el punto compañero, por favor intentélo de nuevo", Toast.LENGTH_SHORT).show()
                 }
             })
+        }
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.Exit)
+        exit.setOnClickListener {
+            finish()
         }
     }
 }

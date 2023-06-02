@@ -25,10 +25,11 @@ class ZonaSistemaCompaneroActivity : AppCompatActivity() {
             val intent = Intent(this, HistoryPointCompaneroActivity::class.java)
             startActivity(intent)
         }
+        exit()
 
         val handler = Handler()
 
-        val runnable = object : Runnable {
+      /*  val runnable = object : Runnable {
             override fun run() {
                 var call = APIRetrofit(this@ZonaSistemaCompaneroActivity).getAllChatsByUuid(FirebaseAuth.getInstance().uid.toString())
                 call.enqueue(object : retrofit2.Callback<List<PayloadChat>> {
@@ -52,7 +53,25 @@ class ZonaSistemaCompaneroActivity : AppCompatActivity() {
             }
         }
         //primera llamada
-        handler.postDelayed(runnable,1)
+        handler.postDelayed(runnable,1)*/
+
+        var call = APIRetrofit(this@ZonaSistemaCompaneroActivity).getAllChatsByUuid(FirebaseAuth.getInstance().uid.toString())
+        call.enqueue(object : retrofit2.Callback<List<PayloadChat>> {
+            override fun onResponse(
+                call: retrofit2.Call<List<PayloadChat>>,
+                response: retrofit2.Response<List<PayloadChat>>
+            ) {
+                if (response.isSuccessful) {
+                    val chats = response.body()
+                    addDataChats(chats!!)
+
+                }
+            }
+
+            override fun onFailure(call: retrofit2.Call<List<PayloadChat>>, t: Throwable) {
+                Toast.makeText(this@ZonaSistemaCompaneroActivity, "No se ha podido cargar los chats, intentelo de nuevo", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun addDataChats(chats: List<PayloadChat>){
@@ -74,5 +93,12 @@ class ZonaSistemaCompaneroActivity : AppCompatActivity() {
         intent.putExtra("id", chat.id)
         intent.putExtra("uuid", chat.uuidUser)
         startActivity(intent)
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.exit)
+        exit.setOnClickListener {
+            finish()
+        }
     }
 }

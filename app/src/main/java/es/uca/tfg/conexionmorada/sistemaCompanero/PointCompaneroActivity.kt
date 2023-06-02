@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -56,7 +57,7 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
                     response: retrofit2.Response<Boolean>
                 ) {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@PointCompaneroActivity, "Punto compañero aceptado, revisa tus chats para obtener más información", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@PointCompaneroActivity, "Punto compañero aceptado, revisa tu zona compañero para obtener más información", Toast.LENGTH_SHORT).show()
                         finish()
                     } else {
                         Toast.makeText(this@PointCompaneroActivity, "Ha ocurrido un error, el punto compañero no existe o ya ha sido aceptado", Toast.LENGTH_SHORT).show()
@@ -200,6 +201,8 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onResult(result: DirectionsResult?) {
                 if (result != null) {
                     val polylineOptions = PolylineOptions()
+                        .color(ContextCompat.getColor(this@PointCompaneroActivity, R.color.morada_main)) // Establecer el color de la línea
+
                     for (step in result.routes[0].legs[0].steps) {
                         val startLocation = LatLng(
                             step.startLocation.lat,

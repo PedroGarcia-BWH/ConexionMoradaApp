@@ -11,8 +11,9 @@
 
         android:layout_marginStart="3dp"
         android:layout_marginTop="5dp"
-        app:cardBackgroundColor="#94B3FD"
+        android:layout_marginEnd="3dp"
 
+        app:cardBackgroundColor="#94B3FD"
         app:cardElevation="1dp"
         app:contentPadding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,10 +29,10 @@
                 android:id="@+id/Perfil"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 app:srcCompat="@drawable/no_profile" />
 
             <TextView
@@ -48,16 +49,16 @@
 
             <TextView
                 android:id="@+id/txtLastMensaje"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Ultimo mensaje \n"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/Perfil"
-                app:layout_constraintTop_toBottomOf="@+id/nickname" />
+                app:layout_constraintTop_toBottomOf="@+id/nickname"
+                app:layout_constraintVertical_bias="0.65999997" />
 
             <TextView
                 android:id="@+id/txtDate"
@@ -76,7 +77,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/txtDate"
                 app:layout_constraintStart_toEndOf="@+id/nickname"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.24000001" />
+                app:layout_constraintVertical_bias="0.01999998" />
 
             <TextView
                 android:id="@+id/txtNotificationCount"
@@ -91,7 +92,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/txtDate"
                 app:layout_constraintStart_toEndOf="@+id/nickname"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.19999999" />
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
