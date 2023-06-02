@@ -23,36 +23,34 @@
         android:id="@+id/searchRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:padding="4dp"
         android:scrollbars="vertical"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtNoResults" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch" />
 
     <ImageView
         android:id="@+id/imageNoResults"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
         android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch"
         app:srcCompat="@drawable/baseline_search_off_24" />
 
     <TextView
         android:id="@+id/txtNoResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:visibility="invisible"
+        android:layout_marginTop="15dp"
         android:text="No se han encontrado resultados"
+        android:visibility="invisible"
         app:layout_constraintStart_toEndOf="@+id/imageNoResults"
-        app:layout_constraintTop_toBottomOf="@+id/search" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch" />
 
     <ImageView
         android:id="@+id/Exit"

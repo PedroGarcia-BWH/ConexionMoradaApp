@@ -12,9 +12,9 @@ android {
     defaultConfig {
         applicationId "es.uca.tfg.conexionmorada"
         minSdk 21
-        targetSdk 33
+        targetSdk 32
         versionCode 1
-        versionName "1.0.1-Alpha1"
+        versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

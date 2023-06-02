@@ -199,7 +199,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     fun exit(){
-        var exit = findViewById<ImageView>(R.id.exit)
+        var exit = findViewById<ImageView>(R.id.Exit)
         exit.setOnClickListener {
             finish()
         }
