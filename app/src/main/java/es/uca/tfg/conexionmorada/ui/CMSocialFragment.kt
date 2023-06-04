@@ -193,6 +193,14 @@ class CMSocialFragment : Fragment() {
             }
         })
 
+        var logo = activity?.findViewById<ImageView>(R.id.logo)
+        logo?.setOnClickListener {
+            adapter.clearData()
+            progressBar?.visibility = View.VISIBLE
+            if(tabLayoutManager?.getTabAt(0)?.isSelected == true) getHilos(tabLayoutManager?.getTabAt(0),adapter)
+            else getHilos(tabLayoutManager?.getTabAt(1),adapter)
+            progressBar?.visibility = View.GONE
+        }
 
     }
 

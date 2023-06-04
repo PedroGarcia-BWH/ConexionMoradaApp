@@ -31,12 +31,13 @@ import java.io.IOException
 import java.util.Locale
 
 class SearchActivity : AppCompatActivity() {
-    lateinit var country: String
-    lateinit var comunidad: String
-    lateinit var city: String
+    var city: String? = null
+    var comunidad: String? = null
+    var country: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        getLocation()
         search()
         exit()
 
@@ -63,11 +64,11 @@ class SearchActivity : AppCompatActivity() {
                     }
                     1 -> {
                         // Acciones para la pestaña Comunidad
-                        searchArticles(query!!, comunidad)
+                        searchArticles(query!!, comunidad!!)
                     }
                     2 -> {
                         // Acciones para la pestaña City
-                        searchArticles(query!!, "null", city)
+                        searchArticles(query!!, "null", city!!)
                     }
                     else -> {
                         // Acciones por defecto
@@ -85,8 +86,9 @@ class SearchActivity : AppCompatActivity() {
         tabLayoutManager?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if(!search.getQuery().toString().isEmpty()){
-
-                    searchArticles(search.getQuery().toString())
+                    if(tab!!.position == 0) searchArticles(search.getQuery().toString())
+                    else if(tab!!.position == 1) searchArticles(search.getQuery().toString(), comunidad!!)
+                    else if (tab!!.position == 2) searchArticles(search.getQuery().toString(), "null", city!!)
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -94,7 +96,9 @@ class SearchActivity : AppCompatActivity() {
             }
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 if(!search.getQuery().toString().isEmpty()){
-                    searchArticles(search.getQuery().toString())
+                    if(tab!!.position == 0) searchArticles(search.getQuery().toString())
+                    else if(tab!!.position == 1) searchArticles(search.getQuery().toString(), comunidad!!)
+                    else if (tab!!.position == 2) searchArticles(search.getQuery().toString(), "null", city!!)
                 }
             }
         })

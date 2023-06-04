@@ -2,19 +2,33 @@ package es.uca.tfg.conexionmorada.ui
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
+import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.recreate
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,17 +36,24 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.sistemaCompanero.AddPointActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.PointCompaneroActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.ZonaSistemaCompaneroActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
+import es.uca.tfg.conexionmorada.utils.storage.Storage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 class SistemaCompaneroFragment : Fragment() {
     private lateinit var mMap: GoogleMap
     private val REQUEST_LOCATION_PERMISSION = 1
-
+    private val LOCATION_SETTINGS_REQUEST_CODE = 123
+    private val DELAY_TIME = 5000L // 5 segundos
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +62,8 @@ class SistemaCompaneroFragment : Fragment() {
             != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), REQUEST_LOCATION_PERMISSION)
         }
+
+        checkLocationEnabled()
 
 
     }
@@ -151,11 +174,30 @@ class SistemaCompaneroFragment : Fragment() {
                     val puntos = response.body()
                     if (puntos != null) {
                         for (punto in puntos) {
+
+                            /*createCustomMarkerBitmap(requireContext(), punto.uuidSolicitante) { bitmap ->
+                                if (bitmap != null) {
+                                    val markerOptions = MarkerOptions()
+                                        .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
+                                        .title(punto.id)
+                                        .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                                    mMap.addMarker(markerOptions)
+                                } else {
+                                    // Error al cargar el bitmap
+                                    // Manejar el caso de error
+                                }
+                            }*/
                            val markerOptions = MarkerOptions()
                                 .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
                                 .title(punto.id)
-                                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap()!!))
+                                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap(requireContext(), punto.uuidSolicitante )!!))
                             mMap.addMarker(markerOptions)
+
+                           /* val markerPosition = LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble())
+                            val markerIconRes = R.drawable.marker
+                            val userPhotoRes = R.drawable.baseline_account_circle_24
+
+                            createCustomMarker(requireContext(), mMap, markerPosition, markerIconRes, userPhotoRes)*/
                         }
 
                         mMap.setOnMarkerClickListener { marker ->
@@ -181,23 +223,97 @@ class SistemaCompaneroFragment : Fragment() {
     }
 
 
-    private fun createCustomMarkerBitmap(): Bitmap? {
+   /* private fun createCustomMarkerBitmap(context: Context, userUuid: String, callback: (Bitmap?) -> Unit) {
+        val markerView: View = LayoutInflater.from(context).inflate(R.layout.punto_companero_layout, null)
+        val userPhotoImageView = markerView.findViewById<ImageView>(R.id.userPhotoImageView)
+
+        val imageRef = Firebase.storage.reference.child("perfil/$userUuid")
+        Glide.with(context)
+            .asBitmap()
+            .load(imageRef)
+            .circleCrop()
+            .into(object : SimpleTarget<Bitmap>() {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    userPhotoImageView.setImageBitmap(resource)
+                    markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+                    markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
+                    markerView.buildDrawingCache()
+                    val markerBitmap = Bitmap.createBitmap(
+                        markerView.measuredWidth,
+                        markerView.measuredHeight,
+                        Bitmap.Config.ARGB_8888
+                    )
+                    val canvas = Canvas(markerBitmap)
+                    markerView.draw(canvas)
+                    callback(markerBitmap)
+                }
+            })
+    }*/
+
+    private fun createCustomMarkerBitmap(context: Context, userUuid: String ): Bitmap? {
         val markerView: View =
-            LayoutInflater.from(context).inflate(es.uca.tfg.conexionmorada.R.layout.punto_companero_layout, null)
+            LayoutInflater.from(context).inflate(R.layout.punto_companero_layout, null)
+
+        val userPhotoImageView = markerView.findViewById<ImageView>(R.id.userPhotoImageView)
+        var imageref = Firebase.storage.reference.child("perfil/${userUuid}")
+        //userPhotoImageView.setImageResource(R.drawable.baseline_home_24)
+        imageref.downloadUrl.addOnSuccessListener { Uri ->
+            Log.d("ImageURL", Uri.toString())
+            Glide.with(context)
+                .asBitmap()
+                .load(Uri.toString())
+                .circleCrop()
+                .into(userPhotoImageView)
+        }
+
         markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
         markerView.buildDrawingCache()
+
         val bitmap = Bitmap.createBitmap(
             markerView.measuredWidth,
             markerView.measuredHeight,
             Bitmap.Config.ARGB_8888
         )
+
         val canvas = Canvas(bitmap)
         markerView.draw(canvas)
+
         return bitmap
     }
 
     companion object {
         private const val REQUEST_CODE_ADD_POINT = 1001
+    }
+
+    private fun checkLocationEnabled() {
+        val locationManager = context?.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+        val isLocationEnabled = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) == true || locationManager?.isProviderEnabled(LocationManager.NETWORK_PROVIDER) == true
+
+
+        if (!isLocationEnabled) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Activar ubicación")
+                .setMessage("Para que la aplicación funcione correctamente es necesario que actives la opción de ubicación. ¿Desea activarla ahora?")
+                .setCancelable(false)
+                .setPositiveButton("Aceptar") { _, _ ->
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivityForResult(intent, LOCATION_SETTINGS_REQUEST_CODE)
+                    Handler().postDelayed({
+                        restartActivity()
+                    }, DELAY_TIME)
+                }
+                .setNegativeButton("Cancelar") { dialog, _ ->
+                    requireActivity().finishAffinity()
+                }
+                .show()
+        }
+    }
+
+    private fun restartActivity() {
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        requireActivity().finish()
     }
 }

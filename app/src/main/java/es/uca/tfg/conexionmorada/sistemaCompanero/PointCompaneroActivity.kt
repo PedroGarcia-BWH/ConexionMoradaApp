@@ -71,6 +71,7 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
             })
         }
 
+        exit()
     }
 
 
@@ -235,6 +236,13 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
             e.printStackTrace()
         }
         return ""
+    }
+
+    fun exit(){
+        var exit = findViewById<ImageView>(R.id.exit)
+        exit.setOnClickListener {
+            finish()
+        }
     }
 
 }

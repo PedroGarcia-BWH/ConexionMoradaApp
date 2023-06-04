@@ -1,11 +1,14 @@
 package es.uca.tfg.conexionmorada.ui
 
 import android.content.ContentValues
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -21,6 +24,9 @@ import retrofit2.Call
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity(){
+
+    private val LOCATION_SETTINGS_REQUEST_CODE = 123
+    private val DELAY_TIME = 5000L // 5 segundos
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -65,5 +71,26 @@ class MainActivity : AppCompatActivity(){
         }else{
             supportFragmentManager.beginTransaction().detach(fragment).attach(fragment).commitNow()
         }
+    }
+
+    override fun onBackPressed() {
+        finishAffinity()
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == LOCATION_SETTINGS_REQUEST_CODE) {
+            Handler().postDelayed({
+                restartActivity()
+            }, DELAY_TIME)
+        }
+    }
+
+    private fun restartActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
     }
 }
