@@ -1,11 +1,21 @@
 package es.uca.tfg.conexionmorada.utils
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.icu.text.SimpleDateFormat
 import android.os.Build
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.activities.HiloSelectedActivity
 import java.util.Calendar
@@ -46,6 +56,57 @@ class Utils {
                 dias < 30 -> "Hace $dias días"
                 meses < 12 -> "Hace $meses meses"
                 else -> "Hace $años años"
+            }
+        }
+
+        fun createCustomMarkerBitmap(
+            context: Context,
+            userUuid: String,
+            callback: (Bitmap?) -> Unit
+        ) {
+            val markerView: View =
+                LayoutInflater.from(context).inflate(R.layout.punto_companero_layout, null)
+
+            val userPhotoImageView = markerView.findViewById<ImageView>(R.id.userPhotoImageView)
+            val imageref = Firebase.storage.reference.child("perfil/$userUuid")
+
+            imageref.downloadUrl.addOnSuccessListener { Uri ->
+                Glide.with(context)
+                    .asBitmap()
+                    .circleCrop()
+                    .load(Uri)
+                    .into(object : SimpleTarget<Bitmap>() {
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            userPhotoImageView.setImageBitmap(resource)
+
+                            markerView.measure(
+                                View.MeasureSpec.UNSPECIFIED,
+                                View.MeasureSpec.UNSPECIFIED
+                            )
+                            markerView.layout(
+                                0,
+                                0,
+                                markerView.measuredWidth,
+                                markerView.measuredHeight
+                            )
+                            markerView.buildDrawingCache()
+
+                            val bitmap = Bitmap.createBitmap(
+                                markerView.measuredWidth,
+                                markerView.measuredHeight,
+                                Bitmap.Config.ARGB_8888
+                            )
+
+                            val canvas = Canvas(bitmap)
+                            markerView.draw(canvas)
+
+                            // Llama al callback con el bitmap creado
+                            callback(bitmap)
+                        }
+                    })
             }
         }
     }

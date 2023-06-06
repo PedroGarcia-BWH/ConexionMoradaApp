@@ -32,6 +32,7 @@ import com.google.maps.model.TravelMode
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.activities.PerfilSocialActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
+import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.firestore.User
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.storage.Storage
@@ -87,6 +88,7 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
             ) {
                 if (response.isSuccessful) {
                     if(response.body() != null){
+
                         val markerOptionsOrigin = MarkerOptions()
                             .position(LatLng(response.body()!!.markerOrigenLatitud.toDouble(), response.body()!!.markerOrigenLongitud.toDouble()))
                             .title(response.body()!!.markerOrigenTitulo)

@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.rpc.context.AttributeContext.Auth
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
+import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 
 class HistoryPointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -53,11 +54,23 @@ class HistoryPointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
                     val puntos = response.body()
                     if (puntos != null) {
                         for (punto in puntos) {
-                            val markerOptions = MarkerOptions()
+                            /*val markerOptions = MarkerOptions()
                                 .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
                                 .title(punto.id)
                                 .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap()!!))
-                            mMap.addMarker(markerOptions)
+                            mMap.addMarker(markerOptions)*/
+
+                            Utils.createCustomMarkerBitmap(this@HistoryPointCompaneroActivity, punto.uuidSolicitante) { bitmap ->
+                                if (bitmap != null) {
+                                    val markerOptions = MarkerOptions()
+                                        .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
+                                        .title(punto.id)
+                                        .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                                    mMap.addMarker(markerOptions)
+                                } else {
+                                    // Manejar el caso en que el bitmap sea nulo
+                                }
+                            }
                         }
 
                         mMap.setOnMarkerClickListener { marker ->

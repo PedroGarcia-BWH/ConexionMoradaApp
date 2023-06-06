@@ -51,6 +51,7 @@ import com.google.maps.model.DirectionsResult
 import com.google.maps.model.TravelMode
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
+import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import retrofit2.Call
 import retrofit2.Callback
@@ -143,19 +144,44 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setOnMapClickListener(OnMapClickListener { latLng ->
             if (originMarker == null) {
                 // Si no hay un marcador de origen, crea uno en la ubicación seleccionada
-                val markerOptions = MarkerOptions()
+               /* val markerOptions = MarkerOptions()
                     .position(latLng)
                     .title("Origen")
                     .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap(this, FirebaseAuth.getInstance().uid.toString() )!!))
-                originMarker = mMap.addMarker(markerOptions)
+                originMarker = mMap.addMarker(markerOptions)*/
+
+                Utils.createCustomMarkerBitmap(this@AddPointActivity, FirebaseAuth.getInstance().uid.toString()) { bitmap ->
+                    if (bitmap != null) {
+                        val markerOptions = MarkerOptions()
+                            .position(latLng)
+                            .title("Origen")
+                            .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                        originMarker = mMap.addMarker(markerOptions)
+                    } else {
+                        // Manejar el caso en que el bitmap sea nulo
+                    }
+                }
 
             } else if (destinationMarker == null) {
                 // Si no hay un marcador de destino, crea uno en la ubicación seleccionada
-                val markerOptions = MarkerOptions()
+                /*val markerOptions = MarkerOptions()
                     .position(latLng)
                     .title("Destino")
                     .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap(this, FirebaseAuth.getInstance().uid.toString() )!!))
-                destinationMarker = mMap.addMarker(markerOptions)
+                destinationMarker = mMap.addMarker(markerOptions)*/
+
+                Utils.createCustomMarkerBitmap(this@AddPointActivity, FirebaseAuth.getInstance().uid.toString()) { bitmap ->
+                    if (bitmap != null) {
+                        val markerOptions = MarkerOptions()
+                            .position(latLng)
+                            .title("Destino")
+                            .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                        destinationMarker = mMap.addMarker(markerOptions)
+                    } else {
+                        // Manejar el caso en que el bitmap sea nulo
+                    }
+                }
+
                 directions()
             } else {
                 // Ya hay un marcador de origen y uno de destino, no se permite añadir más

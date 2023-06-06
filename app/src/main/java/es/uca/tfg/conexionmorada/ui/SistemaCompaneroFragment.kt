@@ -43,6 +43,7 @@ import es.uca.tfg.conexionmorada.sistemaCompanero.AddPointActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.PointCompaneroActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.ZonaSistemaCompaneroActivity
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadPuntoCompanero
+import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.retrofit.APIRetrofit
 import es.uca.tfg.conexionmorada.utils.storage.Storage
 import kotlinx.coroutines.Dispatchers
@@ -175,7 +176,7 @@ class SistemaCompaneroFragment : Fragment() {
                     if (puntos != null) {
                         for (punto in puntos) {
 
-                            /*createCustomMarkerBitmap(requireContext(), punto.uuidSolicitante) { bitmap ->
+                            Utils.createCustomMarkerBitmap(requireContext(), punto.uuidSolicitante) { bitmap ->
                                 if (bitmap != null) {
                                     val markerOptions = MarkerOptions()
                                         .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
@@ -183,21 +184,17 @@ class SistemaCompaneroFragment : Fragment() {
                                         .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
                                     mMap.addMarker(markerOptions)
                                 } else {
-                                    // Error al cargar el bitmap
-                                    // Manejar el caso de error
+                                    // Manejar el caso en que el bitmap sea nulo
                                 }
-                            }*/
-                           val markerOptions = MarkerOptions()
+                            }
+
+                           /*val markerOptions = MarkerOptions()
                                 .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
                                 .title(punto.id)
                                 .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap(requireContext(), punto.uuidSolicitante )!!))
-                            mMap.addMarker(markerOptions)
+                            mMap.addMarker(markerOptions)*/
 
-                           /* val markerPosition = LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble())
-                            val markerIconRes = R.drawable.marker
-                            val userPhotoRes = R.drawable.baseline_account_circle_24
 
-                            createCustomMarker(requireContext(), mMap, markerPosition, markerIconRes, userPhotoRes)*/
                         }
 
                         mMap.setOnMarkerClickListener { marker ->
@@ -250,37 +247,7 @@ class SistemaCompaneroFragment : Fragment() {
             })
     }*/
 
-    private fun createCustomMarkerBitmap(context: Context, userUuid: String ): Bitmap? {
-        val markerView: View =
-            LayoutInflater.from(context).inflate(R.layout.punto_companero_layout, null)
 
-        val userPhotoImageView = markerView.findViewById<ImageView>(R.id.userPhotoImageView)
-        var imageref = Firebase.storage.reference.child("perfil/${userUuid}")
-        //userPhotoImageView.setImageResource(R.drawable.baseline_home_24)
-        imageref.downloadUrl.addOnSuccessListener { Uri ->
-            Log.d("ImageURL", Uri.toString())
-            Glide.with(context)
-                .asBitmap()
-                .load(Uri.toString())
-                .circleCrop()
-                .into(userPhotoImageView)
-        }
-
-        markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
-        markerView.buildDrawingCache()
-
-        val bitmap = Bitmap.createBitmap(
-            markerView.measuredWidth,
-            markerView.measuredHeight,
-            Bitmap.Config.ARGB_8888
-        )
-
-        val canvas = Canvas(bitmap)
-        markerView.draw(canvas)
-
-        return bitmap
-    }
 
     companion object {
         private const val REQUEST_CODE_ADD_POINT = 1001
