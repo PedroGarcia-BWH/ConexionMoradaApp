@@ -28,10 +28,9 @@ class NotificacionesSocialActivity : AppCompatActivity() {
         setContentView(R.layout.activity_notificaciones_social)
 
         Utils.exit(this, findViewById(R.id.Exit))
-
-        onTabSelected()
         addDataRecyclerViewPersona()
         addDataRecyclerViewHilo()
+        onTabSelected()
         deleteNotificationsClick()
     }
 
@@ -46,12 +45,9 @@ class NotificacionesSocialActivity : AppCompatActivity() {
         call.enqueue(object : retrofit2.Callback<List<PayloadNotificationHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadNotificationHilo>>, response: retrofit2.Response<List<PayloadNotificationHilo>>) {
                 if (response.isSuccessful) {
-                    if(response.body()!!.size == 0) {
-                        //noResultImage.visibility = ImageView.VISIBLE
-                        //txtNoResult.visibility = TextView.VISIBLE
-                    }else{
+                    Toast.makeText(applicationContext, "Notificaciones cargadas" + response.body(), Toast.LENGTH_SHORT).show()
                         adapterHilo.setData(response.body()!!)
-                    }
+
 
                     adapterHilo.setOnItemClickListener(object : NotificationHiloAdapter.onItemClickListener {
                         override fun onItemClick(position: Int) {
@@ -78,12 +74,9 @@ class NotificacionesSocialActivity : AppCompatActivity() {
         call.enqueue(object : retrofit2.Callback<List<PayloadNotificationPersona>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadNotificationPersona>>, response: retrofit2.Response<List<PayloadNotificationPersona>>) {
                 if (response.isSuccessful) {
-                    if(response.body()!!.size == 0) {
-                        //noResultImage.visibility = ImageView.VISIBLE
-                        //txtNoResult.visibility = TextView.VISIBLE
-                    }else{
-                        adapterPersona.setData(response.body()!!)
-                    }
+                    Toast.makeText(applicationContext, "Notificaciones cargadas" + response.body(), Toast.LENGTH_SHORT).show()
+                    adapterPersona.setData(response.body()!!)
+
 
                     adapterPersona.setOnItemClickListener(object : NotificationPersonaAdapter.onItemClickListener {
                         override fun onItemClick(position: Int) {

@@ -37,10 +37,11 @@
                 android:id="@+id/nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_weight="1"
+                android:clickable="true"
                 android:fontFamily="sans-serif-black"
                 android:text="Nickname"
-                android:clickable="true"
                 app:layout_constraintStart_toEndOf="@+id/Perfil"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,6 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
                 android:text="Mensaje"
                 app:layout_constraintStart_toEndOf="@+id/nickname"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -61,22 +63,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:text="Hace"
-                app:layout_constraintEnd_toStartOf="@+id/horaMensaje"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <androidx.cardview.widget.CardView
                 android:layout_width="337dp"
                 android:layout_height="86dp"
 
                 android:layout_marginStart="55dp"
 
-                app:cardBackgroundColor="#94B3FD"
+                app:cardBackgroundColor="@color/morada_main"
                 app:cardElevation="1dp"
                 app:contentPadding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
