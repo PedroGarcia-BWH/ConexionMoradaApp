@@ -173,6 +173,8 @@ class PointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun createCustomMarkerBitmap(): Bitmap? {
         val markerView: View =
             LayoutInflater.from(this).inflate(es.uca.tfg.conexionmorada.R.layout.punto_companero_layout, null)
+        val userPhotoImageView = markerView.findViewById<ImageView>(R.id.userPhotoImageView)
+        userPhotoImageView.visibility = View.INVISIBLE
         markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
         markerView.buildDrawingCache()
