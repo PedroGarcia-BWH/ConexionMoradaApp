@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -63,6 +64,12 @@ class ZonaSistemaCompaneroActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val chats = response.body()
+                    if(chats!!.size == 0){
+                        var noChatImage = findViewById<ImageView>(R.id.noChatImage)
+                        var noChat = findViewById<TextView>(R.id.noChat)
+                        noChatImage.visibility = ImageView.VISIBLE
+                        noChat.visibility = TextView.VISIBLE
+                    }
                     addDataChats(chats!!)
 
                 }

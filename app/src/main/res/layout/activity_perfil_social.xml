@@ -134,4 +134,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lastHilos" />
 
+    <TextView
+        android:id="@+id/noChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Este usuario no tiene ningún hilo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lastHilos"
+        app:layout_constraintVertical_bias="0.060000002" />
+
+    <ImageView
+        android:id="@+id/noChatImage"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/baseline_sentiment_dissatisfied_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/noChat"
+        app:layout_constraintTop_toBottomOf="@+id/lastHilos"
+        app:layout_constraintVertical_bias="0.050000012" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

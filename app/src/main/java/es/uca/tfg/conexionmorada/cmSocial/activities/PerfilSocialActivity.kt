@@ -2,6 +2,7 @@ package es.uca.tfg.conexionmorada.cmSocial.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -138,13 +139,24 @@ class PerfilSocialActivity : AppCompatActivity() {
         call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
                 if (response.isSuccessful) {
-                    adapter.setData(response.body()!!)
+                    var noHilo = findViewById<TextView>(R.id.noChat)
+                    var noHiloImage = findViewById<ImageView>(R.id.noChatImage)
 
-                    adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
-                        override fun onItemClick(position: Int) {
-                            hiloSelected(this@PerfilSocialActivity, response.body()!![position].idHilo)
-                        }
-                    })
+                    if(response.body()!!.isEmpty()){
+                        noHilo?.visibility = View.VISIBLE
+                        noHiloImage?.visibility = View.VISIBLE
+                    }else {
+                        noHilo?.visibility = View.INVISIBLE
+                        noHiloImage?.visibility = View.INVISIBLE
+                        adapter.setData(response.body()!!)
+
+                        adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
+                            override fun onItemClick(position: Int) {
+                                hiloSelected(this@PerfilSocialActivity, response.body()!![position].idHilo)
+                            }
+                        })
+                    }
+
                 }
             }
             override fun onFailure(call: retrofit2.Call<List<PayloadHilo>>, t: Throwable) {

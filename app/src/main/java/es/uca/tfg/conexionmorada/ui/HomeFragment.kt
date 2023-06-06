@@ -17,6 +17,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -138,13 +139,18 @@ class HomeFragment : Fragment() {
                         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
 
                         spinner?.adapter = adapter
+                        var progressbar = view?.findViewById<ProgressBar>(R.id.progressBar3)
 
                         spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                                progressbar?.visibility = View.VISIBLE
                                 val selectedItem = items[position]
-                                if (selectedItem.contains(comunidad.toString())) lastArticlesClick("", comunidad.toString())
+                                if (selectedItem.contains(comunidad.toString())) {
+                                    lastArticlesClick("", comunidad.toString())
+                                }
                                 else if (selectedItem.contains(city.toString())) lastArticlesClick(city.toString(), "")
                                 else lastArticlesClick("","")
+                                progressbar?.visibility = View.INVISIBLE
                             }
 
                             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -175,9 +181,22 @@ class HomeFragment : Fragment() {
 
                 override fun onResponse(call: Call<List<Article>>, response: Response<List<Article>>){
                     if(response.isSuccessful){
-                        //Toast.makeText(activity, "Bien " + response.body()!!.get(3), Toast.LENGTH_SHORT).show()
-                        //Toast.makeText(activity, "Bien " + response.body() , Toast.LENGTH_SHORT).show()
-                        response.body()?.let { addRecyclerViewArticles(it) }
+                        var noHilo = activity?.findViewById<TextView>(R.id.noArticle)
+                        var noHiloImage = activity?.findViewById<ImageView>(R.id.noArticleImage)
+
+                        if(response.body()!!.isEmpty()){
+                            if(city != "" ) noHilo?.text = "No existe artículos actualmente para la localidad " + city
+                            else if(comunidad != "") noHilo?.text = "No existe artículos actualmente para la comunidad autónoma" + comunidad
+                            else noHilo?.text = "No existe artículos actualmente para tu localización"
+                            noHilo?.visibility = View.VISIBLE
+                            noHiloImage?.visibility = View.VISIBLE
+
+                        }else {
+                            noHilo?.visibility = View.INVISIBLE
+                            noHiloImage?.visibility = View.INVISIBLE
+                            response.body()?.let { addRecyclerViewArticles(it) }
+                        }
+
 
                     }else{
                         Toast.makeText(activity, response.message(), Toast.LENGTH_SHORT).show()

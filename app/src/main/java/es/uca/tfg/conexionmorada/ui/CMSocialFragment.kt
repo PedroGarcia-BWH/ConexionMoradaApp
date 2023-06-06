@@ -177,15 +177,27 @@ class CMSocialFragment : Fragment() {
         call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
                 if (response.isSuccessful) {
-                    adapter.setData(response.body()!!)
+                    var noHilo = activity?.findViewById<TextView>(R.id.noChat)
+                    var noHiloImage = activity?.findViewById<ImageView>(R.id.noChatImage)
+
+                    if(response.body()!!.isEmpty()){
+                        noHilo?.visibility = View.VISIBLE
+                        noHiloImage?.visibility = View.VISIBLE
+
+                    }else{
+                        noHilo?.visibility = View.INVISIBLE
+                        noHiloImage?.visibility = View.INVISIBLE
+                        adapter.setData(response.body()!!)
+                        adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
+                            override fun onItemClick(position: Int) {
+                                Utils.hiloSelected(
+                                    activity!! as AppCompatActivity, response.body()!![position].idHilo
+                                )
+                            }
+                        })
+                    }
                     progressBar?.visibility = View.GONE
-                    adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
-                        override fun onItemClick(position: Int) {
-                            Utils.hiloSelected(
-                                activity!! as AppCompatActivity, response.body()!![position].idHilo
-                            )
-                        }
-                    })
+
                 }
             }
             override fun onFailure(call: retrofit2.Call<List<PayloadHilo>>, t: Throwable) {
@@ -221,15 +233,27 @@ class CMSocialFragment : Fragment() {
         call.enqueue(object : retrofit2.Callback<List<PayloadHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadHilo>>, response: retrofit2.Response<List<PayloadHilo>>) {
                 if (response.isSuccessful) {
-                    adapter.setData(response.body()!!)
 
-                    adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
-                        override fun onItemClick(position: Int) {
-                            Utils.hiloSelected(
-                                activity!! as AppCompatActivity, response.body()!![position].idHilo
-                            )
-                        }
-                    })
+                    var noHilo = activity?.findViewById<TextView>(R.id.noChat)
+                    var noHiloImage = activity?.findViewById<ImageView>(R.id.noChatImage)
+
+                    if(response.body()!!.isEmpty()){
+                        noHilo?.visibility = View.VISIBLE
+                        noHiloImage?.visibility = View.VISIBLE
+                    }else{
+                        noHilo?.visibility = View.INVISIBLE
+                        noHiloImage?.visibility = View.INVISIBLE
+
+                        adapter.setData(response.body()!!)
+
+                        adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {
+                            override fun onItemClick(position: Int) {
+                                Utils.hiloSelected(
+                                    activity!! as AppCompatActivity, response.body()!![position].idHilo
+                                )
+                            }
+                        })
+                    }
                 }
             }
             override fun onFailure(call: retrofit2.Call<List<PayloadHilo>>, t: Throwable) {
