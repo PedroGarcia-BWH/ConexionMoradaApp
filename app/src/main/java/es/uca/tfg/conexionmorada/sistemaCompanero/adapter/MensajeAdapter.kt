@@ -1,17 +1,20 @@
 package es.uca.tfg.conexionmorada.sistemaCompanero.adapter
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadChat
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadMensaje
+import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.firestore.User
 import es.uca.tfg.conexionmorada.utils.storage.Storage
 
@@ -38,10 +41,11 @@ class MensajeAdapter: RecyclerView.Adapter<MensajeAdapter.MensajeViewHolder>() {
         return MensajeAdapter.MensajeViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: MensajeAdapter.MensajeViewHolder, position: Int) {
         val mensaje = mensajes[position]
         holder.mensaje.text = mensaje.mensaje
-        holder.date.text = mensaje.dateCreated
+        holder.date.text = Utils.obtenerTiempoTranscurrido(mensaje.dateCreated)
         val layoutParams = holder.cardView.layoutParams as ViewGroup.MarginLayoutParams
         if(mensaje.uuidEmisor.equals(FirebaseAuth.getInstance().currentUser!!.uid)) {
             layoutParams.setMargins(convertDpToPx(context, 50), layoutParams.topMargin, layoutParams.rightMargin, layoutParams.bottomMargin) // Establecer 50dp de margen en la derecha

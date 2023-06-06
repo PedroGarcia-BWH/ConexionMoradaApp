@@ -2,11 +2,13 @@ package es.uca.tfg.conexionmorada.cmSocial.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
@@ -63,6 +65,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         return HiloAdapter.HiloViewHolder(view, Listener)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: HiloAdapter.HiloViewHolder, position: Int) {
         val hilo = hilos[position]
         var data = User.getUsername(hilo.autorUuid)
@@ -73,7 +76,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
         }
         holder.cuerpoMensaje.text = hilo.mensaje
         Storage().photoAccount(holder.mensajePerfil, hilo.autorUuid)
-        holder.horaMensaje.text = hilo.dateCreation.toString()
+        holder.horaMensaje.text = Utils.obtenerTiempoTranscurrido(hilo.dateCreation)
         holder.numberLike.text = hilo.likes.toString()
         holder.numberDislike.text = hilo.dislikes.toString()
 
@@ -119,6 +122,9 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
             intent.putExtra("uuid", hilo.autorUuid)
             context.startActivity(intent)
         }
+
+        if(hilo.autorUuid.equals(Firebase.auth.currentUser!!.uid)) holder.more.visibility = View.GONE
+        else holder.more.visibility = View.VISIBLE
 
         holder.more.setOnClickListener { view ->
             val popup = PopupMenu(context, view)

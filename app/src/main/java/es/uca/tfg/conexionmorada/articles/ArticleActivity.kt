@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import es.uca.tfg.conexionmorada.R
+import es.uca.tfg.conexionmorada.utils.storage.Storage
 import java.util.Date
 
 class ArticleActivity : AppCompatActivity() {
@@ -42,7 +43,14 @@ class ArticleActivity : AppCompatActivity() {
         regTitle.text = title
         regDescription.text = description
         regBody.text = body
-        Glide.with(this).load(urlImage).into(regImagen)
+
+        if(urlImage.contains("storage.googleapis.com")){
+            Storage().getImageArticle(urlImage, regImagen)
+        }else{
+            //imageview
+            Glide.with(this).load(urlImage).into(regImagen)
+        }
+
         regDate.text = creationDate.toString()
 
     }

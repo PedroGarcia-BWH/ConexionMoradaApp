@@ -1,15 +1,18 @@
 package es.uca.tfg.conexionmorada.cmSocial.adapter
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.ktx.Firebase
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.data.PayloadNotificationHilo
+import es.uca.tfg.conexionmorada.utils.Utils
 import es.uca.tfg.conexionmorada.utils.firestore.User
 import es.uca.tfg.conexionmorada.utils.storage.Storage
 
@@ -55,6 +58,7 @@ class NotificationHiloAdapter : RecyclerView.Adapter<NotificationHiloAdapter.Not
         return NotificationHiloAdapter.NotificacionHiloViewHolder(view, Listener)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: NotificationHiloAdapter.NotificacionHiloViewHolder, position: Int) {
         val notificacion = notificaciones[position]
 
@@ -73,7 +77,7 @@ class NotificationHiloAdapter : RecyclerView.Adapter<NotificationHiloAdapter.Not
         Storage().photoAccount(holder.imagenNotificador, notificacion.username)
         Storage().photoAccount(holder.imagenNotificado, notificacion.autorUuid)
 
-        holder.fechaNotificador.text = notificacion.dateCreationNotificacion
+        holder.fechaNotificador.text = Utils.obtenerTiempoTranscurrido(notificacion.dateCreationNotificacion)
 
         holder.mensajeNotificador.text = notificacion.mensajeNotificacion
 

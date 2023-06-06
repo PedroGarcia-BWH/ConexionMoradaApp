@@ -6,11 +6,16 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
+import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -22,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -30,11 +36,14 @@ import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
 import com.google.maps.PendingResult
@@ -134,23 +143,19 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setOnMapClickListener(OnMapClickListener { latLng ->
             if (originMarker == null) {
                 // Si no hay un marcador de origen, crea uno en la ubicación seleccionada
-                Toast.makeText(
-                    this,
-                    ""  + latLng.latitude + " " + latLng.longitude,
-                    Toast.LENGTH_SHORT
-                ).show()
-                originMarker = mMap.addMarker(
-                    MarkerOptions()
-                        .position(latLng)
-                        .title("Origen")
-                )
+                val markerOptions = MarkerOptions()
+                    .position(latLng)
+                    .title("Origen")
+                    .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap(this, FirebaseAuth.getInstance().uid.toString() )!!))
+                originMarker = mMap.addMarker(markerOptions)
+
             } else if (destinationMarker == null) {
                 // Si no hay un marcador de destino, crea uno en la ubicación seleccionada
-                destinationMarker = mMap.addMarker(
-                    MarkerOptions()
-                        .position(latLng)
-                        .title("Destino")
-                )
+                val markerOptions = MarkerOptions()
+                    .position(latLng)
+                    .title("Destino")
+                    .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap(this, FirebaseAuth.getInstance().uid.toString() )!!))
+                destinationMarker = mMap.addMarker(markerOptions)
                 directions()
             } else {
                 // Ya hay un marcador de origen y uno de destino, no se permite añadir más
@@ -176,6 +181,39 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
         })
 
         setCenterLocation()
+    }
+
+
+    private fun createCustomMarkerBitmap(context: Context, userUuid: String ): Bitmap? {
+        val markerView: View =
+            LayoutInflater.from(context).inflate(R.layout.punto_companero_layout, null)
+
+        val userPhotoImageView = markerView.findViewById<ImageView>(R.id.userPhotoImageView)
+        var imageref = Firebase.storage.reference.child("perfil/${userUuid}")
+        //userPhotoImageView.setImageResource(R.drawable.baseline_home_24)
+        imageref.downloadUrl.addOnSuccessListener { Uri ->
+            Log.d("ImageURL", Uri.toString())
+            Glide.with(context)
+                .asBitmap()
+                .load(Uri.toString())
+                .circleCrop()
+                .into(userPhotoImageView)
+        }
+
+        markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
+        markerView.buildDrawingCache()
+
+        val bitmap = Bitmap.createBitmap(
+            markerView.measuredWidth,
+            markerView.measuredHeight,
+            Bitmap.Config.ARGB_8888
+        )
+
+        val canvas = Canvas(bitmap)
+        markerView.draw(canvas)
+
+        return bitmap
     }
 
     private fun setCenterLocation() {
