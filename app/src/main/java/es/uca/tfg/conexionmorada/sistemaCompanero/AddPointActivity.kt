@@ -144,13 +144,13 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.setOnMapClickListener(OnMapClickListener { latLng ->
             if (originMarker == null) {
                 // Si no hay un marcador de origen, crea uno en la ubicación seleccionada
-               /* val markerOptions = MarkerOptions()
+                val markerOptions = MarkerOptions()
                     .position(latLng)
                     .title("Origen")
-                    .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap(this, FirebaseAuth.getInstance().uid.toString() )!!))
-                originMarker = mMap.addMarker(markerOptions)*/
+                    .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap()!!))
+                originMarker = mMap.addMarker(markerOptions)
 
-                Utils.createCustomMarkerBitmap(this@AddPointActivity, FirebaseAuth.getInstance().uid.toString()) { bitmap ->
+                /*Utils.createCustomMarkerBitmap(this@AddPointActivity, FirebaseAuth.getInstance().uid.toString()) { bitmap ->
                     if (bitmap != null) {
                         val markerOptions = MarkerOptions()
                             .position(latLng)
@@ -160,17 +160,17 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
                     } else {
                         // Manejar el caso en que el bitmap sea nulo
                     }
-                }
+                }*/
 
             } else if (destinationMarker == null) {
                 // Si no hay un marcador de destino, crea uno en la ubicación seleccionada
-                /*val markerOptions = MarkerOptions()
+                val markerOptions = MarkerOptions()
                     .position(latLng)
                     .title("Destino")
-                    .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap(this, FirebaseAuth.getInstance().uid.toString() )!!))
-                destinationMarker = mMap.addMarker(markerOptions)*/
+                    .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap()!!))
+                destinationMarker = mMap.addMarker(markerOptions)
 
-                Utils.createCustomMarkerBitmap(this@AddPointActivity, FirebaseAuth.getInstance().uid.toString()) { bitmap ->
+                /*Utils.createCustomMarkerBitmap(this@AddPointActivity, FirebaseAuth.getInstance().uid.toString()) { bitmap ->
                     if (bitmap != null) {
                         val markerOptions = MarkerOptions()
                             .position(latLng)
@@ -180,7 +180,7 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
                     } else {
                         // Manejar el caso en que el bitmap sea nulo
                     }
-                }
+                }*/
 
                 directions()
             } else {
@@ -210,35 +210,21 @@ class AddPointActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
 
-    private fun createCustomMarkerBitmap(context: Context, userUuid: String ): Bitmap? {
+    private fun createCustomMarkerBitmap(): Bitmap? {
         val markerView: View =
-            LayoutInflater.from(context).inflate(R.layout.punto_companero_layout, null)
-
+            LayoutInflater.from(this).inflate(es.uca.tfg.conexionmorada.R.layout.punto_companero_layout, null)
         val userPhotoImageView = markerView.findViewById<ImageView>(R.id.userPhotoImageView)
-        var imageref = Firebase.storage.reference.child("perfil/${userUuid}")
-        //userPhotoImageView.setImageResource(R.drawable.baseline_home_24)
-        imageref.downloadUrl.addOnSuccessListener { Uri ->
-            Log.d("ImageURL", Uri.toString())
-            Glide.with(context)
-                .asBitmap()
-                .load(Uri.toString())
-                .circleCrop()
-                .into(userPhotoImageView)
-        }
-
+        userPhotoImageView.visibility = View.INVISIBLE
         markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
         markerView.buildDrawingCache()
-
         val bitmap = Bitmap.createBitmap(
             markerView.measuredWidth,
             markerView.measuredHeight,
             Bitmap.Config.ARGB_8888
         )
-
         val canvas = Canvas(bitmap)
         markerView.draw(canvas)
-
         return bitmap
     }
 

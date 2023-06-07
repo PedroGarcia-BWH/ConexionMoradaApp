@@ -139,18 +139,18 @@ class HomeFragment : Fragment() {
                         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
 
                         spinner?.adapter = adapter
-                        var progressbar = view?.findViewById<ProgressBar>(R.id.progressBar3)
+
 
                         spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                                progressbar?.visibility = View.VISIBLE
+
                                 val selectedItem = items[position]
                                 if (selectedItem.contains(comunidad.toString())) {
                                     lastArticlesClick("", comunidad.toString())
                                 }
                                 else if (selectedItem.contains(city.toString())) lastArticlesClick(city.toString(), "")
                                 else lastArticlesClick("","")
-                                progressbar?.visibility = View.INVISIBLE
+
                             }
 
                             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -174,8 +174,9 @@ class HomeFragment : Fragment() {
     }
 
     fun lastArticlesClick(city: String = "", comunidad: String = "") {
+        var progressbar = view?.findViewById<ProgressBar>(R.id.progressBar3)
         var call = APIRetrofit(requireContext()).lastArticles(createPayloadArticles(city, comunidad))
-
+        progressbar?.visibility = View.VISIBLE
         if (call != null) {
             call.enqueue(object : Callback<List<Article>> {
 
@@ -190,6 +191,7 @@ class HomeFragment : Fragment() {
                             else noHilo?.text = "No existe artículos actualmente para tu localización"
                             noHilo?.visibility = View.VISIBLE
                             noHiloImage?.visibility = View.VISIBLE
+                            addRecyclerViewArticles(listOf<Article>())
 
                         }else {
                             noHilo?.visibility = View.INVISIBLE
@@ -214,6 +216,7 @@ class HomeFragment : Fragment() {
                 }
             })
         }
+        progressbar?.visibility = View.INVISIBLE
     }
 
     fun createPayloadArticles(city: String, comunidad: String): PayloadArticle {

@@ -20,7 +20,7 @@ import es.uca.tfg.conexionmorada.utils.storage.Storage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
+import java.util.Date
 
 class HiloSelectedActivity : AppCompatActivity() {
     lateinit var idHilo: String
@@ -35,8 +35,7 @@ class HiloSelectedActivity : AppCompatActivity() {
         Utils.exit(this, findViewById(R.id.Exit))
 
         Storage().photoAccount(findViewById<ImageView>(R.id.perfilUser), Firebase.auth.currentUser!!.uid)
-
-
+        
     }
 
     fun dataRecyclerView(){

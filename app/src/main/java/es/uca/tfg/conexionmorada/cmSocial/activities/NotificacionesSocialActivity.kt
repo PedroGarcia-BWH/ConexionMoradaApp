@@ -45,7 +45,6 @@ class NotificacionesSocialActivity : AppCompatActivity() {
         call.enqueue(object : retrofit2.Callback<List<PayloadNotificationHilo>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadNotificationHilo>>, response: retrofit2.Response<List<PayloadNotificationHilo>>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(applicationContext, "Notificaciones cargadas" + response.body(), Toast.LENGTH_SHORT).show()
                         adapterHilo.setData(response.body()!!)
 
 
@@ -74,7 +73,6 @@ class NotificacionesSocialActivity : AppCompatActivity() {
         call.enqueue(object : retrofit2.Callback<List<PayloadNotificationPersona>> {
             override fun onResponse(call: retrofit2.Call<List<PayloadNotificationPersona>>, response: retrofit2.Response<List<PayloadNotificationPersona>>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(applicationContext, "Notificaciones cargadas" + response.body(), Toast.LENGTH_SHORT).show()
                     adapterPersona.setData(response.body()!!)
 
 
