@@ -1,6 +1,7 @@
 package es.uca.tfg.conexionmorada.sistemaCompanero
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -67,10 +68,13 @@ class HistoryPointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
                                         .title(punto.id)
                                         .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
                                     mMap.addMarker(markerOptions)
-                                } else {
-                                    // Manejar el caso en que el bitmap sea nulo
                                 }
                             }
+                            val markerOptions = MarkerOptions()
+                                .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
+                                .title(punto.id)
+                                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmapWithoutPhoto(this@HistoryPointCompaneroActivity)!!))
+                            mMap.addMarker(markerOptions)
                         }
 
                         mMap.setOnMarkerClickListener { marker ->
@@ -120,21 +124,26 @@ class HistoryPointCompaneroActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun createCustomMarkerBitmap(): Bitmap? {
+    private fun createCustomMarkerBitmapWithoutPhoto(context: Context): Bitmap? {
         val markerView: View =
-            LayoutInflater.from(this).inflate(es.uca.tfg.conexionmorada.R.layout.punto_companero_layout, null)
+            LayoutInflater.from(context).inflate(R.layout.punto_companero_layout, null)
+
         markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
         markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
         markerView.buildDrawingCache()
+
         val bitmap = Bitmap.createBitmap(
             markerView.measuredWidth,
             markerView.measuredHeight,
             Bitmap.Config.ARGB_8888
         )
+
         val canvas = Canvas(bitmap)
         markerView.draw(canvas)
+
         return bitmap
     }
+
 
     fun exit(){
         var exit = findViewById<ImageView>(R.id.exit)

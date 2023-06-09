@@ -183,17 +183,14 @@ class SistemaCompaneroFragment : Fragment() {
                                         .title(punto.id)
                                         .icon(BitmapDescriptorFactory.fromBitmap(bitmap))
                                     mMap.addMarker(markerOptions)
-                                } else {
-                                    // Manejar el caso en que el bitmap sea nulo
                                 }
                             }
 
-                           /*val markerOptions = MarkerOptions()
+                            val markerOptions = MarkerOptions()
                                 .position(LatLng(punto.markerDestinoLatitud.toDouble(), punto.markerDestinoLongitud.toDouble()))
                                 .title(punto.id)
-                                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmap(requireContext(), punto.uuidSolicitante )!!))
-                            mMap.addMarker(markerOptions)*/
-
+                                .icon(BitmapDescriptorFactory.fromBitmap(createCustomMarkerBitmapWithoutPhoto(requireContext())!!))
+                            mMap.addMarker(markerOptions)
 
                         }
 
@@ -220,32 +217,25 @@ class SistemaCompaneroFragment : Fragment() {
     }
 
 
-   /* private fun createCustomMarkerBitmap(context: Context, userUuid: String, callback: (Bitmap?) -> Unit) {
-        val markerView: View = LayoutInflater.from(context).inflate(R.layout.punto_companero_layout, null)
-        val userPhotoImageView = markerView.findViewById<ImageView>(R.id.userPhotoImageView)
+    private fun createCustomMarkerBitmapWithoutPhoto(context: Context): Bitmap? {
+        val markerView: View =
+            LayoutInflater.from(context).inflate(R.layout.punto_companero_layout, null)
 
-        val imageRef = Firebase.storage.reference.child("perfil/$userUuid")
-        Glide.with(context)
-            .asBitmap()
-            .load(imageRef)
-            .circleCrop()
-            .into(object : SimpleTarget<Bitmap>() {
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    userPhotoImageView.setImageBitmap(resource)
-                    markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-                    markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
-                    markerView.buildDrawingCache()
-                    val markerBitmap = Bitmap.createBitmap(
-                        markerView.measuredWidth,
-                        markerView.measuredHeight,
-                        Bitmap.Config.ARGB_8888
-                    )
-                    val canvas = Canvas(markerBitmap)
-                    markerView.draw(canvas)
-                    callback(markerBitmap)
-                }
-            })
-    }*/
+        markerView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        markerView.layout(0, 0, markerView.measuredWidth, markerView.measuredHeight)
+        markerView.buildDrawingCache()
+
+        val bitmap = Bitmap.createBitmap(
+            markerView.measuredWidth,
+            markerView.measuredHeight,
+            Bitmap.Config.ARGB_8888
+        )
+
+        val canvas = Canvas(bitmap)
+        markerView.draw(canvas)
+
+        return bitmap
+    }
 
 
 
