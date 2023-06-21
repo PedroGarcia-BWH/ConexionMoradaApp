@@ -1,7 +1,6 @@
-package es.uca.tfg.conexionmorada.articles.model;
+package es.uca.tfg.conexionmorada.articles.data;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class Article {
     private String Id;

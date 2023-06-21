@@ -83,7 +83,7 @@
             android:name=".settings.ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".articles.SearchActivity"
             android:exported="false" />
         <activity
             android:name=".articles.ArticleActivity"

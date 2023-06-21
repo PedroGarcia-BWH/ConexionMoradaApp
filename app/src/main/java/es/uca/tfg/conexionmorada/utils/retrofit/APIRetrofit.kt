@@ -2,7 +2,6 @@ package es.uca.tfg.conexionmorada.utils.retrofit
 
 import android.content.ContentValues.TAG
 import android.content.Context
-import android.provider.Settings.Global.getString
 import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.ktx.auth
@@ -10,8 +9,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.articles.interfaces.CRUDInterface
-import es.uca.tfg.conexionmorada.articles.model.Article
-import es.uca.tfg.conexionmorada.articles.model.PayloadArticle
+import es.uca.tfg.conexionmorada.articles.data.Article
+import es.uca.tfg.conexionmorada.articles.data.PayloadArticle
 import es.uca.tfg.conexionmorada.cmSocial.data.*
 import es.uca.tfg.conexionmorada.cmSocial.interfaces.cmSocialInterface
 import es.uca.tfg.conexionmorada.sistemaCompanero.data.PayloadChat

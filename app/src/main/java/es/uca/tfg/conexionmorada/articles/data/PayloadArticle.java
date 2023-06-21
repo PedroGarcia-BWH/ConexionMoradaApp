@@ -1,4 +1,4 @@
-package es.uca.tfg.conexionmorada.articles.model;
+package es.uca.tfg.conexionmorada.articles.data;
 
 import java.util.List;
 
