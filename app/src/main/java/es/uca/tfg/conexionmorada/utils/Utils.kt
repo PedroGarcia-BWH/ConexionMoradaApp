@@ -69,7 +69,7 @@ class Utils {
                 }
             }
 
-            return "Formato de fecha inválido"
+            return "Ahora mismo"
         }
 
         fun createCustomMarkerBitmap(

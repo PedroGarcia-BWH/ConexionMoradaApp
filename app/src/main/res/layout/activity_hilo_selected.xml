@@ -64,8 +64,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/otherMensajeLayout"
-        android:layout_width="279dp"
-        android:layout_height="105dp"
+        android:layout_width="226dp"
+        android:layout_height="104dp"
         android:layout_marginBottom="10dp"
         android:hint="¿Qué es lo que piensas?"
         app:autoSizeTextType="uniform"
@@ -73,6 +73,8 @@
         app:counterMaxLength="255"
         app:helperText="Máximo 255 caracteres"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ruedaDelete"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toEndOf="@+id/perfilUser">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -111,7 +113,6 @@
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/otherMensajeLayout"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
