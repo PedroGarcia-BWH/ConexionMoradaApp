@@ -244,6 +244,9 @@ class CMSocialFragment : Fragment() {
                         noHilo?.visibility = View.INVISIBLE
                         noHiloImage?.visibility = View.INVISIBLE
 
+                        adapter.clearData()
+                        adapter.clearOnItemClickListener()
+
                         adapter.setData(response.body()!!)
 
                         adapter.setOnItemClickListener(object : HiloAdapter.onItemClickListener {

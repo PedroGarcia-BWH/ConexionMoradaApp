@@ -29,7 +29,7 @@ import es.uca.tfg.conexionmorada.utils.storage.Storage
 class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 
     private var hilos: List<PayloadHilo> = emptyList()
-    private lateinit var Listener : HiloAdapter.onItemClickListener
+    private var Listener : HiloAdapter.onItemClickListener? = null
     private lateinit var context: Context
 
     interface onItemClickListener {
@@ -38,6 +38,11 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
 
     fun setOnItemClickListener(listener: HiloAdapter.onItemClickListener) {
         Listener = listener
+    }
+
+    fun clearOnItemClickListener() {
+        Listener = null
+        notifyDataSetChanged()
     }
 
     fun addData(hilo: PayloadHilo) {
@@ -62,7 +67,7 @@ class HiloAdapter(): RecyclerView.Adapter<HiloAdapter.HiloViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HiloAdapter.HiloViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hilo_cardview, parent, false)
         setContext(parent.context)
-        return HiloAdapter.HiloViewHolder(view, Listener)
+        return HiloAdapter.HiloViewHolder(view, Listener!!)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)

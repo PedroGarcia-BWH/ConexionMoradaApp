@@ -32,17 +32,17 @@
                     android:id="@+id/Exit"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:layout_marginStart="15dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
                     android:src="@drawable/baseline_arrow_back_24" />
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="50dp"
                     android:layout_toEndOf="@+id/Exit"
-                    android:layout_centerVertical="true"
                     android:text="Mis Notificaciones"
                     android:textSize="20dp" />
 
@@ -59,8 +59,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tabIndicatorColor="@color/morada_main"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:tabIndicatorColor="@color/morada_main">
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/tabHilos"
@@ -82,9 +82,12 @@
         android:id="@+id/RecyclerViewHilo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSearch"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerViewPersona"
@@ -103,7 +106,6 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="24dp"
 
-        android:layout_marginBottom="30dp"
         android:src="@drawable/baseline_delete_24"
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

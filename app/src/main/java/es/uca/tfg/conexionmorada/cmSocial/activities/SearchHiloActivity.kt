@@ -9,7 +9,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import es.uca.tfg.conexionmorada.R
 import es.uca.tfg.conexionmorada.cmSocial.adapter.HiloAdapter

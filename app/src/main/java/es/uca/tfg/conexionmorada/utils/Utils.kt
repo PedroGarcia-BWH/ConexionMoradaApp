@@ -47,7 +47,7 @@ class Utils {
             for (formatoFecha in formatosFecha) {
                 try {
                     val fechaPasada = formatoFecha.parse(fecha)
-                    val diferencia = fechaActual.time - fechaPasada.time
+                    val diferencia = fechaActual.time - fechaPasada.time - 7200000
 
                     val segundos = diferencia / 1000
                     val minutos = segundos / 60
